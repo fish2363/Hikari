@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour
     GameObject scanObject;
     public bool isLookUp;
     float h;
+    public float jump = 5f;
     float v;
+    bool isGround;
 
     private void Awake()
     {
@@ -22,8 +24,18 @@ public class PlayerController : MonoBehaviour
         Renderer = GetComponent<SpriteRenderer>();
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Floor"))
+        {
+            isGround = true;
+            ani.SetBool("Hoit", false);
+        }
+    }
+
     void Update()
     {
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -71,15 +83,23 @@ public class PlayerController : MonoBehaviour
             isLookUp = false;
         }
 
-        if (Input.GetButtonDown("Jump") && scanObject != null)
+        if (Input.GetButtonDown("Fire1") && scanObject != null)
             Debug.Log(scanObject.name);
 
+        if (Input.GetButtonDown("Jump") && isGround)
+        {
+            ani.SetBool("Hoit", true);
+            rigid.velocity = Vector2.zero;
+            rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+
+            isGround = rigid.gravityScale == 0.5f;
+        }
     }
 
     private void FixedUpdate()
     {
+
         float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
 
         if (isLookUp == false)
         {
