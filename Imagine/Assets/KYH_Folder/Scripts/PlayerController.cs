@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigid;
     float h;
     float v;
-    Animator ani;
+    public Animator ani;
     bool isHorizonMove;
     Vector3 dirVec;
     GameObject scanObject;
@@ -20,8 +20,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
+
+        ani.SetFloat("hAxisRaw", h);
+        ani.SetFloat("vAxisRaw", v);
+
+        Debug.Log(h);
+        Debug.Log(v);
 
         bool hDown = Input.GetButtonDown("Horizontal");
         bool vDown = Input.GetButtonDown("Vertical");
