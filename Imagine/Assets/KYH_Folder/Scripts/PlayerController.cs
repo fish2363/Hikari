@@ -6,29 +6,26 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
     Rigidbody2D rigid;
-    float h;
-    float v;
-    public Animator ani;
+    SpriteRenderer Renderer;
+    Animator ani;
     bool isHorizonMove;
     Vector3 dirVec;
     GameObject scanObject;
+    public bool isLookUp;
+    float h;
+    float v;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        ani = GetComponent<Animator>();
+        Renderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
-
-        ani.SetFloat("hAxisRaw", h);
-        ani.SetFloat("vAxisRaw", v);
-
-        Debug.Log(h);
-        Debug.Log(v);
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
         bool hDown = Input.GetButtonDown("Horizontal");
         bool vDown = Input.GetButtonDown("Vertical");
@@ -42,14 +39,37 @@ public class PlayerController : MonoBehaviour
         else if (hUp || vUp)
             isHorizonMove = h != 0;
 
+        Debug.Log(h);
+        Debug.Log(v);
+
+        //Animation
+        ani.SetFloat("hAxisRaw", h);
+        ani.SetFloat("vAxisRaw", v);
+
         if (vDown && v == 1)
+        {
+            isLookUp = true;
             dirVec = Vector3.up;
+        }
         else if (vDown && v == -1)
+        {
             dirVec = Vector3.down;
+            isLookUp = true;
+        }
         else if (hDown && h == -1)
+        {
             dirVec = Vector3.left;
+            Renderer.flipX = true;
+        }
         else if (hDown && h == 1)
+        {
             dirVec = Vector3.right;
+            Renderer.flipX = false;
+        }
+        else if (v == 0)
+        {
+            isLookUp = false;
+        }
 
         if (Input.GetButtonDown("Jump") && scanObject != null)
             Debug.Log(scanObject.name);
@@ -58,8 +78,14 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 moveVec = isHorizonMove ? new Vector2(h * moveSpeed, rigid.velocity.y) : new Vector2(0, rigid.velocity.y);
-        rigid.velocity = moveVec;
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        if (isLookUp == false)
+        {
+            Vector2 moveVec = isHorizonMove ? new Vector2(h * moveSpeed, rigid.velocity.y) : new Vector2(0, rigid.velocity.y);
+            rigid.velocity = moveVec;
+        }
 
         Debug.DrawRay(rigid.position, dirVec * 0.7f, new Color(0, 1, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 0.7f, LayerMask.GetMask("Object"));
