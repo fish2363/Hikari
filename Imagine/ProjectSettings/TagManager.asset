@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Platform
   - cusion
+  - magema
   layers:
   - Default
   - TransparentFX
