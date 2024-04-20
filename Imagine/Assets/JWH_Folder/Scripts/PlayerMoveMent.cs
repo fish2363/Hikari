@@ -12,6 +12,7 @@ public class PlayerMoveMent : MonoBehaviour
     private bool isJumping = true;
     private Rigidbody2D rigid;
     private Gotobad gotobad;
+    private bool isDead = false;
     private void Awake()
     {
         
@@ -20,6 +21,10 @@ public class PlayerMoveMent : MonoBehaviour
     }
     void Update()
     {
+        if (isDead)
+        {
+            Time.timeScale = 0f;
+        }
         float x = Input.GetAxisRaw("Horizontal");
         Vector3 movedir = new Vector3(x, 0, 0);
         transform.position += movedir.normalized * speed * Time.deltaTime;
@@ -49,6 +54,12 @@ public class PlayerMoveMent : MonoBehaviour
         }
     }
 
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("magema"))
+        {
+            isDead = true;
+        }
+    }
 
 }

@@ -14,6 +14,15 @@ public class Gotobad : MonoBehaviour
     private float speed = 10f;
     private LineRenderer lineRenderer;
     Vector3 movedir;
+    public GameObject trajectoryDotPrefab; // 미리 표시할 점을 위한 프리팹
+    public int numberOfDots; // 미리 표시할 점의 개수
+    public float dotSpacing; // 점 사이의 간격
+
+    private GameObject[] trajectoryDots; // 미리 표시할 점들을 저장할 배열
+    private Vector2 initialPosition; // 물체의 초기 위치
+    private Vector2 initialVelocity; // 물체의 초기 속도
+    private Vector2 gravity; // 중력 가속도
+    private float timeStep; // 시간 간격
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -22,19 +31,44 @@ public class Gotobad : MonoBehaviour
     }
     private void Start()
     {
+        trajectoryDots = new GameObject[numberOfDots];
+        gravity = Physics2D.gravity;
+        timeStep = Time.fixedDeltaTime;
+        for (int i = 0; i < numberOfDots; i++)
+        {
+            trajectoryDots[i] = Instantiate(trajectoryDotPrefab, transform);
+        }
         plTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
     private void Update()
     {
+        
         Vector3 mousPos = Input.mousePosition;
         mousPos = Camera.main.ScreenToWorldPoint(mousPos);
         movedir = mousPos - transform1.position;
         Vector2 mosp = mousPos - transform1.position;
 
+        if (Input.GetMouseButton(0) && isCatch)
+        {
+            // 물체의 초기 위치를 현재 위치로 설정
+            initialPosition = transform.position;
+
+            // 마우스 방향으로 힘을 가함
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            initialVelocity = mosp.normalized * speed; // 힘의 세기를 조절할 수 있음
+
+            // 궤적 예측을 업데이트
+            UpdateTrajectory();
+        }
         
+
         if (Input.GetMouseButtonUp(0) && isCatch)
         {
 
+            foreach (var dot in trajectoryDots)
+            {
+                dot.SetActive(false);
+            }
             Debug.Log("ssss");
             _boxCollider.enabled = true;
             //transform.up = mosp.normalized;
@@ -51,7 +85,7 @@ public class Gotobad : MonoBehaviour
             transform.position = plTransform.position + new Vector3(0, 2, 0);
             _rigidbody2D.gravityScale = 0;
             _boxCollider.enabled = false;
-            PredictTrajectory(transform.position, mosp.normalized * speed);
+            
 
         }
         else
@@ -65,23 +99,23 @@ public class Gotobad : MonoBehaviour
     private void FixedUpdate()
     {
         
-        
     }
-    void PredictTrajectory(Vector3 startPos, Vector3 vel)
+    private void UpdateTrajectory()
     {
-        int step = 60;
-        float deltaTime = Time.fixedDeltaTime;
-        Vector3 gravity = Physics.gravity;
-
-        Vector3 position = startPos;
-        Vector3 velocity = vel;
-
-        for (int i = 0; i < step; i++)
+        // 초기 위치와 속도를 기반으로 궤적 예측
+        Vector2 currentPosition = initialPosition;
+        Vector2 currentVelocity = initialVelocity;
+        for (int i = 0; i < numberOfDots; i++)
         {
-            position += velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
-            velocity += gravity * deltaTime;
+            // 점의 위치 계산
+            trajectoryDots[i].transform.position = currentPosition;
 
-            //print(position);
+            // 다음 위치 및 속도 계산
+            currentVelocity += gravity * timeStep;
+            currentPosition += currentVelocity * timeStep;
+
+            // 점 활성화
+            trajectoryDots[i].SetActive(true);
         }
     }
 
