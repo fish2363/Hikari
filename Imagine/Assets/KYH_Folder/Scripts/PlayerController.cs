@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : GameSystem
 {
     public float moveSpeed;
     Rigidbody2D rigid;
-    SpriteRenderer Renderer;
-    Animator ani;
+    SpriteRenderer KidRenderer;
+    SpriteRenderer BabyRenderer;
+    Animator KidAni;
+    public GameManager manager;
     bool isHorizonMove;
     Vector3 dirVec;
     GameObject scanObject;
@@ -16,12 +18,16 @@ public class PlayerController : MonoBehaviour
     public float jump = 5f;
     float v;
     bool isGround;
+    Vector2 moveDir;
+    Animator BabyAni;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        ani = GetComponent<Animator>();
-        Renderer = GetComponent<SpriteRenderer>();
+        KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
+        BabyAni = GameObject.Find("BabySprite").GetComponent<Animator>();
+        KidRenderer = GameObject.Find("kidSprite").GetComponent<SpriteRenderer>();
+        BabyRenderer = GameObject.Find("BabySprite").GetComponent<SpriteRenderer>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -29,20 +35,21 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.CompareTag("Floor"))
         {
             isGround = true;
-            ani.SetBool("Hoit", false);
+            KidAni.SetBool("Hoit", false);
         }
     }
 
     void Update()
     {
 
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+        float v = manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+        moveDir = manager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
 
-        bool hDown = Input.GetButtonDown("Horizontal");
-        bool vDown = Input.GetButtonDown("Vertical");
-        bool hUp = Input.GetButtonDown("Horizontal");
-        bool vUp = Input.GetButtonDown("Vertical");
+        bool hDown = manager.isAction ? false : Input.GetButtonDown("Horizontal");
+        bool vDown = manager.isAction ? false : Input.GetButtonDown("Vertical");
+        bool hUp = manager.isAction ? false : Input.GetButtonDown("Horizontal");
+        bool vUp = manager.isAction ? false : Input.GetButtonDown("Vertical");
 
         if (hDown)
             isHorizonMove = true;
@@ -51,32 +58,41 @@ public class PlayerController : MonoBehaviour
         else if (hUp || vUp)
             isHorizonMove = h != 0;
 
-        Debug.Log(h);
-        Debug.Log(v);
-
-        //Animation
-        ani.SetFloat("hAxisRaw", h);
-        ani.SetFloat("vAxisRaw", v);
-
         if (vDown && v == 1)
         {
             isLookUp = true;
-            dirVec = Vector3.up;
+            Debug.Log("됨");
         }
         else if (vDown && v == -1)
-        {
-            dirVec = Vector3.down;
+        { 
             isLookUp = true;
         }
         else if (hDown && h == -1)
         {
-            dirVec = Vector3.left;
-            Renderer.flipX = true;
+            dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
+            switch (playerType)
+            {
+                case 1:
+                    BabyRenderer.flipX = true;
+                    break;
+                case 2:
+                    Debug.Log("Hi");
+                    KidRenderer.flipX = true;
+                    break;
+            }
         }
         else if (hDown && h == 1)
         {
             dirVec = Vector3.right;
-            Renderer.flipX = false;
+            switch (playerType)
+            {
+                case 1:
+                    BabyRenderer.flipX = false;
+                    break;
+                case 2:
+                    KidRenderer.flipX = false;
+                    break;
+            }
         }
         else if (v == 0)
         {
@@ -84,15 +100,34 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Fire1") && scanObject != null)
-            Debug.Log(scanObject.name);
-
-        if (Input.GetButtonDown("Jump") && isGround)
         {
-            ani.SetBool("Hoit", true);
+            manager.Action(scanObject);
+        }
+            
+
+        //Animation
+        if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
+        {
+
+            KidAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
             rigid.velocity = Vector2.zero;
             rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
 
             isGround = rigid.gravityScale == 0.5f;
+        }
+        else
+        {
+            switch (playerType)
+            {
+                case 1:
+                    BabyAni.SetBool("Walk", moveDir.magnitude > 0);
+                    break;
+                case 2:
+                    KidAni.SetBool("Walk", moveDir.magnitude > 0);
+
+                    KidAni.SetFloat("vAxisRaw", v);
+                    break;
+            }
         }
     }
 
