@@ -14,15 +14,15 @@ public class Gotobad : MonoBehaviour
     private float speed = 10f;
     private LineRenderer lineRenderer;
     Vector3 movedir;
-    public GameObject trajectoryDotPrefab; // 미리 표시할 점을 위한 프리팹
-    public int numberOfDots; // 미리 표시할 점의 개수
-    public float dotSpacing; // 점 사이의 간격
+    public GameObject dotPre; 
+    public int numDots; 
+    public float dotSp; 
 
-    private GameObject[] trajectoryDots; // 미리 표시할 점들을 저장할 배열
-    private Vector2 initialPosition; // 물체의 초기 위치
-    private Vector2 initialVelocity; // 물체의 초기 속도
-    private Vector2 gravity; // 중력 가속도
-    private float timeStep; // 시간 간격
+    private GameObject[] traDot; 
+    private Vector2 iposition; 
+    private Vector2 ivelocity; 
+    private Vector2 gravity; 
+    private float timeStep; 
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -31,12 +31,12 @@ public class Gotobad : MonoBehaviour
     }
     private void Start()
     {
-        trajectoryDots = new GameObject[numberOfDots];
+        traDot = new GameObject[numDots];
         gravity = Physics2D.gravity;
         timeStep = Time.fixedDeltaTime;
-        for (int i = 0; i < numberOfDots; i++)
+        for (int i = 0; i < numDots; i++)
         {
-            trajectoryDots[i] = Instantiate(trajectoryDotPrefab, transform);
+            traDot[i] = Instantiate(dotPre, transform);
         }
         plTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -50,22 +50,18 @@ public class Gotobad : MonoBehaviour
 
         if (Input.GetMouseButton(0) && isCatch)
         {
-            // 물체의 초기 위치를 현재 위치로 설정
-            initialPosition = transform.position;
+            iposition = transform.position; // 위치 저장
 
-            // 마우스 방향으로 힘을 가함
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            initialVelocity = mosp.normalized * speed; // 힘의 세기를 조절할 수 있음
+            ivelocity = mosp.normalized * speed; // 힘 주기
 
-            // 궤적 예측을 업데이트
-            UpdateTrajectory();
+            UpdateTrajectory(); // 예측 함수 호출.
         }
         
 
         if (Input.GetMouseButtonUp(0) && isCatch)
         {
 
-            foreach (var dot in trajectoryDots)
+            foreach (var dot in traDot)
             {
                 dot.SetActive(false);
             }
@@ -102,20 +98,16 @@ public class Gotobad : MonoBehaviour
     }
     private void UpdateTrajectory()
     {
-        // 초기 위치와 속도를 기반으로 궤적 예측
-        Vector2 currentPosition = initialPosition;
-        Vector2 currentVelocity = initialVelocity;
-        for (int i = 0; i < numberOfDots; i++)
+        Vector2 currentPosition = iposition;
+        Vector2 currentVelocity = ivelocity;
+        for (int i = 0; i < numDots; i++)
         {
-            // 점의 위치 계산
-            trajectoryDots[i].transform.position = currentPosition;
+            traDot[i].transform.position = currentPosition;
 
-            // 다음 위치 및 속도 계산
             currentVelocity += gravity * timeStep;
             currentPosition += currentVelocity * timeStep;
 
-            // 점 활성화
-            trajectoryDots[i].SetActive(true);
+            traDot[i].SetActive(true);
         }
     }
 
