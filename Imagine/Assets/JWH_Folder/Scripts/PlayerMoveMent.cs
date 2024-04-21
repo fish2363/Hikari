@@ -56,7 +56,7 @@ public class PlayerMoveMent : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("magema"))
+        if (collision.gameObject.CompareTag("Magema"))
         {
             isDead = true;
         }

@@ -152,7 +152,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 15304016}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6d612515efa550b4d8550dbb0cdc86f8, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -288,7 +288,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -521,7 +521,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 771856040}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6d612515efa550b4d8550dbb0cdc86f8, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -653,7 +653,7 @@ GameObject:
   - component: {fileID: 892695547}
   - component: {fileID: 892695546}
   - component: {fileID: 892695545}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Square (2)
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -875,7 +875,7 @@ GameObject:
   - component: {fileID: 1578275045}
   - component: {fileID: 1578275044}
   - component: {fileID: 1578275043}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Square (1)
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -1008,7 +1008,7 @@ GameObject:
   - component: {fileID: 1650329116}
   m_Layer: 0
   m_Name: Magema
-  m_TagString: magema
+  m_TagString: Magema
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
