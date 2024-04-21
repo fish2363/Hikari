@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameSystem : MonoBehaviour
 {
-    public static int playerType = 2; //플레이어 모습
+    public static int playerType = 1; //플레이어 모습
     GameObject BabySprite;
     GameObject KidSprite;
 
@@ -12,11 +12,6 @@ public class GameSystem : MonoBehaviour
     {
         KidSprite =GameObject.Find("kidSprite");
         BabySprite =GameObject.Find("BabySprite");
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
