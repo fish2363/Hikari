@@ -20,6 +20,7 @@ public class PlayerController : GameSystem
     bool isGround;
     Vector2 moveDir;
     Animator BabyAni;
+    private bool isDead = false;
 
     private void Awake()
     {
@@ -37,11 +38,18 @@ public class PlayerController : GameSystem
             isGround = true;
             KidAni.SetBool("Hoit", false);
         }
+        if (collision.gameObject.CompareTag("Magema"))
+        {
+            isDead = true;
+        }
     }
 
     void Update()
     {
-
+        if (isDead)
+        {
+            Time.timeScale = 0;
+        }
         float h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         float v = manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
         moveDir = manager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
