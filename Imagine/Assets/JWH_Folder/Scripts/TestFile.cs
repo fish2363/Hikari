@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class TestFile : MonoBehaviour
 {
-    public GameObject trajectoryDotPrefab; // 미리 표시할 점을 위한 프리팹
-    public int numberOfDots; // 미리 표시할 점의 개수
-    public float dotSpacing; // 점 사이의 간격
+    public Transform transform1;
+    private LineRenderer _lineRenderer;
+    private Vector3 movedir;
+    private void Start()
+    {
+        _lineRenderer = new LineRenderer();
+    }
 
-    private GameObject[] trajectoryDots; // 미리 표시할 점들을 저장할 배열
-    private Vector2 initialPosition; // 물체의 초기 위치
-    private Vector2 initialVelocity; // 물체의 초기 속도
-    private Vector2 gravity; // 중력 가속도
-    private float timeStep; // 시간 간격
     #region
     //[SerializeField] float _InitalVel;
     //[SerializeField] float _Angle;
@@ -39,61 +38,33 @@ public class TestFile : MonoBehaviour
     //    }
     //}
     #endregion
-
-    private void Start()
-    {
-        trajectoryDots = new GameObject[numberOfDots];
-        gravity = Physics2D.gravity;
-        timeStep = Time.fixedDeltaTime;
-        for (int i = 0; i < numberOfDots; i++)
-        {
-            trajectoryDots[i] = Instantiate(trajectoryDotPrefab, transform);
-        }
-    }
     private void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            // 물체의 초기 위치를 현재 위치로 설정
-            initialPosition = transform.position;
-
-            // 마우스 방향으로 힘을 가함
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            initialVelocity = (mousePosition - initialPosition).normalized * 10f; // 힘의 세기를 조절할 수 있음
-
-            // 궤적 예측을 업데이트
-            UpdateTrajectory();
-        }
-        //else
-        //{
-        //    // 마우스를 누르지 않으면 모든 점들을 비활성화
-        //    foreach (var dot in trajectoryDots)
-        //    {
-        //        dot.SetActive(false);
-        //    }
-        //}
-        //foreach (var dot in trajectoryDots)
-        //{
-        //    dot.SetActive(false);
-        //}
-
+        Vector3 mousPos = Input.mousePosition;
+        mousPos = Camera.main.ScreenToWorldPoint(mousPos);
+        movedir = mousPos - transform1.position;
+        Vector2 mosp = mousPos - transform1.position;
+        PredictTrajectory(transform.position, mosp.normalized * 5f);
     }
-    private void UpdateTrajectory()
+
+
+    void PredictTrajectory(Vector3 startPos, Vector3 vel)
     {
-        // 초기 위치와 속도를 기반으로 궤적 예측
-        Vector2 currentPosition = initialPosition;
-        Vector2 currentVelocity = initialVelocity;
-        for (int i = 0; i < numberOfDots; i++)
+        int step = 60;
+        float deltaTime = Time.fixedDeltaTime;
+        Vector3 gravity = Physics.gravity;
+
+        Vector3 position = startPos;
+        Vector3 velocity = vel;
+
+        for (int i = 0; i < step; i++)
         {
-            // 점의 위치 계산
-            trajectoryDots[i].transform.position = currentPosition;
+            position += velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
+            velocity += gravity * deltaTime;
 
-            // 다음 위치 및 속도 계산
-            currentVelocity += gravity * timeStep;
-            currentPosition += currentVelocity * timeStep;
-
-            // 점 활성화
-            trajectoryDots[i].SetActive(true);
+            print(position);
+            _lineRenderer.SetPosition(1,position);
         }
     }
+
 }

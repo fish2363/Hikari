@@ -14,15 +14,15 @@ public class Gotobad : MonoBehaviour
     private float speed = 10f;
     private LineRenderer lineRenderer;
     Vector3 movedir;
-    public GameObject dotPre; 
-    public int numDots; 
-    public float dotSp; 
+    public GameObject dotPre;
+    public int numDots;
+    public float dotSp;
 
-    private GameObject[] traDot; 
-    private Vector2 iposition; 
-    private Vector2 ivelocity; 
-    private Vector2 gravity; 
-    private float timeStep; 
+    private GameObject[] traDot;
+    private Vector2 iposition;
+    private Vector2 ivelocity;
+    private Vector2 gravity;
+    private float timeStep;
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -54,7 +54,7 @@ public class Gotobad : MonoBehaviour
 
             ivelocity = mosp.normalized * speed; // 힘 주기
 
-            UpdateTrajectory(); // 예측 함수 호출.
+            UpdateTr(); // 예측 함수 호출
         }
         
 
@@ -96,7 +96,7 @@ public class Gotobad : MonoBehaviour
     {
         
     }
-    private void UpdateTrajectory()
+    private void UpdateTr()
     {
         Vector2 currentPosition = iposition;
         Vector2 currentVelocity = ivelocity;
