@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameSystem : MonoBehaviour
 {
-    public static int playerType = 1; //플레이어 모습
+    [SerializeField] public static int playerType = 1; //플레이어 모습
     GameObject BabySprite;
     GameObject KidSprite;
+
 
     private void Awake()
     {

@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour
     public GameObject talkPanel;
     public TextMeshProUGUI talkText;
     public GameObject scanObject;
-    public bool isAction;
+    [SerializeField] public bool isAction;
     public int talkIndex;
 
+    //¥Î»≠
     public void Action(GameObject scanObj)
     {
         if(isAction)

@@ -21,6 +21,8 @@ public class PlayerController : GameSystem
     Vector2 moveDir;
     Animator BabyAni;
 
+    bool currentFlip = false;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -67,36 +69,30 @@ public class PlayerController : GameSystem
         { 
             isLookUp = true;
         }
-        else if (hDown && h == -1)
+        else if (hDown)
         {
-            dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
-            switch (playerType)
-            {
-                case 1:
-                    BabyRenderer.flipX = true;
-                    break;
-                case 2:
-                    Debug.Log("Hi");
-                    KidRenderer.flipX = true;
-                    break;
-            }
-        }
-        else if (hDown && h == 1)
-        {
-            dirVec = Vector3.right;
-            switch (playerType)
-            {
-                case 1:
-                    BabyRenderer.flipX = false;
-                    break;
-                case 2:
-                    KidRenderer.flipX = false;
-                    break;
-            }
         }
         else if (v == 0)
         {
             isLookUp = false;
+        }
+        if (h == -1)
+        {
+            if (currentFlip != true)
+            {
+                currentFlip = true;
+                dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
+                Flip(currentFlip);
+            }
+        }
+        else if (h == 1)
+        {
+            if (currentFlip != false)
+            {
+                currentFlip = false;
+                dirVec = Vector3.right;
+                Flip(currentFlip);
+            }
         }
 
         if (Input.GetButtonDown("Fire1") && scanObject != null)
@@ -128,6 +124,19 @@ public class PlayerController : GameSystem
                     KidAni.SetFloat("vAxisRaw", v);
                     break;
             }
+        }
+    }
+
+    private void Flip(bool value)
+    {
+        switch (playerType)
+        {
+            case 1:
+                BabyRenderer.flipX = value;
+                break;
+            case 2:
+                KidRenderer.flipX = value;
+                break;
         }
     }
 

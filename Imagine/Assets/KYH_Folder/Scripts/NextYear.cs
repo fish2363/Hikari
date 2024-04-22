@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NextYear : MonoBehaviour
+public class NextYear : GameSystem
 {
     public static bool fadeOut = false;
     public static bool fadeIn = false;
+    bool trigger;
     int year =1;
+    GameManager gameManager;
 
     // Start is called before the first frame update
 
@@ -17,27 +19,36 @@ public class NextYear : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch(year)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            case 1:
-                if (collision.gameObject.CompareTag("Player"))
-                {
-                    fadeOut = true;
-                }
-                break;
-            case 2:
-                if (collision.gameObject.CompareTag("Player"))
-                {
-                    fadeOut = false;
-                    fadeIn = true;
-                }
-                break;
+            trigger = true;
         }
+    }
+
+    IEnumerator Waiting()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        year = 2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(trigger)
+        {
+            switch (year)
+            {
+                case 1:                   
+                        fadeOut = true;
+                        StartCoroutine(Waiting());
+                    break;
+                case 2:
+                        fadeOut = false;
+                        fadeIn = true;
+                        playerType = 2;
+                        gameManager.isAction = false;
+                    break;
+            }
+        }
     }
 }
