@@ -6,10 +6,13 @@ public class TestFile : MonoBehaviour
 {
     public Transform transform1;
     private LineRenderer _lineRenderer;
+    Rigidbody2D rid;
     private Vector3 movedir;
     private void Start()
     {
-        _lineRenderer = new LineRenderer();
+        //_lineRenderer = new LineRenderer();
+        _lineRenderer = GetComponent<LineRenderer>();
+        rid = GetComponent<Rigidbody2D>();
     }
 
     #region
@@ -44,7 +47,7 @@ public class TestFile : MonoBehaviour
         mousPos = Camera.main.ScreenToWorldPoint(mousPos);
         movedir = mousPos - transform1.position;
         Vector2 mosp = mousPos - transform1.position;
-        PredictTrajectory(transform.position, mosp.normalized * 5f);
+        PredictTrajectory(transform.position, mosp.normalized * 10f);
     }
 
 
@@ -62,8 +65,8 @@ public class TestFile : MonoBehaviour
             position += velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
             velocity += gravity * deltaTime;
 
-            print(position);
-            _lineRenderer.SetPosition(1,position);
+            rid.velocity = velocity;
+            _lineRenderer.SetPosition(i,position);
         }
     }
 
