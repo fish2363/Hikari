@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameSystem : MonoBehaviour
 {
-    public static int playerType = 1; //플레이어 모습
+    public static int playerType = 2; //플레이어 모습
     GameObject BabySprite;
     GameObject KidSprite;
 
