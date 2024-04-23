@@ -83,7 +83,7 @@ public class Gotobad : MonoBehaviour
         {
             _rigidbody2D.velocity = new Vector2(0, 0);
             transform.SetParent(plTransform);
-            transform.position = plTransform.position + new Vector3(0, 2, 0);
+            transform.position = plTransform.position + new Vector3(0, 0.5f, 0);
             _rigidbody2D.gravityScale = 0;
             _boxCollider.enabled = false;
             
