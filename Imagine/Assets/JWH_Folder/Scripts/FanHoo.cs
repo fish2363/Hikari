@@ -48,5 +48,6 @@ public class FanHoo : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         _playerController.moveSpeed = 3;
+        _playerController.jump = 6;
     }
 }

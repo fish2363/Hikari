@@ -15,7 +15,7 @@ public class PlayerController : GameSystem
     GameObject scanObject;
     public bool isLookUp;
     public float h;
-    public float jump = 5f;
+    public float jump = 6f;
     public float v;
     bool isGround;
     Vector2 moveDir;
@@ -33,7 +33,7 @@ public class PlayerController : GameSystem
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion"))
+        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion"))&& collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
             KidAni.SetBool("Hoit", false);
@@ -41,6 +41,10 @@ public class PlayerController : GameSystem
         if (collision.gameObject.CompareTag("Magema"))
         {
             isDead = true;
+        }
+        if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
+        {
+            rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
         }
     }
 
