@@ -29,7 +29,7 @@ public class FanHoo : MonoBehaviour
         }
         if ((isLeft == true && _playerController.h > 0) || (isLeft == false && _playerController.h < 0))
         {
-            _playerController.moveSpeed = 2;
+            _playerController.moveSpeed = 1;
             _playerController.jump = 4;
         }
         if (_playerController.h == 0)
