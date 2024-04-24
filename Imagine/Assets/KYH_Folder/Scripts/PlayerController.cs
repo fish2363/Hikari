@@ -14,12 +14,13 @@ public class PlayerController : GameSystem
     Vector3 dirVec;
     GameObject scanObject;
     public bool isLookUp;
-    float h;
-    public float jump = 5f;
-    float v;
+    public float h;
+    public float jump = 6f;
+    public float v;
     bool isGround;
     Vector2 moveDir;
     Animator BabyAni;
+    private bool isDead = false;
 
     bool currentFlip = false;
 
@@ -34,18 +35,29 @@ public class PlayerController : GameSystem
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Floor"))
+        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion"))&& collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
             KidAni.SetBool("Hoit", false);
+        }
+        if (collision.gameObject.CompareTag("Magema"))
+        {
+            isDead = true;
+        }
+        if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
+        {
+            rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
         }
     }
 
     void Update()
     {
-
-        float h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
-        float v = manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+        if (isDead)
+        {
+            Time.timeScale = 0;
+        }
+        h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+        v = manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
         moveDir = manager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
 
         bool hDown = manager.isAction ? false : Input.GetButtonDown("Horizontal");
