@@ -10,9 +10,9 @@ public class FanHoo : MonoBehaviour
     private void Start()
     {
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        if (transform.rotation.y != 0)
+        if (!isLeft)
         {
-            isLeft = false;
+            transform.Rotate(0, 180, 0);
         }
     }
     private void Update()
@@ -21,10 +21,32 @@ public class FanHoo : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (isLeft == true&& _playerController.h < 0)
+        if (collision.CompareTag("Player") == false) return;
+
+        if ((isLeft == true && _playerController.h < 0)||(isLeft==false && _playerController.h > 0))
         {
-            _playerController.moveSpeed = 8;
-            _playerController.jump = 8;
+            _playerController.moveSpeed = 5;
         }
+        if ((isLeft == true && _playerController.h > 0) || (isLeft == false && _playerController.h < 0))
+        {
+            _playerController.moveSpeed = 2;
+            _playerController.jump = 4;
+        }
+        if (_playerController.h == 0)
+        {
+            if (isLeft)
+            {
+                _plTransform.position += new Vector3(-0.01f, 0, 0);
+            }
+            else
+            {
+                _plTransform.position += new Vector3(0.01f, 0, 0);
+            }
+        }
+        
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _playerController.moveSpeed = 3;
     }
 }
