@@ -12,10 +12,6 @@ public class NextYear : GameSystem
 
     // Start is called before the first frame update
 
-    private void Awake()
-    {
-        fadeOut = GameObject.Find("StartFade").GetComponent<StartFadeIn>();
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
