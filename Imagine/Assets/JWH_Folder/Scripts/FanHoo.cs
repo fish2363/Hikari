@@ -1,15 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FanHoo : MonoBehaviour
 {
     public bool isLeft = true;
     [SerializeField] private Transform _plTransform;
-    private PlayerController _playerController;
-    private void Start()
+    [SerializeField] private Transform friendTransform;
+    [SerializeField] private Transform playerTransform;
+
+    private IControllerPhysics[] _playerControllers;
+
+    private void Awake()
     {
-        _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        _playerControllers = new IControllerPhysics[2]
+        {
+            GameObject.Find("Player").GetComponent<IControllerPhysics>(),
+            GameObject.Find("Friend").GetComponent<IControllerPhysics>()
+        };
+
+        playerTransform = GameObject.Find("Player").GetComponent<Transform>();
+        friendTransform = GameObject.Find("Friend").GetComponent<Transform>();
+
+
         if (!isLeft)
         {
             transform.Rotate(0, 180, 0);
@@ -17,37 +28,64 @@ public class FanHoo : MonoBehaviour
     }
     private void Update()
     {
-        
+
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        IControllerPhysics component;
+        if (collision.transform.TryGetComponent<IControllerPhysics>(out component))
+        {
+            component.isCollisionStay = true;
+            Debug.Log("엄 되네");
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") == false) return;
+        
 
-        if ((isLeft == true && _playerController.h < 0)||(isLeft==false && _playerController.h > 0))
+        for(int i = 0; i<2; i++)
         {
-            _playerController.moveSpeed = 5;
-        }
-        if ((isLeft == true && _playerController.h > 0) || (isLeft == false && _playerController.h < 0))
-        {
-            _playerController.moveSpeed = 1;
-            _playerController.jump = 4;
-        }
-        if (_playerController.h == 0)
-        {
-            if (isLeft)
+            if (_playerControllers[i].isCollisionStay == false) continue;
+
+            if ((isLeft == true && _playerControllers[i].h < 0) || (isLeft == false && _playerControllers[i].h > 0))
             {
-                _plTransform.position += new Vector3(-0.01f, 0, 0);
+                _playerControllers[i].moveSpeed = 5;
             }
-            else
+            if ((isLeft == true && _playerControllers[i].h > 0) || (isLeft == false && _playerControllers[i].h < 0))
             {
-                _plTransform.position += new Vector3(0.01f, 0, 0);
+                _playerControllers[i].moveSpeed = 1;
+                _playerControllers[i].jump = 4;
+            }
+            if (_playerControllers[i].h == 0)
+            {
+                if (isLeft)
+                {
+                    _playerControllers[i].trm.position += new Vector3(-0.01f, 0, 0);
+                    print("하하");
+                }
+                else
+                {
+                    _playerControllers[i].trm.position += new Vector3(0.01f, 0, 0);
+                    print("하하하");
+                }
             }
         }
         
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _playerController.moveSpeed = 3;
-        _playerController.jump = 6;
+        IControllerPhysics component;
+        if (collision.transform.TryGetComponent<IControllerPhysics>(out component))
+        {
+            component.isCollisionStay = false;
+        }
+        for (int i = 0; i<2; ++i)
+        {
+            _playerControllers[i].moveSpeed = 3;
+            _playerControllers[i].jump = 6;
+        }
     }
 }

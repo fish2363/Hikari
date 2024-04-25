@@ -2,9 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FriendController : GameSystem
+/*
+ * Controller인 친구들의 물리 관련 정보를 가진다. 
+ */
+public interface IControllerPhysics 
 {
-    public float moveSpeed;
+    public bool isCollisionStay { get; set; }
+    public Transform trm { get; }
+    public float moveSpeed { get; set; }
+    public float jump { get; set; }
+    public float h { get; set; }
+}
+
+
+public class FriendController : GameSystem, IControllerPhysics
+{
     Rigidbody2D rigid;
     SpriteRenderer friendRenderer;
     public GameManager manager;
@@ -12,24 +24,28 @@ public class FriendController : GameSystem
     Vector3 dirVec;
     GameObject scanObject;
     public bool isLookUp;
-    public float h;
-    public float jump = 6f;
     public float v;
     bool isGround;
     Vector2 moveDir;
     Animator friendAni;
     private bool isDead = false;
 
+    public bool isCollisionStay { get; set; } = false;
+    [field:SerializeField] public float moveSpeed { get; set; }
+    [field: SerializeField] public float jump { get; set; }
+    [field:SerializeField] public float h { get; set; }
+    public Transform trm => transform;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         friendAni = GameObject.Find("FriendSprite").GetComponent<Animator>();
-         friendRenderer = GameObject.Find("FriendSprite").GetComponent<SpriteRenderer>();
+        friendRenderer = GameObject.Find("FriendSprite").GetComponent<SpriteRenderer>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) && collision.contacts[0].normal.y > 0.7f)
+        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
             friendAni.SetBool("Hoit", false);
@@ -51,14 +67,14 @@ public class FriendController : GameSystem
         {
             Time.timeScale = 0;
         }
-        h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
-        v = manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
-        moveDir = manager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
+        h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+        v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+        moveDir = GameManager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
 
-        bool hDown = manager.isAction ? false : Input.GetButtonDown("Horizontal");
-        bool vDown = manager.isAction ? false : Input.GetButtonDown("Vertical");
-        bool hUp = manager.isAction ? false : Input.GetButtonDown("Horizontal");
-        bool vUp = manager.isAction ? false : Input.GetButtonDown("Vertical");
+        bool hDown = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
+        bool vDown = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
+        bool hUp = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
+        bool vUp = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
 
         if (hDown)
             isHorizonMove = true;
@@ -100,7 +116,7 @@ public class FriendController : GameSystem
             gameObject.GetComponent<FriendController>().enabled = false;
         }
 
-        if (manager.stopAni == 2)
+        if (GameManager.stopAni == 2)
         {
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)

@@ -10,14 +10,15 @@ public class GameManager : MonoBehaviour
     public GameObject talkPanel;
     public TextMeshProUGUI talkText;
     public GameObject scanObject;
-    public bool isAction;
-    public int stopAni = 1;
+    public static bool isAction;
+    public static int stopAni = 1;
     Transform kid;
     Transform friend;
     public int talkIndex;
     bool player;
-    CinemachineVirtualCamera camera;
+    new CinemachineVirtualCamera camera;
 
+    
     public void Awake()
     {
         camera = GameObject.Find("MainPlayCam").GetComponent<CinemachineVirtualCamera>();

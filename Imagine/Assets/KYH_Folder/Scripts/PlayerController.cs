@@ -2,26 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : GameSystem
+public class PlayerController : GameSystem, IControllerPhysics
 {
-    public float moveSpeed;
     Rigidbody2D rigid;
     SpriteRenderer KidRenderer;
     SpriteRenderer BabyRenderer;
     Animator KidAni;
-    public GameManager manager;
     bool isHorizonMove;
     Vector3 dirVec;
     GameObject scanObject;
     public bool isLookUp;
-    public float h;
-    public float jump = 6f;
     public float v;
     bool isGround;
     Vector2 moveDir;
     Animator BabyAni;
     private bool isDead = false;
     FriendController friendControll;
+
+    public bool isCollisionStay { get; set; } = false;
+    [field: SerializeField] public float moveSpeed { get; set; } = 3;
+    [field: SerializeField] public float jump { get; set; } = 6;
+    [field: SerializeField] public float h { get; set; }
+    public Transform trm => transform;
 
     private void Awake()
     {
@@ -55,14 +57,14 @@ public class PlayerController : GameSystem
         {
             Time.timeScale = 0;
         }
-        h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
-        v = manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
-        moveDir = manager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
+        h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+        v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+        moveDir = GameManager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
 
-        bool hDown = manager.isAction ? false : Input.GetButtonDown("Horizontal");
-        bool vDown = manager.isAction ? false : Input.GetButtonDown("Vertical");
-        bool hUp = manager.isAction ? false : Input.GetButtonDown("Horizontal");
-        bool vUp = manager.isAction ? false : Input.GetButtonDown("Vertical");
+        bool hDown = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
+        bool vDown = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
+        bool hUp = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
+        bool vUp = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
 
         if (hDown)
             isHorizonMove = true;
@@ -119,7 +121,7 @@ public class PlayerController : GameSystem
             gameObject.GetComponent<PlayerController>().enabled = false;
         }
             
-        if(manager.stopAni == 1)
+        if(GameManager.stopAni == 1)
         {
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
