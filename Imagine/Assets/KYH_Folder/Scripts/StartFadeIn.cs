@@ -54,6 +54,6 @@ public class StartFadeIn : NextYear
 
     void Start()
     {
-        StartCoroutine(FadeIn());
+        //StartCoroutine(FadeIn());
     }
 }

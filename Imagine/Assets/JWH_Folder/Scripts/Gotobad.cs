@@ -11,20 +11,22 @@ public class Gotobad : MonoBehaviour
     private BoxCollider2D _boxCollider;
     private Rigidbody2D _Rigidbody2D;
     private Transform plTransform;
+    private Transform friendTransform;
     private float speed = 15f;
     private LineRenderer _lineRenderer;
     Vector3 movedir;
+    GameManager manager;
+
 
     private void Awake()
     {
         _Rigidbody2D = GetComponent<Rigidbody2D>();
         _boxCollider = GetComponent<BoxCollider2D>();
+        plTransform = GameObject.Find("Player").GetComponent<Transform>();
+
     }
-    private void Start()
-    {
-        
-        plTransform = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+
+
     private void Update()
     {
         
@@ -80,23 +82,5 @@ public class Gotobad : MonoBehaviour
         }
     }
     
-    void PredictTrajectory(Vector3 startPos, Vector3 vel)
-    {
-        int step = 60;
-        float deltaTime = Time.fixedDeltaTime;
-        Vector3 gravity = Physics.gravity;
-
-        Vector3 position = startPos;
-        Vector3 velocity = vel;
-
-        for (int i = 0; i < step; i++)
-        {
-            position += velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
-            velocity += gravity * deltaTime;
-
-            _Rigidbody2D.velocity = velocity;
-            _lineRenderer.SetPosition(i, position);
-        }
-    }
 
 }

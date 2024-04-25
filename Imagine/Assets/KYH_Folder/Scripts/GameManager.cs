@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,37 +10,68 @@ public class GameManager : MonoBehaviour
     public GameObject talkPanel;
     public TextMeshProUGUI talkText;
     public GameObject scanObject;
-    [SerializeField] public bool isAction;
+    public static bool isAction;
+    public static int stopAni = 1;
+    Transform kid;
+    Transform friend;
     public int talkIndex;
+    bool player;
+    new CinemachineVirtualCamera camera;
 
-    //¥Î»≠
-    public void Action(GameObject scanObj)
+    
+    public void Awake()
     {
-        if(isAction)
-        {
-            isAction = false;
-        }
-        else
-        {
-            isAction = true;
-            scanObject = scanObj;
-            ObjData objData = scanObject.GetComponent<ObjData>();
-            Talk(objData.id, objData.isNpc);
-        }
-        talkPanel.SetActive(isAction);
+        camera = GameObject.Find("MainPlayCam").GetComponent<CinemachineVirtualCamera>();
+        kid = GameObject.Find("Player").GetComponent<Transform>();
+        friend = GameObject.Find("Friend").GetComponent<Transform>();
     }
 
-    void Talk(int id, bool isNpc)
+    private void Update()
     {
-        string talkData = talkManagement.GetTalk(id, talkIndex);
-
-        if(isNpc)
+        if(!player)
         {
-            talkText.text = talkData;
+            if (Input.GetButtonDown("Fire1"))
+            {
+                stopAni = 2;
+                player = true;
+                camera.Follow = friend;
+            }
         }
-        else
+        else if (Input.GetButtonDown("Fire1") && player == true)
         {
-            talkText.text = talkData;
+            stopAni = 1;
+            player = false;
+            camera.Follow = kid;
         }
     }
+
+    //public void Action(GameObject scanObj)
+    //{
+    //    if(isAction)
+    //    {
+    //        isAction = false;
+    //    }
+    //    else
+    //    {
+    //        isAction = true;
+    //        scanObject = scanObj;
+    //        ObjData objData = scanObject.GetComponent<ObjData>();
+    //        //Talk(objData.id, objData.isNpc);
+    //    }
+    //    talkPanel.SetActive(isAction);
+    //}
+
+    //void Talk(int id, bool isNpc)
+    //{
+    //    string talkData = talkManagement.GetTalk(id, talkIndex);
+
+    //    if(isNpc)
+    //    {
+    //        talkText.text = talkData;
+    //    }
+    //    else
+    //    {
+    //        talkText.text = talkData;
+    //    }
+    //}
 }

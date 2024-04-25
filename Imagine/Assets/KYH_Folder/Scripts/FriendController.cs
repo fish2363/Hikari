@@ -2,12 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : GameSystem, IControllerPhysics
+/*
+ * Controller인 친구들의 물리 관련 정보를 가진다. 
+ */
+public interface IControllerPhysics 
+{
+    public bool isCollisionStay { get; set; }
+    public Transform trm { get; }
+    public float moveSpeed { get; set; }
+    public float jump { get; set; }
+    public float h { get; set; }
+}
+
+
+public class FriendController : GameSystem, IControllerPhysics
 {
     Rigidbody2D rigid;
-    SpriteRenderer KidRenderer;
-    SpriteRenderer BabyRenderer;
-    Animator KidAni;
+    SpriteRenderer friendRenderer;
+    public GameManager manager;
     bool isHorizonMove;
     Vector3 dirVec;
     GameObject scanObject;
@@ -15,33 +27,28 @@ public class PlayerController : GameSystem, IControllerPhysics
     public float v;
     bool isGround;
     Vector2 moveDir;
-    Animator BabyAni;
+    Animator friendAni;
     private bool isDead = false;
-    FriendController friendControll;
 
     public bool isCollisionStay { get; set; } = false;
-    [field: SerializeField] public float moveSpeed { get; set; } = 3;
-    [field: SerializeField] public float jump { get; set; } = 6;
-    [field: SerializeField] public float h { get; set; }
+    [field:SerializeField] public float moveSpeed { get; set; }
+    [field: SerializeField] public float jump { get; set; }
+    [field:SerializeField] public float h { get; set; }
     public Transform trm => transform;
-
-    bool currentFlip = false;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
-        BabyAni = GameObject.Find("BabySprite").GetComponent<Animator>();
-        KidRenderer = GameObject.Find("kidSprite").GetComponent<SpriteRenderer>();
-        BabyRenderer = GameObject.Find("BabySprite").GetComponent<SpriteRenderer>();
+        friendAni = GameObject.Find("FriendSprite").GetComponent<Animator>();
+        friendRenderer = GameObject.Find("FriendSprite").GetComponent<SpriteRenderer>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion"))&& collision.contacts[0].normal.y > 0.7f)
+        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
-            KidAni.SetBool("Hoit", false);
+            friendAni.SetBool("Hoit", false);
         }
         if (collision.gameObject.CompareTag("Magema"))
         {
@@ -55,13 +62,14 @@ public class PlayerController : GameSystem, IControllerPhysics
 
     void Update()
     {
+
         if (isDead)
         {
             Time.timeScale = 0;
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
-        moveDir = GameManager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
+        moveDir = GameManager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
 
         bool hDown = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
         bool vDown = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
@@ -81,53 +89,40 @@ public class PlayerController : GameSystem, IControllerPhysics
             Debug.Log("됨");
         }
         else if (vDown && v == -1)
-        { 
+        {
             isLookUp = true;
         }
-        else if (hDown)
+        else if (hDown && h == -1)
         {
+            dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
+            friendRenderer.flipX = true;
+        }
+        else if (hDown && h == 1)
+        {
+            dirVec = Vector3.right;
+
+            friendRenderer.flipX = false;
+
         }
         else if (v == 0)
         {
             isLookUp = false;
         }
-        if (h == -1)
-        {
-            if (currentFlip != true)
-            {
-                currentFlip = true;
-                dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
-                Flip(currentFlip);
-            }
-        }
-        else if (h == 1)
-        {
-            if (currentFlip != false)
-            {
-                currentFlip = false;
-                dirVec = Vector3.right;
-                Flip(currentFlip);
-            }
-        }
 
         if (Input.GetButtonDown("Fire1"))
         {
             print("뙛어용");
-            isHorizonMove = false;
-
-            KidAni.SetBool("Walk", false);
-
-            GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
-            gameObject.GetComponent<PlayerController>().enabled = false;
+            GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+            gameObject.GetComponent<FriendController>().enabled = false;
         }
-            
-        if(GameManager.stopAni == 1)
+
+        if (GameManager.stopAni == 2)
         {
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
             {
 
-                KidAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
+                friendAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
                 rigid.velocity = Vector2.zero;
                 rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
 
@@ -135,31 +130,10 @@ public class PlayerController : GameSystem, IControllerPhysics
             }
             else
             {
-                switch (playerType)
-                {
-                    case 1:
-                        BabyAni.SetBool("Walk", moveDir.magnitude > 0);
-                        break;
-                    case 2:
-                        KidAni.SetBool("Walk", moveDir.magnitude > 0);
+                friendAni.SetBool("Walk", moveDir.magnitude > 0);
 
-                        KidAni.SetFloat("vAxisRaw", v);
-                        break;
-                }
+                friendAni.SetFloat("vAxisRaw", v);
             }
-        }
-    }
-
-    private void Flip(bool value)
-    {
-        switch (playerType)
-        {
-            case 1:
-                BabyRenderer.flipX = value;
-                break;
-            case 2:
-                KidRenderer.flipX = value;
-                break;
         }
     }
 
