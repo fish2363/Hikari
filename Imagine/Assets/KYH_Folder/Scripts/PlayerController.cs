@@ -117,6 +117,10 @@ public class PlayerController : GameSystem, IControllerPhysics
         if (Input.GetButtonDown("Fire1"))
         {
             print("Œ ¾î¿ë");
+            isHorizonMove = false;
+
+            KidAni.SetBool("Walk", false);
+
             GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
             gameObject.GetComponent<PlayerController>().enabled = false;
         }

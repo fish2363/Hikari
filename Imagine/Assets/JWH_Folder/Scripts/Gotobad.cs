@@ -22,6 +22,8 @@ public class Gotobad : MonoBehaviour
     {
         _Rigidbody2D = GetComponent<Rigidbody2D>();
         _boxCollider = GetComponent<BoxCollider2D>();
+        plTransform = GameObject.Find("Player").GetComponent<Transform>();
+
     }
 
 
