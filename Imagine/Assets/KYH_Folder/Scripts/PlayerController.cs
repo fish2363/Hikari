@@ -21,6 +21,7 @@ public class PlayerController : GameSystem
     Vector2 moveDir;
     Animator BabyAni;
     private bool isDead = false;
+    FriendController friendControll;
 
     private void Awake()
     {
@@ -111,34 +112,38 @@ public class PlayerController : GameSystem
             isLookUp = false;
         }
 
-        if (Input.GetButtonDown("Fire1") && scanObject != null)
+        if (Input.GetButtonDown("Fire1"))
         {
-            manager.Action(scanObject);
+            print("Œ ¾î¿ë");
+            GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
+            gameObject.GetComponent<PlayerController>().enabled = false;
         }
             
-
-        //Animation
-        if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
+        if(manager.stopAni == 1)
         {
-
-            KidAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
-            rigid.velocity = Vector2.zero;
-            rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-
-            isGround = rigid.gravityScale == 0.5f;
-        }
-        else
-        {
-            switch (playerType)
+            //Animation
+            if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
             {
-                case 1:
-                    BabyAni.SetBool("Walk", moveDir.magnitude > 0);
-                    break;
-                case 2:
-                    KidAni.SetBool("Walk", moveDir.magnitude > 0);
 
-                    KidAni.SetFloat("vAxisRaw", v);
-                    break;
+                KidAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
+                rigid.velocity = Vector2.zero;
+                rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+
+                isGround = rigid.gravityScale == 0.5f;
+            }
+            else
+            {
+                switch (playerType)
+                {
+                    case 1:
+                        BabyAni.SetBool("Walk", moveDir.magnitude > 0);
+                        break;
+                    case 2:
+                        KidAni.SetBool("Walk", moveDir.magnitude > 0);
+
+                        KidAni.SetFloat("vAxisRaw", v);
+                        break;
+                }
             }
         }
     }

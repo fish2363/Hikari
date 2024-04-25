@@ -6,9 +6,7 @@ public class FriendController : GameSystem
 {
     public float moveSpeed;
     Rigidbody2D rigid;
-    SpriteRenderer KidRenderer;
-    SpriteRenderer BabyRenderer;
-    Animator KidAni;
+    SpriteRenderer friendRenderer;
     public GameManager manager;
     bool isHorizonMove;
     Vector3 dirVec;
@@ -19,16 +17,14 @@ public class FriendController : GameSystem
     public float v;
     bool isGround;
     Vector2 moveDir;
-    Animator BabyAni;
+    Animator friendAni;
     private bool isDead = false;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
-        BabyAni = GameObject.Find("BabySprite").GetComponent<Animator>();
-        KidRenderer = GameObject.Find("kidSprite").GetComponent<SpriteRenderer>();
-        BabyRenderer = GameObject.Find("BabySprite").GetComponent<SpriteRenderer>();
+        friendAni = GameObject.Find("FriendSprite").GetComponent<Animator>();
+         friendRenderer = GameObject.Find("FriendSprite").GetComponent<SpriteRenderer>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -36,7 +32,7 @@ public class FriendController : GameSystem
         if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
-            KidAni.SetBool("Hoit", false);
+            friendAni.SetBool("Hoit", false);
         }
         if (collision.gameObject.CompareTag("Magema"))
         {
@@ -50,6 +46,7 @@ public class FriendController : GameSystem
 
     void Update()
     {
+
         if (isDead)
         {
             Time.timeScale = 0;
@@ -82,63 +79,44 @@ public class FriendController : GameSystem
         else if (hDown && h == -1)
         {
             dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
-            switch (playerType)
-            {
-                case 1:
-                    BabyRenderer.flipX = true;
-                    break;
-                case 2:
-                    Debug.Log("Hi");
-                    KidRenderer.flipX = true;
-                    break;
-            }
+            friendRenderer.flipX = true;
         }
         else if (hDown && h == 1)
         {
             dirVec = Vector3.right;
-            switch (playerType)
-            {
-                case 1:
-                    BabyRenderer.flipX = false;
-                    break;
-                case 2:
-                    KidRenderer.flipX = false;
-                    break;
-            }
+
+            friendRenderer.flipX = false;
+
         }
         else if (v == 0)
         {
             isLookUp = false;
         }
 
-        if (Input.GetButtonDown("Fire1") && scanObject != null)
+        if (Input.GetButtonDown("Fire1"))
         {
-            manager.Action(scanObject);
+            print("뙛어용");
+            GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+            gameObject.GetComponent<FriendController>().enabled = false;
         }
 
-
-        //Animation
-        if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
+        if (manager.stopAni == 2)
         {
-
-            KidAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
-            rigid.velocity = Vector2.zero;
-            rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-
-            isGround = rigid.gravityScale == 0.5f;
-        }
-        else
-        {
-            switch (playerType)
+            //Animation
+            if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
             {
-                case 1:
-                    BabyAni.SetBool("Walk", moveDir.magnitude > 0);
-                    break;
-                case 2:
-                    KidAni.SetBool("Walk", moveDir.magnitude > 0);
 
-                    KidAni.SetFloat("vAxisRaw", v);
-                    break;
+                friendAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
+                rigid.velocity = Vector2.zero;
+                rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+
+                isGround = rigid.gravityScale == 0.5f;
+            }
+            else
+            {
+                friendAni.SetBool("Walk", moveDir.magnitude > 0);
+
+                friendAni.SetFloat("vAxisRaw", v);
             }
         }
     }
