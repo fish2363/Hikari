@@ -24,8 +24,6 @@ public class PlayerController : GameSystem
 
     bool currentFlip = false;
 
-    bool currentFlip = false;
-
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
