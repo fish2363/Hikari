@@ -12,7 +12,7 @@ public class Interaction : MonoBehaviour
         // e키를 누르고 badenter가 true면 실행
         if(Input.GetKeyDown(KeyCode.E) && badEnter)
         {
-            goToBad.isCatch = true;
+            Gotobad.isCatch = true;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

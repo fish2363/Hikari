@@ -27,8 +27,6 @@ public class PlayerController : GameSystem, IControllerPhysics
 
     bool currentFlip = false;
 
-    bool currentFlip = false;
-
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -125,6 +123,9 @@ public class PlayerController : GameSystem, IControllerPhysics
             
         if(GameManager.stopAni == 1)
         {
+            KidAni.SetBool("Stop", false);
+            moveSpeed = 3;
+
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
             {
@@ -149,6 +150,11 @@ public class PlayerController : GameSystem, IControllerPhysics
                         break;
                 }
             }
+        }
+        else
+        {
+            KidAni.SetBool("Stop", GameManager.stopAni == 2);
+            moveSpeed = 0;
         }
     }
 

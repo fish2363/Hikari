@@ -1281,7 +1281,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1492125541}
-  isCatch: 0
 --- !u!4 &816644157
 Transform:
   m_ObjectHideFlags: 0
@@ -1889,7 +1888,7 @@ Transform:
   m_GameObject: {fileID: 1331199569}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.17, y: 0.8, z: 0}
+  m_LocalPosition: {x: -6.08, y: 0.8, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2784,7 +2783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLeft: 1
-  _plTransform: {fileID: 1492125542}
+  cusionTransform: {fileID: 0}
   friendTransform: {fileID: 0}
   playerTransform: {fileID: 0}
 --- !u!212 &1657576298
@@ -2873,7 +2872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &1721278899
 Rigidbody2D:
   serializedVersion: 4
@@ -3011,7 +3010,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1492125541}
-  isCatch: 0
 --- !u!4 &1721278903
 Transform:
   m_ObjectHideFlags: 0

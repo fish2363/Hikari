@@ -118,6 +118,9 @@ public class FriendController : GameSystem, IControllerPhysics
 
         if (GameManager.stopAni == 2)
         {
+            friendAni.SetBool("Stop", false);
+            moveSpeed = 3;
+
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
             {
@@ -134,6 +137,11 @@ public class FriendController : GameSystem, IControllerPhysics
 
                 friendAni.SetFloat("vAxisRaw", v);
             }
+        }
+        else
+        {
+            friendAni.SetBool("Stop", GameManager.stopAni == 1);
+            moveSpeed = 0;
         }
     }
 
