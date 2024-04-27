@@ -60,9 +60,11 @@ public class FanHoo : MonoBehaviour
             if ((isLeft == true && _playerControllers[i].h < 0) || (isLeft == false && _playerControllers[i].h > 0))
             {
                 _playerControllers[i].moveSpeed = 5;
+                print("속도증가");
             }
             if ((isLeft == true && _playerControllers[i].h > 0) || (isLeft == false && _playerControllers[i].h < 0))
             {
+                print("속도감소");
                 _playerControllers[i].moveSpeed = 1;
                 _playerControllers[i].jump = 4;
             }

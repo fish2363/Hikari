@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 36174032}
   - component: {fileID: 36174036}
   - component: {fileID: 36174035}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Friend
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1072,6 +1072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   badEnter: 0
+  cusion: {fileID: 1721278898}
 --- !u!212 &651909273
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1378,6 +1379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   badEnter: 0
+  cusion: {fileID: 1721278898}
 --- !u!212 &818939013
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2245,7 +2247,7 @@ GameObject:
   - component: {fileID: 1492125545}
   - component: {fileID: 1492125544}
   - component: {fileID: 1492125543}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2285,7 +2287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLookUp: 0
   v: 0
-  <moveSpeed>k__BackingField: 3
+  <moveSpeed>k__BackingField: 0
   <jump>k__BackingField: 6
   <h>k__BackingField: 0
 --- !u!61 &1492125544
@@ -2866,7 +2868,7 @@ GameObject:
   - component: {fileID: 1721278901}
   - component: {fileID: 1721278900}
   - component: {fileID: 1721278899}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: cusion
   m_TagString: cusion
   m_Icon: {fileID: 0}
