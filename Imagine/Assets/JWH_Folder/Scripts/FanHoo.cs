@@ -3,7 +3,7 @@ using UnityEngine;
 public class FanHoo : MonoBehaviour
 {
     public bool isLeft = true;
-    [SerializeField] private Transform _plTransform;
+    [SerializeField] private Transform cusionTransform;
     [SerializeField] private Transform friendTransform;
     [SerializeField] private Transform playerTransform;
 
@@ -26,24 +26,32 @@ public class FanHoo : MonoBehaviour
             transform.Rotate(0, 180, 0);
         }
     }
-    private void Update()
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IControllerPhysics component;
         if (collision.transform.TryGetComponent<IControllerPhysics>(out component))
         {
             component.isCollisionStay = true;
-            Debug.Log("엄 되네");
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        
+        if(collision.gameObject.CompareTag("cusion"))
+        {
+            if(Gotobad.isCatch == false)
+            {
+                cusionTransform = collision.GetComponent<Transform>();
+                if (isLeft)
+                {
+                    cusionTransform.position += new Vector3(-0.01f, 0, 0);
+                }
+                else
+                {
+                    cusionTransform.position += new Vector3(0.01f, 0, 0);
+                }
+            }
+        }
 
         for(int i = 0; i<2; i++)
         {
@@ -52,9 +60,11 @@ public class FanHoo : MonoBehaviour
             if ((isLeft == true && _playerControllers[i].h < 0) || (isLeft == false && _playerControllers[i].h > 0))
             {
                 _playerControllers[i].moveSpeed = 5;
+                print("속도증가");
             }
             if ((isLeft == true && _playerControllers[i].h > 0) || (isLeft == false && _playerControllers[i].h < 0))
             {
+                print("속도감소");
                 _playerControllers[i].moveSpeed = 1;
                 _playerControllers[i].jump = 4;
             }
@@ -63,12 +73,10 @@ public class FanHoo : MonoBehaviour
                 if (isLeft)
                 {
                     _playerControllers[i].trm.position += new Vector3(-0.01f, 0, 0);
-                    print("하하");
                 }
                 else
                 {
                     _playerControllers[i].trm.position += new Vector3(0.01f, 0, 0);
-                    print("하하하");
                 }
             }
         }

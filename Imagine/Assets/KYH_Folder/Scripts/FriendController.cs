@@ -45,19 +45,19 @@ public class FriendController : GameSystem, IControllerPhysics
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
-        {
-            isGround = true;
-            friendAni.SetBool("Hoit", false);
-        }
         if (collision.gameObject.CompareTag("Magema"))
         {
             isDead = true;
         }
-        if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
-        {
-            rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
-        }
+            if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
+            {
+                isGround = true;
+                friendAni.SetBool("Hoit", false);
+            }
+            if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
+            {
+                rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
+            }
     }
 
     void Update()
@@ -67,96 +67,110 @@ public class FriendController : GameSystem, IControllerPhysics
         {
             Time.timeScale = 0;
         }
-        h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
-        v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
-        moveDir = GameManager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
 
-        bool hDown = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
-        bool vDown = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
-        bool hUp = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
-        bool vUp = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
 
-        if (hDown)
-            isHorizonMove = true;
-        else if (vDown)
-            isHorizonMove = false;
-        else if (hUp || vUp)
-            isHorizonMove = h != 0;
+            h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+            v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+            moveDir = GameManager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
 
-        if (vDown && v == 1)
-        {
-            isLookUp = true;
-            Debug.Log("됨");
-        }
-        else if (vDown && v == -1)
-        {
-            isLookUp = true;
-        }
-        else if (hDown && h == -1)
-        {
-            dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
-            friendRenderer.flipX = true;
-        }
-        else if (hDown && h == 1)
-        {
-            dirVec = Vector3.right;
+            bool hDown = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
+            bool vDown = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
+            bool hUp = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
+            bool vUp = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
 
-            friendRenderer.flipX = false;
+            if (hDown)
+                isHorizonMove = true;
+            else if (vDown)
+                isHorizonMove = false;
+            else if (hUp || vUp)
+                isHorizonMove = h != 0;
 
-        }
-        else if (v == 0)
-        {
-            isLookUp = false;
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            print("뙛어용");
-            GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
-            gameObject.GetComponent<FriendController>().enabled = false;
-        }
-
-        if (GameManager.stopAni == 2)
-        {
-            //Animation
-            if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
+            if (vDown && v == 1)
             {
+                isLookUp = true;
+                Debug.Log("됨");
+            }
+            else if (vDown && v == -1)
+            {
+                isLookUp = true;
+            }
+            else if (hDown && h == -1)
+            {
+                dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
+                friendRenderer.flipX = true;
+            }
+            else if (hDown && h == 1)
+            {
+                dirVec = Vector3.right;
 
-                friendAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
-                rigid.velocity = Vector2.zero;
-                rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+                friendRenderer.flipX = false;
 
-                isGround = rigid.gravityScale == 0.5f;
+            }
+            else if (v == 0)
+            {
+                isLookUp = false;
+            }
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                print("뙛어용");
+                GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+                gameObject.GetComponent<FriendController>().enabled = false;
+                h = 0;
+            }
+
+            if (GameManager.stopAni == 2)
+            {
+                friendAni.SetBool("Stop", false);
+                if (moveSpeed == 0)
+                {
+                    moveSpeed = 3;
+                }
+
+                //Animation
+                if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
+                {
+
+                    friendAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
+                    rigid.velocity = Vector2.zero;
+                    rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+
+                    isGround = rigid.gravityScale == 0.5f;
+                }
+                else
+                {
+                    friendAni.SetBool("Walk", moveDir.magnitude > 0);
+
+                    friendAni.SetFloat("vAxisRaw", v);
+                }
             }
             else
             {
-                friendAni.SetBool("Walk", moveDir.magnitude > 0);
-
-                friendAni.SetFloat("vAxisRaw", v);
+                friendAni.SetBool("Stop", GameManager.stopAni == 1);
+                moveSpeed = 0;
             }
-        }
+        
     }
 
     private void FixedUpdate()
     {
+            float h = Input.GetAxisRaw("Horizontal");
 
-        float h = Input.GetAxisRaw("Horizontal");
+            if (isLookUp == false)
+            {
+                Vector2 moveVec = isHorizonMove ? new Vector2(h * moveSpeed, rigid.velocity.y) : new Vector2(0, rigid.velocity.y);
+                rigid.velocity = moveVec;
+            }
 
-        if (isLookUp == false)
-        {
-            Vector2 moveVec = isHorizonMove ? new Vector2(h * moveSpeed, rigid.velocity.y) : new Vector2(0, rigid.velocity.y);
-            rigid.velocity = moveVec;
-        }
+            Debug.DrawRay(rigid.position, dirVec * 0.7f, new Color(0, 1, 0));
+            RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 0.7f, LayerMask.GetMask("Object"));
 
-        Debug.DrawRay(rigid.position, dirVec * 0.7f, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 0.7f, LayerMask.GetMask("Object"));
+            if (rayHit.collider != null)
+                scanObject = rayHit.collider.gameObject;
 
-        if (rayHit.collider != null)
-            scanObject = rayHit.collider.gameObject;
-
-        else
-            scanObject = null;
-
+            else
+                scanObject = null;
+        
     }
 
 

@@ -8,8 +8,6 @@ public class NextYear : GameSystem
     public static bool fadeIn = false;
     bool trigger;
     int year =1;
-    GameManager gameManager;
-
     // Start is called before the first frame update
 
 
@@ -42,7 +40,7 @@ public class NextYear : GameSystem
                         fadeOut = false;
                         fadeIn = true;
                         playerType = 2;
-                        gameManager.isAction = false;
+                        GameManager.isAction = false;
                     break;
             }
         }

@@ -19,6 +19,7 @@ public class PlayerController : GameSystem, IControllerPhysics
     private bool isDead = false;
     FriendController friendControll;
 
+
     public bool isCollisionStay { get; set; } = false;
     [field: SerializeField] public float moveSpeed { get; set; } = 3;
     [field: SerializeField] public float jump { get; set; } = 6;
@@ -114,6 +115,7 @@ public class PlayerController : GameSystem, IControllerPhysics
         {
             print("Œ ¾î¿ë");
             isHorizonMove = false;
+            h = 0;
 
             KidAni.SetBool("Walk", false);
 
@@ -123,6 +125,13 @@ public class PlayerController : GameSystem, IControllerPhysics
             
         if(GameManager.stopAni == 1)
         {
+            KidAni.SetBool("Stop", false);
+            if(moveSpeed==0)
+            {
+                moveSpeed = 3;
+            }
+
+
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
             {
@@ -148,6 +157,11 @@ public class PlayerController : GameSystem, IControllerPhysics
                 }
             }
         }
+        else
+        {
+            KidAni.SetBool("Stop", GameManager.stopAni == 2);
+            moveSpeed = 0;
+        }
     }
 
     private void Flip(bool value)
@@ -166,8 +180,6 @@ public class PlayerController : GameSystem, IControllerPhysics
     private void FixedUpdate()
     {
 
-        float h = Input.GetAxisRaw("Horizontal");
-
         if (isLookUp == false)
         {
             Vector2 moveVec = isHorizonMove ? new Vector2(h * moveSpeed, rigid.velocity.y) : new Vector2(0, rigid.velocity.y);
@@ -179,7 +191,6 @@ public class PlayerController : GameSystem, IControllerPhysics
 
         if (rayHit.collider != null)
             scanObject = rayHit.collider.gameObject;
-
         else
             scanObject = null;
 
