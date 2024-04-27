@@ -12,6 +12,7 @@ public interface IControllerPhysics
     public float moveSpeed { get; set; }
     public float jump { get; set; }
     public float h { get; set; }
+    public bool isGround { get; set; }
 }
 
 
@@ -25,7 +26,6 @@ public class FriendController : GameSystem, IControllerPhysics
     GameObject scanObject;
     public bool isLookUp;
     public float v;
-    bool isGround;
     Vector2 moveDir;
     Animator friendAni;
     private bool isDead = false;
@@ -35,6 +35,7 @@ public class FriendController : GameSystem, IControllerPhysics
     [field: SerializeField] public float jump { get; set; }
     [field:SerializeField] public float h { get; set; }
     public Transform trm => transform;
+    public bool isGround { get; set; }
 
     private void Awake()
     {
@@ -114,6 +115,12 @@ public class FriendController : GameSystem, IControllerPhysics
             if (Input.GetButtonDown("Fire1"))
             {
                 print("Œ ¾î¿ë");
+
+                isHorizonMove = false;
+                h = 0;
+
+                friendAni.SetBool("Walk", false);
+
                 GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
                 gameObject.GetComponent<FriendController>().enabled = false;
                 h = 0;
