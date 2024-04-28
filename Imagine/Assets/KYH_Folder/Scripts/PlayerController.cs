@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : GameSystem, IControllerPhysics
+public class PlayerController : SpriteSystem, IControllerPhysics
 {
     Rigidbody2D rigid;
     SpriteRenderer KidRenderer;

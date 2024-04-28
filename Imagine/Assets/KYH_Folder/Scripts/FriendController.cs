@@ -16,7 +16,7 @@ public interface IControllerPhysics
 }
 
 
-public class FriendController : GameSystem, IControllerPhysics
+public class FriendController : SpriteSystem, IControllerPhysics
 {
     Rigidbody2D rigid;
     SpriteRenderer friendRenderer;
