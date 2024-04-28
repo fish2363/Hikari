@@ -14,16 +14,16 @@ public class StartFadeIn : NextYear
     {
         if(fadeOut)
         {
-            StartCoroutine(FadeOut());
+            StartCoroutine(FadeIn());
             Debug.Log("ÆäÀÌµå¾Æ¿ô");
         }
         else if (fadeIn)
         {
-            StartCoroutine(FadeIn());
+            StartCoroutine(FadeOut());
         }
     }
 
-    public IEnumerator FadeIn()
+    public IEnumerator FadeOut()
     {
         Panel.gameObject.SetActive(true);
         Color alpha = Panel.color;
@@ -38,7 +38,7 @@ public class StartFadeIn : NextYear
         time = 0f;
     }
 
-    public IEnumerator FadeOut()
+    public IEnumerator FadeIn()
     {
         Color alpha = Panel.color;
         while (alpha.a < 1f)
@@ -54,6 +54,6 @@ public class StartFadeIn : NextYear
 
     void Start()
     {
-        //StartCoroutine(FadeIn());
+        StartCoroutine(FadeOut());
     }
 }

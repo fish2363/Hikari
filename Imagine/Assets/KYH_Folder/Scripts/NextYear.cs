@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NextYear : GameSystem
+public class NextYear : SpriteSystem
 {
     public static bool fadeOut = false;
     public static bool fadeIn = false;

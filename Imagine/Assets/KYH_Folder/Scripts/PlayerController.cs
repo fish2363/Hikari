@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : GameSystem, IControllerPhysics
+public class PlayerController : SpriteSystem, IControllerPhysics
 {
     Rigidbody2D rigid;
     SpriteRenderer KidRenderer;
@@ -13,7 +13,6 @@ public class PlayerController : GameSystem, IControllerPhysics
     GameObject scanObject;
     public bool isLookUp;
     public float v;
-    bool isGround;
     Vector2 moveDir;
     Animator BabyAni;
     private bool isDead = false;
@@ -25,6 +24,7 @@ public class PlayerController : GameSystem, IControllerPhysics
     [field: SerializeField] public float jump { get; set; } = 6;
     [field: SerializeField] public float h { get; set; }
     public Transform trm => transform;
+    [field: SerializeField] public bool isGround { get; set; }
 
     bool currentFlip = false;
 
