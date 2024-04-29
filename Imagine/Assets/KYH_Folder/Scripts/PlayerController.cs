@@ -14,9 +14,15 @@ public class PlayerController : SpriteSystem, IControllerPhysics
     public bool isLookUp;
     public float v;
     Vector2 moveDir;
+    Vector2 footPosition;
     Animator BabyAni;
+    BoxCollider2D colly;
     private bool isDead = false;
     FriendController friendControll;
+    [SerializeField] private LayerMask ground;
+
+    [SerializeField] private Transform pos;
+    [SerializeField] private Vector2 size;
 
 
     public bool isCollisionStay { get; set; } = false;
@@ -28,8 +34,12 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
     bool currentFlip = false;
 
+    public LayerMask interactableLayer;
+    public float interactionRadius = 3f;
+
     private void Awake()
     {
+        colly = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
         BabyAni = GameObject.Find("BabySprite").GetComponent<Animator>();
@@ -37,16 +47,27 @@ public class PlayerController : SpriteSystem, IControllerPhysics
         BabyRenderer = GameObject.Find("BabySprite").GetComponent<SpriteRenderer>();
     }
 
+    void Start()
+    {
+        isGround = false;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) && collision.contacts[0].normal.y > 0.7f)
+        /*if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
             KidAni.SetBool("Hoit", false);
-        }
+        }\
+        */
         if (collision.gameObject.CompareTag("Magema"))
         {
             isDead = true;
+        }
+        if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion") || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
+        {
+            isGround = true;
+            KidAni.SetBool("Hoit", false);
         }
         if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
         {
@@ -56,6 +77,24 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
     void Update()
     {
+
+
+        //Collider2D[] hit = Physics2D.OverlapBoxAll(pos.position, size, 0);
+        //foreach (Collider2D ray in hit)
+        //{
+        //    if ( && ray.gameObject.CompareTag("Floor"))
+        //    {
+        //        isGround = true;
+        //        KidAni.SetBool("Hoit", false);
+        //    }
+        //}
+        Bounds bounds = colly.bounds;
+        footPosition = new Vector2(bounds.center.x, bounds.min.y);
+        isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
+
+        KidAni.SetBool("Hoit", !(isGround));
+
+
         if (isDead)
         {
             Time.timeScale = 0;
@@ -116,11 +155,11 @@ public class PlayerController : SpriteSystem, IControllerPhysics
             print("Œ ¾î¿ë");
             isHorizonMove = false;
             h = 0;
+            isGround = false;
 
             KidAni.SetBool("Walk", false);
-
-            GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
             gameObject.GetComponent<PlayerController>().enabled = false;
+            GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
         }
 
         if (GameManager.stopAni == 1)
@@ -134,13 +173,9 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
-            {
-
-                KidAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
+            { 
                 rigid.velocity = Vector2.zero;
                 rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-
-                isGround = rigid.gravityScale == 0.5f;
             }
             else
             {
@@ -162,6 +197,12 @@ public class PlayerController : SpriteSystem, IControllerPhysics
             KidAni.SetBool("Stop", GameManager.stopAni == 2);
             moveSpeed = 0;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(footPosition, 0.1f);
     }
 
     private void Flip(bool value)
