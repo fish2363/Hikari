@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GameSystem : MonoBehaviour
+public class SpriteSystem : MonoBehaviour
 {
     [SerializeField] public static int playerType = 2; //플레이어 모습
     GameObject BabySprite;

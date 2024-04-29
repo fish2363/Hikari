@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interaction : MonoBehaviour
+public class InterationTest : MonoBehaviour
 {
     private Gotobad goToBad;
     public bool badEnter = false;
@@ -13,7 +13,7 @@ public class Interaction : MonoBehaviour
     private void Update()
     {
         // e키를 누르고 badenter가 true면 실행
-        if(Input.GetKeyDown(KeyCode.E) && badEnter)
+        if (Input.GetKeyDown(KeyCode.E) && badEnter)
         {
             Gotobad.isCatch = true;
         }

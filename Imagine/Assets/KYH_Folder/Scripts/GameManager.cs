@@ -16,11 +16,13 @@ public class GameManager : MonoBehaviour
     Transform friend;
     public int talkIndex;
     bool player;
+    GameObject gotobad;
     new CinemachineVirtualCamera camera;
 
     
     public void Awake()
     {
+        gotobad = GameObject.FindGameObjectWithTag("cusion");
         camera = GameObject.Find("MainPlayCam").GetComponent<CinemachineVirtualCamera>();
         kid = GameObject.Find("Player").GetComponent<Transform>();
         friend = GameObject.Find("Friend").GetComponent<Transform>();
@@ -34,7 +36,7 @@ public class GameManager : MonoBehaviour
             {
                 stopAni = 2;
                 player = true;
-                camera.Follow = friend;
+                camera.Follow = friend;  
             }
         }
         else if (Input.GetButtonDown("Fire1") && player == true)

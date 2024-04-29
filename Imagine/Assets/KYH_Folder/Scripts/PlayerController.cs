@@ -2,34 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : GameSystem, IControllerPhysics
+public class PlayerController : SpriteSystem, IControllerPhysics
 {
-    Rigidbody2D rigid;
-    SpriteRenderer KidRenderer;
-    SpriteRenderer BabyRenderer;
-    Animator KidAni;
+    private Rigidbody2D rigid;
+    private SpriteRenderer KidRenderer;
+    private SpriteRenderer BabyRenderer;
+    private Animator KidAni;
     bool isHorizonMove;
-    Vector3 dirVec;
-    GameObject scanObject;
+    private Vector3 dirVec;
+    private GameObject scanObject;
     public bool isLookUp;
     public float v;
-    bool isGround;
-    Vector2 moveDir;
-    Animator BabyAni;
+    private Vector2 moveDir;
+    private Vector2 footPosition;
+    private Animator BabyAni;
+    private Gotobad gotobad;
+    private BoxCollider2D colly;
     private bool isDead = false;
     FriendController friendControll;
+    [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask whatIsObj;
+    [SerializeField] private Transform pos;
+    [SerializeField] private Vector2 size;
 
+    //private Transform cusionUpTransform;
+    //private Transform plTransform;
+    //private Transform friendTransform;
 
     public bool isCollisionStay { get; set; } = false;
     [field: SerializeField] public float moveSpeed { get; set; } = 3;
     [field: SerializeField] public float jump { get; set; } = 6;
     [field: SerializeField] public float h { get; set; }
     public Transform trm => transform;
+    [field: SerializeField] public bool isGround { get; set; }
 
     bool currentFlip = false;
 
+    public LayerMask interactableLayer;
+    public float interactionRadius = 3f;
+
     private void Awake()
     {
+        gotobad = FindObjectOfType<Gotobad>();
+        colly = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
         BabyAni = GameObject.Find("BabySprite").GetComponent<Animator>();
@@ -37,16 +52,27 @@ public class PlayerController : GameSystem, IControllerPhysics
         BabyRenderer = GameObject.Find("BabySprite").GetComponent<SpriteRenderer>();
     }
 
+    void Start()
+    {
+        isGround = false;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion"))&& collision.contacts[0].normal.y > 0.7f)
+        /*if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
             KidAni.SetBool("Hoit", false);
-        }
+        }\
+        */
         if (collision.gameObject.CompareTag("Magema"))
         {
             isDead = true;
+        }
+        if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion") || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
+        {
+            isGround = true;
+            KidAni.SetBool("Hoit", false);
         }
         if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
         {
@@ -56,13 +82,39 @@ public class PlayerController : GameSystem, IControllerPhysics
 
     void Update()
     {
+
+
+        //Collider2D[] hit = Physics2D.OverlapBoxAll(pos.position, size, 0);
+        //foreach (Collider2D ray in hit)
+        //{
+        //    if ( && ray.gameObject.CompareTag("Floor"))
+        //    {
+        //        isGround = true;
+        //        KidAni.SetBool("Hoit", false);
+        //    }
+        //}
+        Bounds bounds = colly.bounds;
+        footPosition = new Vector2(bounds.center.x, bounds.min.y);
+        isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
+        Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
+        if(coll != null)
+            gotobad.cusionUpTransform = coll.gameObject.transform;
+        if (!Gotobad.isCatch)
+        {
+            print("이게 왜 안되냐고");
+            gotobad.cusionUpTransform = null;
+        }
+
+        KidAni.SetBool("Hoit", !(isGround));
+
+
         if (isDead)
         {
             Time.timeScale = 0;
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
-        moveDir = GameManager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
+        moveDir = GameManager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
 
         bool hDown = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
         bool vDown = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
@@ -82,7 +134,7 @@ public class PlayerController : GameSystem, IControllerPhysics
             Debug.Log("됨");
         }
         else if (vDown && v == -1)
-        { 
+        {
             isLookUp = true;
         }
         else if (hDown)
@@ -116,17 +168,17 @@ public class PlayerController : GameSystem, IControllerPhysics
             print("뙛어용");
             isHorizonMove = false;
             h = 0;
+            isGround = false;
 
             KidAni.SetBool("Walk", false);
-
-            GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
             gameObject.GetComponent<PlayerController>().enabled = false;
+            GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
         }
-            
-        if(GameManager.stopAni == 1)
+
+        if (GameManager.stopAni == 1)
         {
             KidAni.SetBool("Stop", false);
-            if(moveSpeed==0)
+            if (moveSpeed == 0)
             {
                 moveSpeed = 3;
             }
@@ -134,13 +186,9 @@ public class PlayerController : GameSystem, IControllerPhysics
 
             //Animation
             if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
-            {
-
-                KidAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
+            { 
                 rigid.velocity = Vector2.zero;
                 rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-
-                isGround = rigid.gravityScale == 0.5f;
             }
             else
             {
@@ -162,6 +210,12 @@ public class PlayerController : GameSystem, IControllerPhysics
             KidAni.SetBool("Stop", GameManager.stopAni == 2);
             moveSpeed = 0;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(footPosition, 0.1f);
     }
 
     private void Flip(bool value)
