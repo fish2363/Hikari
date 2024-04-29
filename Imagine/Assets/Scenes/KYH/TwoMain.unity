@@ -450,6 +450,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 128
+  whatIsObj:
+    serializedVersion: 2
+    m_Bits: 8
   pos: {fileID: 453209694}
   size: {x: 0.65, y: 0.04}
   <moveSpeed>k__BackingField: 0
@@ -810,6 +813,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jumpPower: 5
+  interaction: {fileID: 0}
+  isJumping: 1
+  rigid: {fileID: 0}
+  gotobad: {fileID: 0}
+  isDead: 0
 --- !u!212 &432052854
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1306,6 +1314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1492125541}
+  cusionUpTransform: {fileID: 0}
 --- !u!4 &816644157
 Transform:
   m_ObjectHideFlags: 0
@@ -1331,8 +1340,8 @@ GameObject:
   m_Component:
   - component: {fileID: 818939010}
   - component: {fileID: 818939013}
-  - component: {fileID: 818939012}
   - component: {fileID: 818939011}
+  - component: {fileID: 818939014}
   m_Layer: 0
   m_Name: inttaget
   m_TagString: Untagged
@@ -1390,20 +1399,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &818939012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818939009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0baa36e5aba1188408918a2196705448, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  badEnter: 0
-  cusion: {fileID: 0}
 --- !u!212 &818939013
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1456,6 +1451,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &818939014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818939009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89a36dd6314d904eb597f9869a7052b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  badEnter: 0
+  cusion: {fileID: 0}
 --- !u!1 &913562587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,8 +1812,16 @@ PrefabInstance:
       value: cusion (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4908578934348717933, guid: 6d1799ec5508cd349939acf1884fa7c2, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908578934348717933, guid: 6d1799ec5508cd349939acf1884fa7c2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5703332646983806498, guid: 6d1799ec5508cd349939acf1884fa7c2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.98
       objectReference: {fileID: 0}
     - target: {fileID: 7543345343182839793, guid: 6d1799ec5508cd349939acf1884fa7c2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3397,6 +3414,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 128
+  whatIsObj:
+    serializedVersion: 2
+    m_Bits: 8
   pos: {fileID: 1728117246}
   size: {x: 0.65, y: 0.04}
   <moveSpeed>k__BackingField: 0
@@ -4121,6 +4141,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1492125541}
+    - target: {fileID: 4908578934348717933, guid: 6d1799ec5508cd349939acf1884fa7c2, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7543345343182839793, guid: 6d1799ec5508cd349939acf1884fa7c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.46
