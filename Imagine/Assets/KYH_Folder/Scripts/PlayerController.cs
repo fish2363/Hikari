@@ -39,7 +39,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion"))&& collision.contacts[0].normal.y > 0.7f)
+        if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
             KidAni.SetBool("Hoit", false);
@@ -62,7 +62,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
-        moveDir = GameManager.isAction ? new Vector2(0,0) : new Vector2(h, 0);
+        moveDir = GameManager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
 
         bool hDown = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
         bool vDown = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
@@ -82,7 +82,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
             Debug.Log("ตส");
         }
         else if (vDown && v == -1)
-        { 
+        {
             isLookUp = true;
         }
         else if (hDown)
@@ -122,11 +122,11 @@ public class PlayerController : SpriteSystem, IControllerPhysics
             GameObject.Find("Friend").GetComponent<FriendController>().enabled = true;
             gameObject.GetComponent<PlayerController>().enabled = false;
         }
-            
-        if(GameManager.stopAni == 1)
+
+        if (GameManager.stopAni == 1)
         {
             KidAni.SetBool("Stop", false);
-            if(moveSpeed==0)
+            if (moveSpeed == 0)
             {
                 moveSpeed = 3;
             }
