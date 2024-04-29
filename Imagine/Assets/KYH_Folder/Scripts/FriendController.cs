@@ -25,9 +25,17 @@ public class FriendController : SpriteSystem, IControllerPhysics
     Vector3 dirVec;
     GameObject scanObject;
     public bool isLookUp;
+    Vector2 footPosition;
     public float v;
     Vector2 moveDir;
     Animator friendAni;
+    BoxCollider2D colly;
+    [SerializeField] private LayerMask ground;
+
+    [SerializeField] private Transform pos;
+    [SerializeField] private Vector2 size;
+    bool currentFlip = false;
+
     private bool isDead = false;
 
     public bool isCollisionStay { get; set; } = false;
@@ -35,14 +43,21 @@ public class FriendController : SpriteSystem, IControllerPhysics
     [field: SerializeField] public float jump { get; set; }
     [field:SerializeField] public float h { get; set; }
     public Transform trm => transform;
-    public bool isGround { get; set; }
+    [field: SerializeField] public bool isGround { get; set; }
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        colly = GetComponent<BoxCollider2D>();
+
         friendAni = GameObject.Find("FriendSprite").GetComponent<Animator>();
         friendRenderer = GameObject.Find("FriendSprite").GetComponent<SpriteRenderer>();
     }
+    private void Start()
+    {
+        isGround = false;
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -63,6 +78,12 @@ public class FriendController : SpriteSystem, IControllerPhysics
 
     void Update()
     {
+        Bounds bounds = colly.bounds;
+        footPosition = new Vector2(bounds.center.x, bounds.min.y);
+        isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
+
+        friendAni.SetBool("Hoit", !(isGround));
+
 
         if (isDead)
         {
@@ -79,54 +100,61 @@ public class FriendController : SpriteSystem, IControllerPhysics
             bool hUp = GameManager.isAction ? false : Input.GetButtonDown("Horizontal");
             bool vUp = GameManager.isAction ? false : Input.GetButtonDown("Vertical");
 
-            if (hDown)
-                isHorizonMove = true;
-            else if (vDown)
-                isHorizonMove = false;
-            else if (hUp || vUp)
-                isHorizonMove = h != 0;
+        if (hDown)
+            isHorizonMove = true;
+        else if (vDown)
+            isHorizonMove = false;
+        else if (hUp || vUp)
+            isHorizonMove = h != 0;
 
-            if (vDown && v == 1)
+        if (vDown && v == 1)
+        {
+            isLookUp = true;
+            Debug.Log("됨");
+        }
+        else if (vDown && v == -1)
+        {
+            isLookUp = true;
+        }
+        else if (hDown)
+        {
+        }
+        else if (v == 0)
+        {
+            isLookUp = false;
+        }
+        if (h == -1)
+        {
+            if (currentFlip != true)
             {
-                isLookUp = true;
-                Debug.Log("됨");
-            }
-            else if (vDown && v == -1)
-            {
-                isLookUp = true;
-            }
-            else if (hDown && h == -1)
-            {
+                currentFlip = true;
                 dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
-                friendRenderer.flipX = true;
+                Flip(currentFlip);
             }
-            else if (hDown && h == 1)
+        }
+        else if (h == 1)
+        {
+            if (currentFlip != false)
             {
+                currentFlip = false;
                 dirVec = Vector3.right;
-
-                friendRenderer.flipX = false;
-
+                Flip(currentFlip);
             }
-            else if (v == 0)
-            {
-                isLookUp = false;
-            }
+        }
 
-            if (Input.GetButtonDown("Fire1"))
-            {
-                print("뙛어용");
+        if (Input.GetButtonDown("Fire1"))
+        {
+            print("뙛어용");
+            isHorizonMove = false;
+            h = 0;
+            isGround = false;
+            friendAni.SetBool("Walk", false);
 
-                isHorizonMove = false;
-                h = 0;
+            gameObject.GetComponent<FriendController>().enabled = false;
+            GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+        }
 
-                friendAni.SetBool("Walk", false);
-
-                GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
-                gameObject.GetComponent<FriendController>().enabled = false;
-                h = 0;
-            }
-
-            if (GameManager.stopAni == 2)
+        if (GameManager.stopAni == 2)
             {
                 friendAni.SetBool("Stop", false);
                 if (moveSpeed == 0)
@@ -135,14 +163,10 @@ public class FriendController : SpriteSystem, IControllerPhysics
                 }
 
                 //Animation
-                if (Input.GetButtonDown("Jump") && isGround && playerType == 2)
+                if (Input.GetButtonDown("Jump") && isGround)
                 {
-
-                    friendAni.SetBool("Hoit", Input.GetButtonDown("Jump") && isGround);
                     rigid.velocity = Vector2.zero;
                     rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-
-                    isGround = rigid.gravityScale == 0.5f;
                 }
                 else
                 {
@@ -159,10 +183,19 @@ public class FriendController : SpriteSystem, IControllerPhysics
         
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(footPosition, 0.1f);
+    }
+
+    private void Flip(bool value)
+    {
+         friendRenderer.flipX = value;
+    }
+
     private void FixedUpdate()
     {
-            float h = Input.GetAxisRaw("Horizontal");
-
             if (isLookUp == false)
             {
                 Vector2 moveVec = isHorizonMove ? new Vector2(h * moveSpeed, rigid.velocity.y) : new Vector2(0, rigid.velocity.y);
