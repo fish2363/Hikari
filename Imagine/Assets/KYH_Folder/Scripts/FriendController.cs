@@ -50,7 +50,7 @@ public class FriendController : SpriteSystem, IControllerPhysics
         {
             isDead = true;
         }
-            if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
+            if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion") || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
             {
                 isGround = true;
                 friendAni.SetBool("Hoit", false);
