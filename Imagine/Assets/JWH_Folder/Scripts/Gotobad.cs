@@ -7,18 +7,18 @@ using UnityEngine;
 public class Gotobad : MonoBehaviour
 {
     public GameObject player;
-    public static bool isCatch = false;
-    bool isShot;
+    [SerializeField] public static bool isCatch = false;
+    private bool isShot;
     private BoxCollider2D _boxCollider;
     private Rigidbody2D _Rigidbody2D;
-    private Transform cusionUpTransform;
+    public Transform cusionUpTransform;
     private Transform plTransform;
     private Transform friendTransform;
     private float speed = 15f;
     private LineRenderer _lineRenderer;
-    Vector3 movedir;
-    GameManager manager;
-    bool isDoubleJump;
+    private Vector3 movedir;
+    private GameManager manager;
+    private bool isDoubleJump;
     private IControllerPhysics[] playerControll;
 
 
@@ -33,16 +33,17 @@ public class Gotobad : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.stopAni == 2 && isCatch == true)
-        {
-            cusionUpTransform = friendTransform;
-        }
-        if (GameManager.stopAni == 1 && isCatch == true) cusionUpTransform = plTransform;
-        else if (!isCatch) cusionUpTransform = null;
+        print(isCatch);
+        //if(GameManager.stopAni == 2 && isCatch == true)
+        //{
+        //    cusionUpTransform = friendTransform;
+        //}
+        //if (GameManager.stopAni == 1 && isCatch == true) cusionUpTransform = plTransform;
         if (Input.GetButtonDown("Fire1")) FallCusion();
+        if (!(isCatch)) cusionUpTransform = null;
 
 
-            Vector3 mousPos = Input.mousePosition;
+        Vector3 mousPos = Input.mousePosition;
         mousPos = Camera.main.ScreenToWorldPoint(mousPos);
         movedir = mousPos - cusionUpTransform.position;
         Vector3 mosp = mousPos - cusionUpTransform.position;
@@ -51,7 +52,7 @@ public class Gotobad : MonoBehaviour
         {
 
             DotDrawer.Instance.Show();
-            DotDrawer.Instance.Draw(transform.position, mosp.normalized * speed);
+            DotDrawer.Instance.Draw(gameObject.transform.position, mosp.normalized * speed);
         }
 
 
@@ -70,7 +71,7 @@ public class Gotobad : MonoBehaviour
         if (isCatch)
         {
                 _Rigidbody2D.velocity = new Vector2(0, 0);
-                transform.position = cusionUpTransform.position + new Vector3(0, 0.5f, 0);
+                gameObject.transform.position = cusionUpTransform.position + new Vector3(0, 0.5f, 0);
                 _Rigidbody2D.gravityScale = 0;
                 _boxCollider.enabled = false;
         }
@@ -83,6 +84,7 @@ public class Gotobad : MonoBehaviour
 
     public void FallCusion()
     {
+        isCatch = false;
         print("tlqkf");
         _Rigidbody2D.gravityScale = 1;
         _boxCollider.enabled = true;
@@ -94,7 +96,7 @@ public class Gotobad : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+
             if (collision.gameObject.CompareTag("Tram"))
             {
                 _Rigidbody2D.AddForce(Vector2.up * 6f, ForceMode2D.Impulse);
@@ -111,7 +113,7 @@ public class Gotobad : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                collision.rigidbody.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
+                collision.rigidbody.AddForce(Vector2.up * 13f, ForceMode2D.Impulse);
                 this.gameObject.layer = 3;
                 isDoubleJump = false;
                 collision.gameObject.GetComponent<IControllerPhysics>().isGround = false;
