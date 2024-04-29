@@ -18,6 +18,7 @@ public interface IControllerPhysics
 
 public class FriendController : SpriteSystem, IControllerPhysics
 {
+    Gotobad gotobad;
     Rigidbody2D rigid;
     SpriteRenderer friendRenderer;
     public GameManager manager;
@@ -31,7 +32,7 @@ public class FriendController : SpriteSystem, IControllerPhysics
     Animator friendAni;
     BoxCollider2D colly;
     [SerializeField] private LayerMask ground;
-
+    [SerializeField] private LayerMask whatIsObj;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
     bool currentFlip = false;
@@ -49,6 +50,7 @@ public class FriendController : SpriteSystem, IControllerPhysics
     {
         rigid = GetComponent<Rigidbody2D>();
         colly = GetComponent<BoxCollider2D>();
+        gotobad = FindObjectOfType<Gotobad>();
 
         friendAni = GameObject.Find("FriendSprite").GetComponent<Animator>();
         friendRenderer = GameObject.Find("FriendSprite").GetComponent<SpriteRenderer>();
@@ -81,7 +83,10 @@ public class FriendController : SpriteSystem, IControllerPhysics
         Bounds bounds = colly.bounds;
         footPosition = new Vector2(bounds.center.x, bounds.min.y);
         isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
-
+        Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
+        if (coll != null)
+            gotobad.cusionUpTransform = coll.gameObject.transform;
+        if (!Gotobad.isCatch) gotobad.cusionUpTransform = null;
         friendAni.SetBool("Hoit", !(isGround));
 
 

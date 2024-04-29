@@ -4,26 +4,30 @@ using UnityEngine;
 
 public class PlayerController : SpriteSystem, IControllerPhysics
 {
-    Rigidbody2D rigid;
-    SpriteRenderer KidRenderer;
-    SpriteRenderer BabyRenderer;
-    Animator KidAni;
+    private Rigidbody2D rigid;
+    private SpriteRenderer KidRenderer;
+    private SpriteRenderer BabyRenderer;
+    private Animator KidAni;
     bool isHorizonMove;
-    Vector3 dirVec;
-    GameObject scanObject;
+    private Vector3 dirVec;
+    private GameObject scanObject;
     public bool isLookUp;
     public float v;
-    Vector2 moveDir;
-    Vector2 footPosition;
-    Animator BabyAni;
-    BoxCollider2D colly;
+    private Vector2 moveDir;
+    private Vector2 footPosition;
+    private Animator BabyAni;
+    private Gotobad gotobad;
+    private BoxCollider2D colly;
     private bool isDead = false;
     FriendController friendControll;
     [SerializeField] private LayerMask ground;
-
+    [SerializeField] private LayerMask whatIsObj;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
 
+    //private Transform cusionUpTransform;
+    //private Transform plTransform;
+    //private Transform friendTransform;
 
     public bool isCollisionStay { get; set; } = false;
     [field: SerializeField] public float moveSpeed { get; set; } = 3;
@@ -39,6 +43,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
     private void Awake()
     {
+        gotobad = FindObjectOfType<Gotobad>();
         colly = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
@@ -91,6 +96,14 @@ public class PlayerController : SpriteSystem, IControllerPhysics
         Bounds bounds = colly.bounds;
         footPosition = new Vector2(bounds.center.x, bounds.min.y);
         isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
+        Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
+        if(coll != null)
+            gotobad.cusionUpTransform = coll.gameObject.transform;
+        if (!Gotobad.isCatch)
+        {
+            print("이게 왜 안되냐고");
+            gotobad.cusionUpTransform = null;
+        }
 
         KidAni.SetBool("Hoit", !(isGround));
 
