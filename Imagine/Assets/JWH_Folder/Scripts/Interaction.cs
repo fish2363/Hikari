@@ -8,7 +8,7 @@ public class Interaction : MonoBehaviour
     private Lebar lebar;
     private Gotobad goToBad;
     public bool badEnter = false;
-    private bool lebarEnter = false;
+    bool lebarEnter = false;
     new Transform transform;
     public GameObject cusion;
 
@@ -51,6 +51,7 @@ public class Interaction : MonoBehaviour
             lebarEnter = true;
             lebar = collision.GetComponent<Lebar>();
         }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

@@ -9,6 +9,7 @@ public class Butten : MonoBehaviour
     private bool isPress = false;
     [SerializeField] private Sprite notP;
     [SerializeField] private Sprite P;
+    [SerializeField] private GameObject onTaget;
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -25,6 +26,7 @@ public class Butten : MonoBehaviour
             {
                 isPress = true;
                 spriteRenderer.sprite = P;
+                onTaget.SetActive(false);
             }
         }
         else
@@ -32,6 +34,7 @@ public class Butten : MonoBehaviour
             scanObject = null;
             isPress = false;
             spriteRenderer.sprite = notP;
+            onTaget.SetActive(true);
         }
 
     }

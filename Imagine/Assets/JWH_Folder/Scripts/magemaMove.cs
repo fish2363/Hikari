@@ -8,8 +8,10 @@ public class magemaMove : MonoBehaviour
     public float minHigh;
     private bool  isTop = false;
     private bool isBottom = false;
+    [SerializeField] private bool isMoveing = false;
     private void FixedUpdate()
     {
+        if (!isMoveing) return;
         if (transform.position.y < maxHigh && isTop==false)
         {
             transform.position += new Vector3(0, 1, 0) * Time.deltaTime;
