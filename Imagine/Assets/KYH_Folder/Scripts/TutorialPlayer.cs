@@ -69,10 +69,6 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
         Bounds bounds = colly.bounds;
         footPosition = new Vector2(bounds.center.x, bounds.min.y);
         isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
-        Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
-        if (coll != null)
-            gotobad.cusionUpTransform = coll.gameObject.transform;
-        if (!Gotobad.isCatch) gotobad.cusionUpTransform = null;
         friendAni.SetBool("Hoit", !(isGround));
 
 
