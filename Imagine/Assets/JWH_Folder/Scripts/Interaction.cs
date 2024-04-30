@@ -12,7 +12,7 @@ public class Interaction : MonoBehaviour
     new Transform transform;
     public GameObject cusion;
 
-
+    
     private void Update()
     {
         // e키를 누르고 badenter가 true면 실행
@@ -22,13 +22,13 @@ public class Interaction : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E)&&lebarEnter)
         {
-            if(!(Lebar.isSwOn == true))
+            if(!(lebar.isSwOn == true))
             {
-                Lebar.isSwOn = true;
+                lebar.isSwOn = true;
             }
             else
             {
-                Lebar.isSwOn = false;
+                lebar.isSwOn = false;
             }
             
         }
@@ -49,6 +49,7 @@ public class Interaction : MonoBehaviour
         if (collision.CompareTag("Lebar"))
         {
             lebarEnter = true;
+            lebar = collision.GetComponent<Lebar>();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

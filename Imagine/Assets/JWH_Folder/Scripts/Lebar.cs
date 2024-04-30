@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Lebar : MonoBehaviour
 {
-    public static bool isSwOn = false;
+    [SerializeField] private GameObject jakdong;
+    public  bool isSwOn = false;
     private void Update()
     {
-        Debug.Log($" wow!{isSwOn}");
+        if (isSwOn)
+        {
+            jakdong.SetActive(false);
+        }
     }
 }
