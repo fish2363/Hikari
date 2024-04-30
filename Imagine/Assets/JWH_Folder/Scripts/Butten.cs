@@ -33,7 +33,6 @@ public class Butten : MonoBehaviour
             isPress = false;
             spriteRenderer.sprite = notP;
         }
-            
-        Debug.Log(isPress);
+
     }
 }

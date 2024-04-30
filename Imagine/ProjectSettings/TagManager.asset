@@ -9,6 +9,7 @@ TagManager:
   - Magema
   - Platform
   - Tram
+  - Lebar
   layers:
   - Default
   - TransparentFX

@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class Lebar : MonoBehaviour
 {
-    
+    public static bool isSwOn = false;
+    private void Update()
+    {
+        Debug.Log($" wow!{isSwOn}");
+    }
 }

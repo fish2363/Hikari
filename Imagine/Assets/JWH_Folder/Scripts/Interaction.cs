@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
+    private Lebar lebar;
     private Gotobad goToBad;
     public bool badEnter = false;
+    private bool lebarEnter = false;
     new Transform transform;
     public GameObject cusion;
 
@@ -16,6 +19,18 @@ public class Interaction : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E) && badEnter)
         {
             Gotobad.isCatch = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.E)&&lebarEnter)
+        {
+            if(!(Lebar.isSwOn == true))
+            {
+                Lebar.isSwOn = true;
+            }
+            else
+            {
+                Lebar.isSwOn = false;
+            }
+            
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,6 +46,10 @@ public class Interaction : MonoBehaviour
             //cusion = cusion.gameObject;
             //PutOnCusion(cusion);
         }
+        if (collision.CompareTag("Lebar"))
+        {
+            lebarEnter = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -40,6 +59,10 @@ public class Interaction : MonoBehaviour
             goToBad = null;
             transform = null;
             cusion = null;
+        }
+        if (collision.CompareTag("Lebar"))
+        {
+            lebarEnter = false;
         }
     }
 
