@@ -1207,6 +1207,7 @@ GameObject:
   - component: {fileID: 682268837}
   - component: {fileID: 682268836}
   - component: {fileID: 682268835}
+  - component: {fileID: 682268838}
   m_Layer: 0
   m_Name: Square (1)
   m_TagString: Untagged
@@ -1302,6 +1303,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &682268838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682268834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e0a0c122cdecd4e941dfede2e243dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  open: {fileID: 0}
+  setActive: {fileID: 926045507}
+  action: setActive
+  sprite:
+  - {fileID: -100330748, guid: 21a40d7d79cd4034eb673c0b0ab2ee25, type: 3}
+  - {fileID: -991317179, guid: 21a40d7d79cd4034eb673c0b0ab2ee25, type: 3}
 --- !u!1 &816644152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,7 +1713,7 @@ GameObject:
   - component: {fileID: 926045508}
   - component: {fileID: 926045510}
   m_Layer: 9
-  m_Name: Square
+  m_Name: GlassWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
