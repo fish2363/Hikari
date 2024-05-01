@@ -8,21 +8,18 @@ public class buttonOfDoors : MonoBehaviour
     public Animator open;
     public GameObject setActive;
     public string action;
-    SpriteRenderer pushButton;
-    SpriteRenderer notPushButton;
+    [SerializeField] Sprite[] sprite;
 
     private void Awake()
     {
         push = gameObject.GetComponent<SpriteRenderer>();
-        pushButton = GameObject.Find("PushButton").GetComponent<SpriteRenderer>();
-        notPushButton = GameObject.Find("NotPushButton").GetComponent<SpriteRenderer>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            push.sprite = pushButton.sprite;
+            push.sprite = sprite[1];
             switch(action)
             {
                 case "setActive":
@@ -39,7 +36,7 @@ public class buttonOfDoors : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            push.sprite = notPushButton.sprite;
+            push.sprite = sprite[0]; ;
             switch (action)
             {
                 case "setActive":
