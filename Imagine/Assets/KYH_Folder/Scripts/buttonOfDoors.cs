@@ -12,6 +12,7 @@ public class buttonOfDoors : MonoBehaviour
     [SerializeField] Sprite[] sprite;
     public int animaCount;
 
+
     private void Awake()
     {
         push = gameObject.GetComponent<SpriteRenderer>();
