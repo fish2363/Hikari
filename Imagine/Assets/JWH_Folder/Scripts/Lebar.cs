@@ -6,6 +6,7 @@ public class Lebar : MonoBehaviour
 {
     [SerializeField] private GameObject jakdong;
     public  bool isSwOn = false;
+    public bool isLeft = false;
     private Animator _animator;
     private void Awake()
     {
@@ -15,7 +16,15 @@ public class Lebar : MonoBehaviour
     {
         if (isSwOn)
         {
-            jakdong.SetActive(false);
+            Animator an = jakdong.GetComponent<Animator>();
+            if (!isLeft)
+            {
+                an.SetBool("open", true);
+            }
+            else
+            {
+                an.SetBool("Left", true);
+            }
             _animator.SetBool("swOn",true);
         }
     }
@@ -24,7 +33,15 @@ public class Lebar : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("cusion"))
         {
-            jakdong.SetActive(false);
+            Animator an = jakdong.GetComponent<Animator>();
+            if (!isLeft)
+            {
+                an.SetBool("open", true);
+            }
+            else
+            {
+                an.SetBool("Left", true);
+            }
             _animator.SetBool("swOn", true);
         }
     }
