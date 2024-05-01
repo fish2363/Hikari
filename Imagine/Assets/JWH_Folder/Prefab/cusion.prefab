@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  cusionUpTransform: {fileID: 0}
+  speed: 13
 --- !u!212 &7717259694977795365
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class Gotobad : MonoBehaviour
     public Transform cusionUpTransform;
     private Transform plTransform;
     private Transform friendTransform;
-    private float speed = 15f;
+    [SerializeField]private float speed = 16f;
     private LineRenderer _lineRenderer;
     private Vector3 movedir;
     private GameManager manager;
@@ -62,7 +62,7 @@ public class Gotobad : MonoBehaviour
             DotDrawer.Instance.Clear();
 
             _boxCollider.enabled = true;
-            _Rigidbody2D.AddForce(mosp.normalized * speed, ForceMode2D.Impulse);
+            _Rigidbody2D.AddForce(-mosp.normalized * speed, ForceMode2D.Impulse);
             isCatch = false;
             isShot = true;
         }
