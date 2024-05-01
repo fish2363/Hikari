@@ -6,9 +6,11 @@ public class buttonOfDoors : MonoBehaviour
 {
     private SpriteRenderer push;
     public Animator open;
+    public Animator open2;
     public GameObject setActive;
     public string action;
     [SerializeField] Sprite[] sprite;
+    public int animaCount;
 
     private void Awake()
     {
@@ -26,7 +28,13 @@ public class buttonOfDoors : MonoBehaviour
                     setActive.SetActive(false);
                     break;
                 case "anima":
-                    open.SetBool("open", true);
+                    open.SetBool("Open", true);
+                    switch(animaCount)
+                    {
+                        case 2:
+                            open2.SetBool("Open", true);
+                            break;
+                    }
                     break;
             }
         }
@@ -36,14 +44,14 @@ public class buttonOfDoors : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            push.sprite = sprite[0]; ;
+            push.sprite = sprite[0];
             switch (action)
             {
                 case "setActive":
                     setActive.SetActive(true);
                     break;
                 case "anima":
-                    open.SetBool("open", false);
+                    open.SetBool("Open", false);
                     break;
             }
         }
