@@ -10,6 +10,8 @@ TagManager:
   - Platform
   - Tram
   - Shoes
+  - Lebar
+  - Holding
   layers:
   - Default
   - TransparentFX

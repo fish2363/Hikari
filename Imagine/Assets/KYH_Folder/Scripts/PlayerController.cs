@@ -102,7 +102,6 @@ public class PlayerController : SpriteSystem, IControllerPhysics
             gotobad.cusionUpTransform = coll.gameObject.transform;
         if (!Gotobad.isCatch)
         {
-            print("이게 왜 안되냐고");
             gotobad.cusionUpTransform = null;
         }
 
@@ -133,7 +132,6 @@ public class PlayerController : SpriteSystem, IControllerPhysics
         if (vDown && v == 1)
         {
             isLookUp = true;
-            Debug.Log("됨");
         }
         else if (vDown && v == -1)
         {

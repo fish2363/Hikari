@@ -33,7 +33,6 @@ public class Gotobad : MonoBehaviour
 
     private void Update()
     {
-        print(isCatch);
         //if(GameManager.stopAni == 2 && isCatch == true)
         //{
         //    cusionUpTransform = friendTransform;
@@ -85,7 +84,6 @@ public class Gotobad : MonoBehaviour
     public void FallCusion()
     {
         isCatch = false;
-        print("tlqkf");
         _Rigidbody2D.gravityScale = 1;
         _boxCollider.enabled = true;
         transform.SetParent(null);
@@ -97,16 +95,20 @@ public class Gotobad : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-            if (collision.gameObject.CompareTag("Tram"))
-            {
-                _Rigidbody2D.AddForce(Vector2.up * 6f, ForceMode2D.Impulse);
+        if (collision.gameObject.CompareTag("Tram"))
+         {
+            _Rigidbody2D.AddForce(Vector2.up * 6f, ForceMode2D.Impulse);
             if (isShot)
-                {
+            {
                 this.gameObject.layer = 0;
                 isDoubleJump = true;
                 isShot = false;
-                }
             }
+        }
+        if (collision.gameObject.CompareTag("Magema"))
+        {
+            this.gameObject.layer = 7;
+        }
         
         
         if(isDoubleJump)
@@ -125,6 +127,5 @@ public class Gotobad : MonoBehaviour
     public void Hehe(Transform trans)
     {
         trans = cusionUpTransform;
-        print("tftf");
     }
 }
