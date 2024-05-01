@@ -51,6 +51,12 @@ public class Interaction : MonoBehaviour
             lebarEnter = true;
             lebar = collision.GetComponent<Lebar>();
         }
+        if (collision.CompareTag("Holding"))
+        {
+            Rigidbody2D _rigidbody2D = collision.GetComponentInParent<Rigidbody2D>();
+            _rigidbody2D.gravityScale = 0;
+            _rigidbody2D.velocity = Vector3.zero;
+        }
         
     }
     private void OnTriggerExit2D(Collider2D collision)
