@@ -10,14 +10,19 @@ public class InterTutorial : MonoBehaviour
     public GameObject cusion;
     private GameObject plsPress;
     private GameObject plsPressShoes;
+    GameObject momText;
+    GameObject informationText;
 
     private void Awake()
     {
+        informationText = GameObject.Find("Information");
+        momText = GameObject.Find("Momtext");
         plsPress = GameObject.Find("PushE");
         plsPressShoes = GameObject.Find("ShoesPushE");
     }
     private void Start()
     {
+        informationText.SetActive(false);
         plsPress.SetActive(false);
         plsPressShoes.SetActive(false);
     }
@@ -30,6 +35,12 @@ public class InterTutorial : MonoBehaviour
             plsPress.SetActive(false);
 
         }
+        //if (Input.GetKeyDown(KeyCode.E) && badEnter)
+        //{
+        //    CusionTutorial.isCatch = true;
+        //    plsPress.SetActive(false);
+        //    informationText.SetActive(true); 
+        //}
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
