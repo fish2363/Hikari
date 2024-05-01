@@ -6,7 +6,6 @@ public class Butten : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private GameObject scanObject;
-    private bool isPress = false;
     [SerializeField] private Sprite notP;
     [SerializeField] private Sprite P;
     [SerializeField] private GameObject onTaget;
@@ -24,7 +23,6 @@ public class Butten : MonoBehaviour
             scanObject = rayHit.collider.gameObject;
             if (scanObject.CompareTag("cusion")||scanObject.CompareTag("Player"))
             {
-                isPress = true;
                 spriteRenderer.sprite = P;
                 onTaget.SetActive(false);
             }
@@ -32,7 +30,6 @@ public class Butten : MonoBehaviour
         else
         {
             scanObject = null;
-            isPress = false;
             spriteRenderer.sprite = notP;
             onTaget.SetActive(true);
         }

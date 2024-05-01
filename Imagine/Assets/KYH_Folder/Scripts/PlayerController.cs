@@ -19,6 +19,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
     private Gotobad gotobad;
     private BoxCollider2D colly;
     private bool isDead = false;
+    public Vector3 savepos;
     FriendController friendControll;
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask whatIsObj;
@@ -110,7 +111,8 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
         if (isDead)
         {
-            Time.timeScale = 0;
+            transform.position = savepos;
+            isDead = false;
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
