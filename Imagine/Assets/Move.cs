@@ -16,6 +16,7 @@ public class Move : MonoBehaviour
     public Ease ease;
     public TextMeshProUGUI text2;
     public TextMeshProUGUI text;
+    public TextMeshProUGUI startText;
     public GameObject textBoxMom;
     public GameObject textBoxKid;
     public GameObject camOn;
@@ -82,6 +83,8 @@ public class Move : MonoBehaviour
                 camTw.SetActive(true);
                 camOn.SetActive(false);
                 tutorial.GetComponent<TutorialPlayer>().enabled = true;
+                startText.text = "집에서 뭐하고 놀아야할까?";
+                TmPD0Text(startText, 1.3f);
                 break;
             case 5:
 

@@ -8,14 +8,24 @@ public class InterTutorial : MonoBehaviour
     public bool badEnter = false;
     new Transform transform;
     public GameObject cusion;
+    private GameObject plsPress;
 
-
+    private void Awake()
+    {
+        plsPress = GameObject.Find("PushE");
+    }
+    private void Start()
+    {
+        plsPress.SetActive(false);
+    }
     private void Update()
     {
         // e키를 누르고 badenter가 true면 실행
         if (Input.GetKeyDown(KeyCode.E) && badEnter)
         {
             CusionTutorial.isCatch = true;
+            plsPress.SetActive(false);
+
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,7 +37,9 @@ public class InterTutorial : MonoBehaviour
             goToBad = collision.gameObject.GetComponent<CusionTutorial>();
             transform = gameObject.GetComponentInParent<Transform>();
             goToBad.Hehe(transform);
+            plsPress.SetActive(true);
             print(transform.name);
+            
             //cusion = cusion.gameObject;
             //PutOnCusion(cusion);
         }
@@ -40,6 +52,8 @@ public class InterTutorial : MonoBehaviour
             goToBad = null;
             transform = null;
             cusion = null;
+            plsPress.SetActive(false);
+
         }
     }
 
