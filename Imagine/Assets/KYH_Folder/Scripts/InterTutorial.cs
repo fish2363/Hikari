@@ -9,14 +9,17 @@ public class InterTutorial : MonoBehaviour
     new Transform transform;
     public GameObject cusion;
     private GameObject plsPress;
+    private GameObject plsPressShoes;
 
     private void Awake()
     {
         plsPress = GameObject.Find("PushE");
+        plsPressShoes = GameObject.Find("ShoesPushE");
     }
     private void Start()
     {
         plsPress.SetActive(false);
+        plsPressShoes.SetActive(false);
     }
     private void Update()
     {
@@ -43,6 +46,11 @@ public class InterTutorial : MonoBehaviour
             //cusion = cusion.gameObject;
             //PutOnCusion(cusion);
         }
+        if (collision.CompareTag("Shoes"))
+        {
+            plsPressShoes.SetActive(true);
+            print(collision.name);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -54,6 +62,11 @@ public class InterTutorial : MonoBehaviour
             cusion = null;
             plsPress.SetActive(false);
 
+        }
+        if (collision.CompareTag("Shoes"))
+        {
+            plsPressShoes.SetActive(false);
+            print(collision.name);
         }
     }
 

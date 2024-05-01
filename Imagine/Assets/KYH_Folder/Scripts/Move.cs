@@ -27,11 +27,15 @@ public class Move : MonoBehaviour
     public CinemachineVirtualCamera camOne;
     public CinemachineVirtualCamera camTwo;
     private GameObject tutorial;
+    private Animator animator;
+    private GameObject shoes;
 
     private void Awake()
     {
         targetZoomSize = camOne.m_Lens.OrthographicSize;
         tutorial = GameObject.Find("Player");
+        animator = GameObject.Find("LookUp").GetComponent<Animator>();
+        shoes = GameObject.Find("Shoes");
     }
 
     private void Start()
@@ -39,6 +43,8 @@ public class Move : MonoBehaviour
         text.text = "금방 갔다올게";
         TmPD0Text(text, 1.3f);
         tutorial.GetComponent<TutorialPlayer>().enabled = false;
+        animator.SetFloat("vAxisRaw", 1);
+        shoes.SetActive(false);
     }
 
     private void Update()
@@ -82,9 +88,11 @@ public class Move : MonoBehaviour
             case 4:
                 camTw.SetActive(true);
                 camOn.SetActive(false);
+                animator.SetFloat("vAxisRaw", 0);
                 tutorial.GetComponent<TutorialPlayer>().enabled = true;
                 startText.text = "집에서 뭐하고 놀아야할까?";
                 TmPD0Text(startText, 1.3f);
+                shoes.SetActive(true);
                 break;
             case 5:
 

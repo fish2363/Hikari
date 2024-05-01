@@ -9,6 +9,7 @@ TagManager:
   - Magema
   - Platform
   - Tram
+  - Shoes
   layers:
   - Default
   - TransparentFX
