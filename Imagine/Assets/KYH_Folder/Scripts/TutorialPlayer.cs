@@ -8,7 +8,9 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
     Rigidbody2D rigid;
     SpriteRenderer friendRenderer;
     public GameManager manager;
+    CusionTutorial cusion;
     bool isHorizonMove;
+    GameObject intta;
     Vector3 dirVec;
     GameObject scanObject;
     public bool isLookUp;
@@ -16,9 +18,13 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
     public float v;
     Vector2 moveDir;
     Animator friendAni;
+    bool end;
+    GameObject playerCam;
+    GameObject deskCam;
     BoxCollider2D colly;
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask whatIsObj;
+    [SerializeField] private LayerMask desk;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
     bool currentFlip = false;
@@ -34,15 +40,19 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
 
     private void Awake()
     {
+        playerCam = GameObject.Find("PlayerCam");
+        deskCam = GameObject.Find("deskCamera");
+        intta = GameObject.Find("inttaget");
         rigid = GetComponent<Rigidbody2D>();
         colly = GetComponent<BoxCollider2D>();
         gotobad = FindObjectOfType<Gotobad>();
-
+        cusion = GameObject.Find("cusion").GetComponent<CusionTutorial>();
         friendAni = GameObject.Find("LookUp").GetComponent<Animator>();
         friendRenderer = GameObject.Find("LookUp").GetComponent<SpriteRenderer>();
     }
     private void Start()
     {
+        deskCam.SetActive(false);
         isGround = false;
     }
 
@@ -58,10 +68,6 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
             isGround = true;
             friendAni.SetBool("Hoit", false);
         }
-        if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
-        {
-            rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
-        }
     }
 
     void Update()
@@ -69,12 +75,19 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
         Bounds bounds = colly.bounds;
         footPosition = new Vector2(bounds.center.x, bounds.min.y);
         isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
-        Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
-        if (coll != null)
-            gotobad.cusionUpTransform = coll.gameObject.transform;
-        if (!Gotobad.isCatch) gotobad.cusionUpTransform = null;
         friendAni.SetBool("Hoit", !(isGround));
+        end = Physics2D.OverlapCircle(footPosition, 0.1f, desk);
 
+        if (end)
+        {
+            GameManager.isAction = true;
+            isGround = true;
+            friendAni.SetBool("Hoit", false);
+            cusion.FallCusion();
+            intta.SetActive(false);
+            deskCam.SetActive(true);
+            playerCam.SetActive(false);
+        }
 
         if (isDead)
         {
