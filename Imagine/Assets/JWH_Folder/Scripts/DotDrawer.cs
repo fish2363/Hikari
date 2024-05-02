@@ -41,8 +41,8 @@ public class DotDrawer : MonoBehaviour
 
         for (int i = 0; i < step; i++)
         {
-            position -= velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
-            velocity -= gravity * deltaTime;
+            position += velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
+            velocity += gravity * deltaTime;
 
             _dots[i].transform.position = position;
         }

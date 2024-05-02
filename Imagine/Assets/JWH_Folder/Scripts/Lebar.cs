@@ -16,15 +16,8 @@ public class Lebar : MonoBehaviour
     {
         if (isSwOn)
         {
-            Animator an = jakdong.GetComponent<Animator>();
-            if (!isLeft)
-            {
-                an.SetBool("open", true);
-            }
-            else
-            {
-                an.SetBool("Left", true);
-            }
+            MoveingWall moveing= jakdong.GetComponent<MoveingWall>();
+            moveing.isDongjak = true;
             _animator.SetBool("swOn",true);
         }
     }
@@ -33,15 +26,8 @@ public class Lebar : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("cusion"))
         {
-            Animator an = jakdong.GetComponent<Animator>();
-            if (!isLeft)
-            {
-                an.SetBool("open", true);
-            }
-            else
-            {
-                an.SetBool("Left", true);
-            }
+            MoveingWall moveing = jakdong.GetComponent<MoveingWall>();
+            moveing.isDongjak = true;
             _animator.SetBool("swOn", true);
         }
     }

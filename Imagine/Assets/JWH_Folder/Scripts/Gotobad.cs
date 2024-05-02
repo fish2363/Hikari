@@ -61,7 +61,7 @@ public class Gotobad : MonoBehaviour
             DotDrawer.Instance.Clear();
 
             _boxCollider.enabled = true;
-            _Rigidbody2D.AddForce(-mosp.normalized * speed, ForceMode2D.Impulse);
+            _Rigidbody2D.AddForce(mosp.normalized * speed, ForceMode2D.Impulse);
             isCatch = false;
             isShot = true;
         }
