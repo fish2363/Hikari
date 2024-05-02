@@ -14,7 +14,7 @@ public class CusionTutorial : MonoBehaviour
     public Transform cusionUpTransform;
     private Transform plTransform;
     private Transform friendTransform;
-    private float speed = 15f;
+    private float speed = 20f;
     private LineRenderer _lineRenderer;
     private Vector3 movedir;
     private GameManager manager;

@@ -21,6 +21,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
     Animator friendAni;
     bool end;
     GameObject playerCam;
+    GameObject gameCam;
     GameObject deskCam;
     BoxCollider2D colly;
     [SerializeField] private LayerMask ground;
@@ -50,6 +51,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
         backGround = GameObject.Find("BackGround");
         playerCam = GameObject.Find("PlayerCam");
         deskCam = GameObject.Find("deskCamera");
+        gameCam = GameObject.Find("GameCamera");
         intta = GameObject.Find("inttaget");
         rigid = GetComponent<Rigidbody2D>();
         colly = GetComponent<BoxCollider2D>();
@@ -60,6 +62,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
     }
     private void Start()
     {
+        gameCam.SetActive(false);
         deskCam.SetActive(false);
         isGround = false;
     }
@@ -199,6 +202,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
 
     public IEnumerator StartShot()
     {
+        end = false;
         yield return new WaitForSecondsRealtime(2);
 
             Panel.gameObject.SetActive(true);
@@ -213,6 +217,9 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
             yield return null;
             time = 0f;
         deskCam.SetActive(false);
-        playerCam.SetActive(true);
+        backGround.SetActive(false);
+        gameCam.SetActive(true);
+        GameManager.isAction = false;
+
     }
 }
