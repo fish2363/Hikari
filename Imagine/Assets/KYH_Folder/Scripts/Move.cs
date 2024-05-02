@@ -94,7 +94,7 @@ public class Move : MonoBehaviour
                 TmPD0Text(startText, 1.3f);
                 shoes.SetActive(true);
                 break;
-            case 5:
+            case 11:
 
                 break;
         }

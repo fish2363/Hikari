@@ -13,10 +13,12 @@ public class Lanturn : MonoBehaviour
     private bool rightWall = false;
     SpriteRenderer rightWallRenderer;
     GameObject leftWall;
+    GameObject text;
 
 
     private void Awake()
     {
+        text = GameObject.Find("hmm");
         backGround = GameObject.Find("BackGround").GetComponent<SpriteRenderer>();
         playerCam = GameObject.Find("PlayerCam");
         cam = GameObject.Find("MainCam");
@@ -51,6 +53,7 @@ public class Lanturn : MonoBehaviour
             gameObject.SetActive(false);
             rightWall = true;
             leftWall.SetActive(false);
+            text.SetActive(false);
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialPlayer : SpriteSystem, IControllerPhysics
 {
@@ -28,6 +29,12 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
     bool currentFlip = false;
+    public SpriteRenderer Panel;
+    float time = 0f;
+    float F_time = 1f;
+    GameObject backGround;
+    
+
 
     private bool isDead = false;
 
@@ -40,6 +47,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
 
     private void Awake()
     {
+        backGround = GameObject.Find("BackGround");
         playerCam = GameObject.Find("PlayerCam");
         deskCam = GameObject.Find("deskCamera");
         intta = GameObject.Find("inttaget");
@@ -87,6 +95,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
             intta.SetActive(false);
             deskCam.SetActive(true);
             playerCam.SetActive(false);
+            StartCoroutine(StartShot());
         }
 
         if (isDead)
@@ -188,5 +197,22 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
 
     }
 
+    public IEnumerator StartShot()
+    {
+        yield return new WaitForSecondsRealtime(2);
 
+            Panel.gameObject.SetActive(true);
+            Color alpha = Panel.color;
+            while (alpha.a > 0f)
+            {
+                time += Time.deltaTime / F_time;
+                alpha.a = Mathf.Lerp(1, 0, time);
+                Panel.color = alpha;
+                yield return null;
+            }
+            yield return null;
+            time = 0f;
+        deskCam.SetActive(false);
+        playerCam.SetActive(true);
+    }
 }
