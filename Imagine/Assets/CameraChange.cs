@@ -9,12 +9,13 @@ public class CameraChange : MonoBehaviour
 {
     GameObject camRightNow;
     GameObject cam2;
-    public GameObject textBox;
-    TextMeshProUGUI text;
+    GameObject textBox;
+    public TextMeshProUGUI text;
+    bool stop = false;
 
     private void Awake()
     {
-        textBox = GameObject.Find("TextBox");
+        textBox = GameObject.Find("TextBoxUI");
         cam2 = GameObject.Find("cam02");
         camRightNow = GameObject.Find("PlayerCam");
     }
@@ -46,7 +47,28 @@ public class CameraChange : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2);
         textBox.SetActive(true);
-        text.text = "침대에서는 장난치지 말라고 하셨는데..\n위에서 뛰면 달까지도 날아갈 수 있다고 들은 적이 있어\n조심히 뛰어보자";
+        text.text = "침대에서는 장난치지 \n말라고 하셨는데..";
         TmPDOText(text, 3f);
+        yield return new WaitForSecondsRealtime(5);
+        text.text = "잘못뛰면 달까지\n 날아간다고 \n얘기하셨어";
+        TmPDOText(text, 3f);
+        yield return new WaitForSecondsRealtime(4);
+        text.text = "조심히 뛰어보자";
+        TmPDOText(text, 2f);
+        stop = true;
+    }
+    private void Update()
+    {
+        if (stop)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                GameManager.isAction = false;
+                camRightNow.SetActive(true);
+                cam2.SetActive(false);
+                stop = false;
+                textBox.SetActive(false);
+            }
+        }
     }
 }
