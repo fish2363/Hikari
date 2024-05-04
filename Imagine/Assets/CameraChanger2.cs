@@ -17,12 +17,13 @@ public class CameraChanger2 : MonoBehaviour
         textBox = GameObject.Find("TextBoxUI");
         cam3 = GameObject.Find("cam03");
         camRightNow = GameObject.Find("PlayerCam");
+
+        cam3.SetActive(false);
     }
 
     private void Start()
     {
         textBox.SetActive(false);
-        cam3.SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
