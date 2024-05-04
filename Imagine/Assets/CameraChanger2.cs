@@ -1,32 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using TMPro;
+using DG.Tweening;
 
-
-public class CameraChange : MonoBehaviour
+public class CameraChanger2 : MonoBehaviour
 {
     GameObject camRightNow;
-    GameObject cam2;
+    GameObject cam3;
     GameObject textBox;
     public TextMeshProUGUI text;
-    GameObject changer2;
     bool stop = false;
 
     private void Awake()
     {
-        changer2 = GameObject.Find("CameraChanger2");
         textBox = GameObject.Find("TextBoxUI");
-        cam2 = GameObject.Find("cam02");
+        cam3 = GameObject.Find("cam03");
         camRightNow = GameObject.Find("PlayerCam");
     }
 
     private void Start()
     {
-        changer2.SetActive(false);
         textBox.SetActive(false);
-        cam2.SetActive(false);
+        cam3.SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -34,8 +30,8 @@ public class CameraChange : MonoBehaviour
         {
             GameManager.isAction = true;
             camRightNow.SetActive(false);
-            cam2.SetActive(true);
-            StartCoroutine(Wait());
+            cam3.SetActive(true);
+            StartCoroutine(Waitwo());
         }
     }
 
@@ -46,18 +42,16 @@ public class CameraChange : MonoBehaviour
         DOTween.To(x => text.maxVisibleCharacters = (int)x, 0f, text.text.Length, duration);
     }
 
-    IEnumerator Wait()
+    IEnumerator Waitwo()
     {
         yield return new WaitForSecondsRealtime(2);
         textBox.SetActive(true);
-        text.text = "침대에서는 장난치지 \n말라고 하셨는데..";
+        text.text = "쿠션이 든 바구니다.";
         TmPDOText(text, 3f);
         yield return new WaitForSecondsRealtime(5);
-        text.text = "잘못뛰면 달까지\n 날아간다고 \n얘기하셨어";
+        text.text = "안에서 몇개 \n꺼내볼까?";
         TmPDOText(text, 3f);
         yield return new WaitForSecondsRealtime(4);
-        text.text = "조심히 뛰어보자";
-        TmPDOText(text, 2f);
         stop = true;
     }
     private void Update()
@@ -66,10 +60,9 @@ public class CameraChange : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                changer2.SetActive(true);
                 GameManager.isAction = false;
                 camRightNow.SetActive(true);
-                cam2.SetActive(false);
+                cam3.SetActive(false);
                 stop = false;
                 textBox.SetActive(false);
             }

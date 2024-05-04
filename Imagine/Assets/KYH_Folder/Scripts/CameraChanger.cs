@@ -11,10 +11,12 @@ public class CameraChanger : MonoBehaviour
     GameObject cam2;
     GameObject textBox;
     public TextMeshProUGUI text;
+    public GameObject changer2;
     bool stop = false;
 
     private void Awake()
     {
+        //changer2 = GameObject.Find("CameraChanger2");
         textBox = GameObject.Find("TextBox");
         cam2 = GameObject.Find("cam02");
         camRightNow = GameObject.Find("PlayerCam");
@@ -22,6 +24,7 @@ public class CameraChanger : MonoBehaviour
 
     private void Start()
     {
+        changer2.SetActive(false);
         textBox.SetActive(false);
         cam2.SetActive(false);
     }
@@ -47,6 +50,7 @@ public class CameraChanger : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2);
         textBox.SetActive(true);
+        print("ang");
         text.text = "침대에서는 장난치지 \n말라고 하셨는데..";
         TmPDOText(text, 3f);
         yield return new WaitForSecondsRealtime(5);
@@ -55,12 +59,14 @@ public class CameraChanger : MonoBehaviour
         yield return new WaitForSecondsRealtime(4);
         text.text = "조심히 뛰어보자";
         TmPDOText(text, 2f);
-        stop = WaitClick(stop);
+        stop = true;
+        
     }
     private void Update()
     {
         if(stop)
         {
+            changer2.SetActive(true);
             GameManager.isAction = false;
             camRightNow.SetActive(true);
             cam2.SetActive(false);

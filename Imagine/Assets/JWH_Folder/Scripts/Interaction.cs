@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    private Gotobad goToBad;
+    private CusionTutorial goToBad;
     public bool badEnter = false;
     new Transform transform;
     public GameObject cusion;
@@ -24,7 +24,7 @@ public class Interaction : MonoBehaviour
         if (collision.CompareTag("cusion"))
         {
             badEnter = true;
-            goToBad = collision.gameObject.GetComponent<Gotobad>();
+            goToBad = collision.gameObject.GetComponent<CusionTutorial>();
             transform = gameObject.GetComponentInParent<Transform>();
             goToBad.Hehe(transform);
             print(transform.name);

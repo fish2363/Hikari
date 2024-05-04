@@ -16,7 +16,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     private Vector2 moveDir;
     private Vector2 footPosition;
     private Animator BabyAni;
-    private Gotobad gotobad;
+    private CusionTutorial gotobad;
     private BoxCollider2D colly;
     private bool isDead = false;
     FriendController friendControll;
@@ -43,7 +43,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 
     private void Awake()
     {
-        gotobad = FindObjectOfType<Gotobad>();
+        gotobad = FindObjectOfType<CusionTutorial>();
         colly = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
