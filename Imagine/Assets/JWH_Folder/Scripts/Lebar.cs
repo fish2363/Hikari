@@ -5,6 +5,7 @@ using UnityEngine;
 public class Lebar : MonoBehaviour
 {
     [SerializeField] private GameObject jakdong;
+    [SerializeField] private GameObject jakdong_2;
     public  bool isSwOn = false;
     public bool isLeft = false;
     private Animator _animator;
@@ -16,8 +17,16 @@ public class Lebar : MonoBehaviour
     {
         if (isSwOn)
         {
-            MoveingWall moveing= jakdong.GetComponent<MoveingWall>();
-            moveing.isDongjak = true;
+            if (jakdong != null)
+            {
+                MoveingWall moveing = jakdong.GetComponent<MoveingWall>();
+                moveing.isDongjak = true;
+            }
+            if (jakdong_2 != null)
+            {
+                MoveingWall moveing2 = jakdong_2.GetComponent<MoveingWall>();
+                moveing2.isDongjak = true;
+            }
             _animator.SetBool("swOn",true);
         }
     }
@@ -26,8 +35,16 @@ public class Lebar : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("cusion"))
         {
-            MoveingWall moveing = jakdong.GetComponent<MoveingWall>();
-            moveing.isDongjak = true;
+            if (jakdong != null)
+            {
+                MoveingWall moveing = jakdong.GetComponent<MoveingWall>();
+                moveing.isDongjak = true;
+            }
+            if (jakdong_2 != null)
+            {
+                MoveingWall moveing2 = jakdong_2.GetComponent<MoveingWall>();
+                moveing2.isDongjak = true;
+            }
             _animator.SetBool("swOn", true);
         }
     }
