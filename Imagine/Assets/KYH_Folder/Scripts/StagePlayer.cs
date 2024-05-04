@@ -1,80 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class TutorialPlayer : SpriteSystem, IControllerPhysics
-{
-    Gotobad gotobad;
-    Rigidbody2D rigid;
-    SpriteRenderer friendRenderer;
-    public GameManager manager;
-    CusionTutorial cusion;
+public class StagePlayer : SpriteSystem, IControllerPhysics
+{ 
+    private Rigidbody2D rigid;
+    private SpriteRenderer KidRenderer;
+    private SpriteRenderer BabyRenderer;
+    private Animator KidAni;
     bool isHorizonMove;
-    GameObject intta;
-    Vector3 dirVec;
-    GameObject scanObject;
-    GameObject deskObject;
+    private Vector3 dirVec;
+    private GameObject scanObject;
     public bool isLookUp;
-    Vector2 footPosition;
     public float v;
-    Vector2 moveDir;
-    Animator friendAni;
-    bool end;
-    GameObject playerCam;
-    GameObject gameCam;
-    GameObject deskCam;
-    BoxCollider2D colly;
+    private Vector2 moveDir;
+    private Vector2 footPosition;
+    private Animator BabyAni;
+    private Gotobad gotobad;
+    private BoxCollider2D colly;
+    private bool isDead = false;
+    FriendController friendControll;
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask whatIsObj;
-    [SerializeField] private LayerMask desk;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
-    bool currentFlip = false;
-    public SpriteRenderer Panel;
-    float time = 0f;
-    float F_time = 1f;
-    GameObject backGround;
-    bool start;
-    GameObject furnitures;
 
-
-    private bool isDead = false;
+    //private Transform cusionUpTransform;
+    //private Transform plTransform;
+    //private Transform friendTransform;
 
     public bool isCollisionStay { get; set; } = false;
-    [field: SerializeField] public float moveSpeed { get; set; }
-    [field: SerializeField] public float jump { get; set; }
+    [field: SerializeField] public float moveSpeed { get; set; } = 3;
+    [field: SerializeField] public float jump { get; set; } = 6;
     [field: SerializeField] public float h { get; set; }
     public Transform trm => transform;
     [field: SerializeField] public bool isGround { get; set; }
 
+    bool currentFlip = false;
+
+    public LayerMask interactableLayer;
+    public float interactionRadius = 3f;
+
     private void Awake()
     {
-        furnitures = GameObject.Find("furniture");
-        deskObject = GameObject.Find("Desk");
-        backGround = GameObject.Find("BackGround");
-        playerCam = GameObject.Find("PlayerCam");
-        deskCam = GameObject.Find("deskCamera");
-        gameCam = GameObject.Find("GameCamera");
-        intta = GameObject.Find("inttaget");
-        rigid = GetComponent<Rigidbody2D>();
-        colly = GetComponent<BoxCollider2D>();
         gotobad = FindObjectOfType<Gotobad>();
-        cusion = GameObject.Find("cusion").GetComponent<CusionTutorial>();
-        friendAni = GameObject.Find("LookUp").GetComponent<Animator>();
-        friendRenderer = GameObject.Find("LookUp").GetComponent<SpriteRenderer>();
-        gameCam.SetActive(false);
-        furnitures.SetActive(false);
+        colly = GetComponent<BoxCollider2D>();
+        rigid = GetComponent<Rigidbody2D>();
+        KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
+        KidRenderer = GameObject.Find("kidSprite").GetComponent<SpriteRenderer>();
     }
-    private void Start()
+
+    void Start()
     {
-        deskCam.SetActive(false);
         isGround = false;
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        /*if ((collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion")) && collision.contacts[0].normal.y > 0.7f)
+        {
+            isGround = true;
+            KidAni.SetBool("Hoit", false);
+        }\
+        */
         if (collision.gameObject.CompareTag("Magema"))
         {
             isDead = true;
@@ -82,38 +70,46 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
         if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion") || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
-            friendAni.SetBool("Hoit", false);
+            KidAni.SetBool("Hoit", false);
+        }
+        if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
+        {
+            rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
         }
     }
 
     void Update()
     {
+
+
+        //Collider2D[] hit = Physics2D.OverlapBoxAll(pos.position, size, 0);
+        //foreach (Collider2D ray in hit)
+        //{
+        //    if ( && ray.gameObject.CompareTag("Floor"))
+        //    {
+        //        isGround = true;
+        //        KidAni.SetBool("Hoit", false);
+        //    }
+        //}
         Bounds bounds = colly.bounds;
         footPosition = new Vector2(bounds.center.x, bounds.min.y);
         isGround = Physics2D.OverlapCircle(footPosition, 0.1f, ground);
-        friendAni.SetBool("Hoit", !(isGround));
-
-        if(!(start))
-            end = Physics2D.OverlapCircle(footPosition, 0.1f, desk);
-
-        if (end)
+        Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
+        if (coll != null)
+            gotobad.cusionUpTransform = coll.gameObject.transform;
+        if (!Gotobad.isCatch)
         {
-            GameManager.isAction = true;
-            isGround = true;
-            friendAni.SetBool("Hoit", false);
-            cusion.FallCusion();
-            intta.SetActive(false);
-            deskCam.SetActive(true);
-            playerCam.SetActive(false);
-            //StartCoroutine(StartShot());
+            print("이게 왜 안되냐고");
+            gotobad.cusionUpTransform = null;
         }
+
+        KidAni.SetBool("Hoit", !(isGround));
+
 
         if (isDead)
         {
             Time.timeScale = 0;
         }
-
-
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
         moveDir = GameManager.isAction ? new Vector2(0, 0) : new Vector2(h, 0);
@@ -164,16 +160,34 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
                 Flip(currentFlip);
             }
         }
-        if (Input.GetButtonDown("Jump") && isGround)
+
+
+        if (GameManager.stopAni == 1)
         {
-            rigid.velocity = Vector2.zero;
-            rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+            KidAni.SetBool("Stop", false);
+            if (moveSpeed == 0)
+            {
+                moveSpeed = 3;
+            }
+
+
+            //Animation
+            if (Input.GetButtonDown("Jump") && isGround)
+            {
+                rigid.velocity = Vector2.zero;
+                rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+            }
+            else
+            {
+                        KidAni.SetBool("Walk", moveDir.magnitude > 0);
+
+                        KidAni.SetFloat("vAxisRaw", v);
+            }
         }
         else
         {
-            friendAni.SetBool("Walk", moveDir.magnitude > 0);
-
-            friendAni.SetFloat("vAxisRaw", v);
+            KidAni.SetBool("Stop", GameManager.stopAni == 2);
+            moveSpeed = 0;
         }
     }
 
@@ -185,11 +199,13 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
 
     private void Flip(bool value)
     {
-        friendRenderer.flipX = value;
+
+                KidRenderer.flipX = value;
     }
 
     private void FixedUpdate()
     {
+
         if (isLookUp == false)
         {
             Vector2 moveVec = isHorizonMove ? new Vector2(h * moveSpeed, rigid.velocity.y) : new Vector2(0, rigid.velocity.y);
@@ -201,34 +217,11 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
 
         if (rayHit.collider != null)
             scanObject = rayHit.collider.gameObject;
-
         else
             scanObject = null;
 
     }
 
-    //public IEnumerator StartShot()
-    //{
-    //    end = false;
-    //    yield return new WaitForSecondsRealtime(2);
 
-    //        Panel.gameObject.SetActive(true);
-    //        Color alpha = Panel.color;
-    //        while (alpha.a > 0f)
-    //        {
-    //            time += Time.deltaTime / F_time;
-    //            alpha.a = Mathf.Lerp(1, 0, time);
-    //            Panel.color = alpha;
-    //            yield return null;
-    //        }
-    //        yield return null;
-    //        time = 0f;
-    //    deskCam.SetActive(false);
-    //    backGround.SetActive(false);
-    //    gameCam.SetActive(true);
-    //    GameManager.isAction = false;
-    //    start = true;
-    //    deskObject.layer = 7;
-    //    furnitures.SetActive(true);
-    //}
 }
+
