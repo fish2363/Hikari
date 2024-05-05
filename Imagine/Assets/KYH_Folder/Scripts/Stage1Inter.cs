@@ -2,30 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InterTutorial : MonoBehaviour
+public class Stage1Inter : MonoBehaviour
 {
     private CusionTutorial goToBad;
     public bool badEnter = false;
     public bool InBasket = false;
     new Transform transform;
     public GameObject cusion;
-    private GameObject plsPress;
-    private GameObject plsPressShoes;
-    GameObject momText;
+    public GameObject plsPress;
+    private GameObject plsPressCusionPack;
     GameObject informationText;
 
     private void Awake()
     {
-        informationText = GameObject.Find("Information");
-        momText = GameObject.Find("Momtext");
+        //informationText = GameObject.Find("Information");
         plsPress = GameObject.Find("PushE");
-        plsPressShoes = GameObject.Find("ShoesPushE");
+        plsPressCusionPack = GameObject.Find("CusionPackPushE");
     }
     private void Start()
     {
-        informationText.SetActive(false);
+        //informationText.SetActive(false);
         plsPress.SetActive(false);
-        plsPressShoes.SetActive(false);
+        plsPressCusionPack.SetActive(false);
     }
     private void Update()
     {
@@ -34,15 +32,16 @@ public class InterTutorial : MonoBehaviour
         {
             CusionTutorial.isCatch = true;
             plsPress.SetActive(false);
-            plsPressShoes.SetActive(false);
+
         }
         if (Input.GetKeyDown(KeyCode.E) && InBasket)
         {
 
-            Instantiate(cusion);
+            //Instantiate(cusion);
+            //cusion = null;
             CusionTutorial.isCatch = true;
             plsPress.SetActive(false);
-            plsPressShoes.SetActive(false);
+            plsPressCusionPack.SetActive(false);
         }
         //if (Input.GetKeyDown(KeyCode.E) && badEnter)
         //{
@@ -62,14 +61,15 @@ public class InterTutorial : MonoBehaviour
             goToBad.Hehe(transform);
             plsPress.SetActive(true);
             print(transform.name);
-            
+
             //cusion = cusion.gameObject;
             //PutOnCusion(cusion);
         }
+
         if (collision.CompareTag("Shoes"))
         {
             InBasket = true;
-            plsPressShoes.SetActive(true);
+            plsPressCusionPack.SetActive(true);
             print(collision.name);
         }
     }
@@ -80,13 +80,12 @@ public class InterTutorial : MonoBehaviour
             badEnter = false;
             goToBad = null;
             transform = null;
-            cusion = null;
             plsPress.SetActive(false);
 
         }
         if (collision.CompareTag("Shoes"))
         {
-            plsPressShoes.SetActive(false);
+            plsPressCusionPack.SetActive(false);
             print(collision.name);
         }
     }
