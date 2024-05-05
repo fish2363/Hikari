@@ -15,28 +15,28 @@ public class MoveingWall : MonoBehaviour
         {
             if (transform.position.y < endmovetrns.y && isDongjak)
             {
-                transform.position += dir * speed;
+                transform.position += dir * speed*Time.deltaTime;
             }
         }
         if (dir.y < 0)
         {
             if (transform.position.y > endmovetrns.y && isDongjak)
             {
-                transform.position += dir * speed;
+                transform.position += dir * speed * Time.deltaTime;
             }
         }
         if (dir.x > 0)
         {
             if (transform.position.x < endmovetrns.x && isDongjak)
             {
-                transform.position += dir * speed;
+                transform.position += dir * speed * Time.deltaTime;
             }
         }
         if (dir.x < 0)
         {
             if (transform.position.x > endmovetrns.x && isDongjak)
             {
-                transform.position += dir * speed;
+                transform.position += dir * speed * Time.deltaTime;
             }
         }
 
