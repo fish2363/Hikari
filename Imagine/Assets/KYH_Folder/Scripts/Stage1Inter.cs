@@ -13,12 +13,17 @@ public class Stage1Inter : MonoBehaviour
     private GameObject plsPressCusionPack;
     GameObject informationText;
     public static bool Lava;
+    private bool holdEnter = false;
+    private Rigidbody2D _rigidbody2D;
+
 
     private void Awake()
     {
         //informationText = GameObject.Find("Information");
         plsPress = GameObject.Find("PushE");
         plsPressCusionPack = GameObject.Find("CusionPushInterface");
+        _rigidbody2D = GetComponentInParent<Rigidbody2D>();
+
     }
     private void Start()
     {
@@ -44,6 +49,15 @@ public class Stage1Inter : MonoBehaviour
             plsPress.SetActive(false);
             plsPressCusionPack.SetActive(false);
             Lava = false;
+        }
+        if (holdEnter)
+        {
+            _rigidbody2D.gravityScale = 0;
+            _rigidbody2D.velocity = Vector3.zero;
+        }
+        else if (!holdEnter)
+        {
+            _rigidbody2D.gravityScale = 1f;
         }
         //if (Input.GetKeyDown(KeyCode.E) && badEnter)
         //{
@@ -93,6 +107,22 @@ public class Stage1Inter : MonoBehaviour
             plsPressCusionPack.SetActive(false);
             InBasket = false;
             print(collision.name);
+        }
+        if (collision.CompareTag("Holding"))
+        {
+            holdEnter = false;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Holding") && Input.GetKey(KeyCode.Q))
+        {
+            holdEnter = true;
+        }
+        else
+        {
+            holdEnter = false;
         }
     }
 

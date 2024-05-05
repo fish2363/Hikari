@@ -79,7 +79,11 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         {
             rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
         }
-
+        if(collision.gameObject.CompareTag("TestTimeLine"))
+        {
+            playableDirector.Play();
+            GameManager.isAction = true;
+        }
     }
 
     void Update()
@@ -107,7 +111,8 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
             gotobad.cusionUpTransform = null;
         }
 
-        KidAni.SetBool("Hoit", !(isGround));
+        if(!(GameManager.isAction))
+            KidAni.SetBool("Hoit", !(isGround));
 
 
         if (isDead)
