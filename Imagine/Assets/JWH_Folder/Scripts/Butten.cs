@@ -8,7 +8,8 @@ public class Butten : MonoBehaviour
     private GameObject scanObject;
     [SerializeField] private Sprite notP;
     [SerializeField] private Sprite P;
-    [SerializeField] private GameObject onTaget;
+    [SerializeField] private GameObject jakdong;
+    [SerializeField] private GameObject jakdong_2;
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -24,14 +25,37 @@ public class Butten : MonoBehaviour
             if (scanObject.CompareTag("cusion")||scanObject.CompareTag("Player"))
             {
                 spriteRenderer.sprite = P;
-                onTaget.SetActive(false);
+                if (jakdong!=null)
+                {
+                    MoveingWall moveing = jakdong.GetComponent<MoveingWall>();
+                    moveing.gazi = false;
+                    moveing.isDongjak = true;
+                }
+                if (jakdong_2 != null)
+                {
+                    MoveingWall moveing2 = jakdong_2.GetComponent<MoveingWall>();
+                    moveing2.gazi = false;
+                    moveing2.isDongjak = true;
+                }
             }
         }
         else
         {
             scanObject = null;
             spriteRenderer.sprite = notP;
-            onTaget.SetActive(true);
+            if (jakdong != null)
+            {
+                MoveingWall moveing = jakdong.GetComponent<MoveingWall>();
+                moveing.gazi = true;
+                moveing.isDongjak = false;
+            }
+            if (jakdong_2!= null)
+            {
+                MoveingWall moveing2 = jakdong_2.GetComponent<MoveingWall>();
+                moveing2.gazi = true;
+                moveing2.isDongjak = false;
+            }
+            
         }
 
     }

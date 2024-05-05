@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MoveingWall : MonoBehaviour
 {
-    [SerializeField] public bool isDongjak;
+    public bool isDongjak;
+    public bool gazi;
     [SerializeField] private Vector3 dir;
     [SerializeField] private float speed;
+    [SerializeField] private Vector3 starttrns;
     [SerializeField] protected Vector3 endmovetrns;
     
     private void Update()
@@ -15,7 +17,11 @@ public class MoveingWall : MonoBehaviour
         {
             if (transform.position.y < endmovetrns.y && isDongjak)
             {
-                transform.position += dir * speed*Time.deltaTime;
+                transform.position += dir * speed * Time.deltaTime;
+            }
+            if (gazi && transform.position.y > starttrns.y)
+            {
+                transform.position -= dir * speed * Time.deltaTime;
             }
         }
         if (dir.y < 0)
@@ -24,6 +30,10 @@ public class MoveingWall : MonoBehaviour
             {
                 transform.position += dir * speed * Time.deltaTime;
             }
+            if (gazi && transform.position.y < starttrns.y)
+            {
+                transform.position -= dir * speed * Time.deltaTime;
+            }
         }
         if (dir.x > 0)
         {
@@ -31,12 +41,20 @@ public class MoveingWall : MonoBehaviour
             {
                 transform.position += dir * speed * Time.deltaTime;
             }
+            if (gazi && transform.position.x > starttrns.x)
+            {
+                transform.position -= dir * speed * Time.deltaTime;
+            }
         }
         if (dir.x < 0)
         {
             if (transform.position.x > endmovetrns.x && isDongjak)
             {
                 transform.position += dir * speed * Time.deltaTime;
+            }
+            if (gazi && transform.position.x < starttrns.x)
+            {
+                transform.position -= dir * speed * Time.deltaTime;
             }
         }
 
