@@ -74,6 +74,8 @@ public class CusionTutorial : MonoBehaviour
             gameObject.transform.position = plTransform.position + new Vector3(0, 0.5f, 0);
             _Rigidbody2D.gravityScale = 0;
             _boxCollider.enabled = false;
+            this.gameObject.layer = 8;
+
         }
         else
         {
@@ -97,6 +99,13 @@ public class CusionTutorial : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Magema"))
+        {
+            this.gameObject.layer = 7;
+            Stage1Inter.Lava = true;
+        }
+
+
 
         if (collision.gameObject.CompareTag("Tram"))
         {

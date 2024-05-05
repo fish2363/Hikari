@@ -12,6 +12,7 @@ public class Stage1Inter : MonoBehaviour
     public GameObject plsPress;
     private GameObject plsPressCusionPack;
     GameObject informationText;
+    public static bool Lava;
 
     private void Awake()
     {
@@ -28,7 +29,7 @@ public class Stage1Inter : MonoBehaviour
     private void Update()
     {
         // e키를 누르고 badenter가 true면 실행
-        if (Input.GetKeyDown(KeyCode.E) && badEnter)
+        if (Input.GetKeyDown(KeyCode.E) && badEnter && Lava == false)
         {
             CusionTutorial.isCatch = true;
             plsPress.SetActive(false);
@@ -42,6 +43,7 @@ public class Stage1Inter : MonoBehaviour
             CusionTutorial.isCatch = true;
             plsPress.SetActive(false);
             plsPressCusionPack.SetActive(false);
+            Lava = false;
         }
         //if (Input.GetKeyDown(KeyCode.E) && badEnter)
         //{
@@ -55,11 +57,14 @@ public class Stage1Inter : MonoBehaviour
         // 만약 닿은 친구가 cusion태그를 가지고 있다면
         if (collision.CompareTag("cusion"))
         {
-            badEnter = true;
+            if (!Lava)
+            {
+                badEnter = true;
             goToBad = collision.gameObject.GetComponent<CusionTutorial>();
             transform = gameObject.GetComponentInParent<Transform>();
             goToBad.Hehe(transform);
-            plsPress.SetActive(true);
+                plsPress.SetActive(true);
+            }
             print(transform.name);
 
             //cusion = cusion.gameObject;
@@ -86,6 +91,7 @@ public class Stage1Inter : MonoBehaviour
         if (collision.CompareTag("Shoes"))
         {
             plsPressCusionPack.SetActive(false);
+            InBasket = false;
             print(collision.name);
         }
     }
