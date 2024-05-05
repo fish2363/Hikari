@@ -17,7 +17,7 @@ public class Stage1Inter : MonoBehaviour
     {
         //informationText = GameObject.Find("Information");
         plsPress = GameObject.Find("PushE");
-        plsPressCusionPack = GameObject.Find("CusionPackPushE");
+        plsPressCusionPack = GameObject.Find("CusionPushInterface");
     }
     private void Start()
     {
