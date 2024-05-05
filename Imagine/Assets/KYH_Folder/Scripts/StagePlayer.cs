@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class StagePlayer : SpriteSystem, IControllerPhysics
 { 
@@ -24,6 +26,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     [SerializeField] private LayerMask whatIsObj;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
+    public PlayableDirector playableDirector;
 
     //private Transform cusionUpTransform;
     //private Transform plTransform;
@@ -76,6 +79,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         {
             rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
         }
+
     }
 
     void Update()
