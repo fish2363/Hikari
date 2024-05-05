@@ -26,7 +26,8 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     [SerializeField] private LayerMask whatIsObj;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
-    public PlayableDirector playableDirector;
+    public PlayableDirector firstLavaDirector;
+    public PlayableDirector cusionJump;
 
     //private Transform cusionUpTransform;
     //private Transform plTransform;
@@ -81,7 +82,13 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         }
         if(collision.gameObject.CompareTag("TestTimeLine"))
         {
-            playableDirector.Play();
+            firstLavaDirector.Play();
+            GameManager.isAction = true;
+        }
+        if (collision.gameObject.CompareTag("SecondTimeLine"))
+        {
+            print("타임라인발동");
+            cusionJump.Play();
             GameManager.isAction = true;
         }
     }
