@@ -13,6 +13,7 @@ TagManager:
   - Lebar
   - Holding
   - TestTimeLine
+  - Warning
   layers:
   - Default
   - TransparentFX
