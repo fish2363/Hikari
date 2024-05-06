@@ -186,18 +186,20 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
                 moveSpeed = 3;
             }
 
-
-            //Animation
-            if (Input.GetButtonDown("Jump") && isGround)
+            if(GameManager.isAction == false)
             {
-                rigid.velocity = Vector2.zero;
-                rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-            }
-            else
-            {
-                        KidAni.SetBool("Walk", moveDir.magnitude > 0);
+                //Animation
+                if (Input.GetButtonDown("Jump") && isGround)
+                {
+                    rigid.velocity = Vector2.zero;
+                    rigid.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    KidAni.SetBool("Walk", moveDir.magnitude > 0);
 
-                        KidAni.SetFloat("vAxisRaw", v);
+                    KidAni.SetFloat("vAxisRaw", v);
+                }
             }
         }
         else

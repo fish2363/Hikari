@@ -61,6 +61,8 @@ public class CameraChange3 : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                gameObject.SetActive(false);
+
                 GameManager.isAction = false;
                 camRightNow.SetActive(true);
                 cam4.SetActive(false);

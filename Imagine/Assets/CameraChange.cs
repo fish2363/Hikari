@@ -72,6 +72,7 @@ public class CameraChange : MonoBehaviour
                 cam2.SetActive(false);
                 stop = false;
                 textBox.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
     }
