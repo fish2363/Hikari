@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 
-public class FirstLavaTimeLineManager : MonoBehaviour
+public class CusionJumpTimeLine : MonoBehaviour
 {
     public TextMeshProUGUI text;
     GameObject textBox;
@@ -13,16 +13,15 @@ public class FirstLavaTimeLineManager : MonoBehaviour
     private void Awake()
     {
         player = GameObject.Find("kidSprite");
-        textBox = GameObject.Find("TextBoxUITimeLine");
+        textBox = GameObject.Find("TextBoxUITimeLineCusion");
         textBox.SetActive(false);
     }
 
-    public void Text()
+    public void End()
     {
-        player.transform.localPosition = new Vector3(0,0, 0);
+        player.transform.localPosition = new Vector3(0, 0, 0);
         GameManager.isAction = false;
         gameObject.SetActive(false);
-        textBox.SetActive(false);
     }
 
     public static void TmPDOText(TextMeshProUGUI text, float duration)
@@ -35,15 +34,16 @@ public class FirstLavaTimeLineManager : MonoBehaviour
     IEnumerator Waitwo()
     {
         textBox.SetActive(true);
-        text.text = "용암이 올라오면\n위에 매달려야겠어";
-        TmPDOText(text, 3f);
-        yield return new WaitForSecondsRealtime(5);
+        text.text = "너무 높은데..\n방법이 없을까?";
+        TmPDOText(text, 1f);
+        yield return new WaitForSecondsRealtime(2);
+        textBox.SetActive(false);
     }
 
-    public void TLEnd()
+    public void Text()
     {
         StartCoroutine(Waitwo());
 
-        
+
     }
 }

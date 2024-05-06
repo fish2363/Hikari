@@ -6,11 +6,13 @@ public class LavaTrigger : MonoBehaviour
 {
     Animator lavaOn;
     GameObject warning;
+    GameObject lava;
 
     private void Awake()
     {
         lavaOn = GameObject.Find("Lava").GetComponent<Animator>();
         warning = GameObject.Find("WarningImage");
+        lava = GameObject.Find("Lava");
     }
 
     private void Start()
@@ -29,11 +31,11 @@ public class LavaTrigger : MonoBehaviour
     IEnumerator WarningCount()
     {
         warning.SetActive(true);
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(5);
         lavaOn.SetBool("LavaUp", true);
         warning.SetActive(false);
         yield return new WaitForSecondsRealtime(3);
         lavaOn.SetBool("LavaUp", false);
-
+        gameObject.SetActive(false);
     }
 }
