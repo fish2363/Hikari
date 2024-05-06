@@ -14,10 +14,10 @@ public class InterationTest : MonoBehaviour
     private void Update()
     {
         // e키를 누르고 badenter가 true면 실행
-        if (Input.GetKeyDown(KeyCode.E) && badEnter)
-        {
-            Gotobad.isCatch = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.E) && badEnter)
+        //{
+        //    Gotobad.isCatch = true;
+        //}
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

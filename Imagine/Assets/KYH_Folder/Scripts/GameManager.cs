@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
 using Cinemachine;
+using TMPro;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,39 +10,54 @@ public class GameManager : MonoBehaviour
     public GameObject scanObject;
     public static bool isAction;
     public static int stopAni = 1;
+
     Transform kid;
     Transform friend;
+    Interaction playerInteraction;
+    Interaction friendInteraction;
+
     public int talkIndex;
     bool player;
     GameObject gotobad;
     new CinemachineVirtualCamera camera;
 
-    
+
     public void Awake()
     {
         gotobad = GameObject.FindGameObjectWithTag("cusion");
         camera = GameObject.Find("MainPlayCam").GetComponent<CinemachineVirtualCamera>();
-        kid = GameObject.Find("Player").GetComponent<Transform>();
-        friend = GameObject.Find("Friend").GetComponent<Transform>();
+
+        kid = GameObject.Find("Player").transform;
+        friend = GameObject.Find("Friend").transform;
+
+        playerInteraction = kid.transform.Find("inttaget").GetComponent<Interaction>();
+        friendInteraction = friend.transform.Find("inttaget").GetComponent<Interaction>();
+        Debug.Log(playerInteraction is null);
     }
 
     private void Update()
     {
-        if(!player)
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (player)
+            {
+                stopAni = 1;
+                camera.Follow = kid;
+            }
+            else
             {
                 stopAni = 2;
-                player = true;
-                camera.Follow = friend;  
+                camera.Follow = friend;
             }
+
+            playerInteraction.isActive = player;
+            friendInteraction.isActive = !player;
+
+            player = !player;
+
         }
-        else if (Input.GetButtonDown("Fire1") && player == true)
-        {
-            stopAni = 1;
-            player = false;
-            camera.Follow = kid;
-        }
+
+
     }
 
     //public void Action(GameObject scanObj)

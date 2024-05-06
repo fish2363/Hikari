@@ -7,7 +7,7 @@ using UnityEngine;
 public class Gotobad : MonoBehaviour
 {
     public GameObject player;
-    [SerializeField] public static bool isCatch = false;
+    public bool isCatch = false;
     private bool isShot;
     private BoxCollider2D _boxCollider;
     private Rigidbody2D _Rigidbody2D;
@@ -27,7 +27,7 @@ public class Gotobad : MonoBehaviour
         _Rigidbody2D = GetComponent<Rigidbody2D>();
         _boxCollider = GetComponent<BoxCollider2D>();
         plTransform = GameObject.Find("Player").GetComponent<Transform>();
-        friendTransform = GameObject.Find("Friend").GetComponent<Transform>();
+        friendTransform  = GameObject.Find("Friend").GetComponent<Transform>();
     }
 
 
@@ -44,40 +44,39 @@ public class Gotobad : MonoBehaviour
 
         Vector3 mousPos = Input.mousePosition;
         mousPos = Camera.main.ScreenToWorldPoint(mousPos);
-        movedir = mousPos - cusionUpTransform.position;
-        Vector3 mosp = mousPos - cusionUpTransform.position;
-
-        if (Input.GetMouseButton(0) && isCatch)
+        if (cusionUpTransform != null)
         {
+            movedir = mousPos - cusionUpTransform.position;
+            Vector3 mosp = mousPos - cusionUpTransform.position;
+            if (Input.GetMouseButton(0) && isCatch)
+            {
 
-            DotDrawer.Instance.Show();
-            DotDrawer.Instance.Draw(gameObject.transform.position, mosp.normalized * speed);
-        }
+                DotDrawer.Instance.Show();
+                DotDrawer.Instance.Draw(gameObject.transform.position, mosp.normalized * speed);
+            }
+            if (Input.GetMouseButtonUp(0) && isCatch)
+            {
 
+                DotDrawer.Instance.Clear();
 
-        if (Input.GetMouseButtonUp(0) && isCatch)
-        {
-
-            DotDrawer.Instance.Clear();
-
-            _boxCollider.enabled = true;
-            _Rigidbody2D.AddForce(mosp.normalized * speed, ForceMode2D.Impulse);
-            isCatch = false;
-            isShot = true;
-        }
-
-
-        if (isCatch)
-        {
+                _boxCollider.enabled = true;
+                _Rigidbody2D.AddForce(mosp.normalized * speed, ForceMode2D.Impulse);
+                isCatch = false;
+                isShot = true;
+            }
+            if (isCatch)
+            {
                 _Rigidbody2D.velocity = new Vector2(0, 0);
                 gameObject.transform.position = cusionUpTransform.position + new Vector3(0, 0.5f, 0);
                 _Rigidbody2D.gravityScale = 0;
                 _boxCollider.enabled = false;
+            }
+            else
+            {
+                FallCusion();
+            }
         }
-        else
-        {
-            FallCusion();
-        }
+        
     }
 
 

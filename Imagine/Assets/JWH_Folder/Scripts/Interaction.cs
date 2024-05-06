@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
+
+    public bool isActive = true;
+
     private Lebar lebar;
     private Gotobad goToBad;
     public bool badEnter = false;
@@ -20,12 +23,13 @@ public class Interaction : MonoBehaviour
     }
     private void Update()
     {
+        if (!isActive) return;
         // e키를 누르고 badenter가 true면 실행
-        if(Input.GetKeyDown(KeyCode.E) && badEnter)
-        {
-            Gotobad.isCatch = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.E)&&lebarEnter)
+        //if(Input.GetKeyDown(KeyCode.E) && badEnter)
+        //{
+        //    Gotobad.isCatch = true;
+        //}
+        if (Input.GetKeyDown(KeyCode.E)&&lebarEnter)
         {
             if(!(lebar.isSwOn == true))
             {
@@ -49,9 +53,9 @@ public class Interaction : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!isActive) return;
         if (collision != null)
         {
-            
             // 만약 닿은 친구가 cusion태그를 가지고 있다면
             if (collision.CompareTag("cusion"))
             {
@@ -72,6 +76,18 @@ public class Interaction : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
+        
+        if (collision.CompareTag("cusion"))
+        {
+            goToBad = collision.GetComponent<Gotobad>();
+            if (badEnter && Input.GetKeyDown(KeyCode.E))
+            {
+                if (!isActive) return;
+                goToBad.isCatch = true;
+                goToBad.cusionUpTransform = transform.parent;
+            }
+        }
+        
         if (collision.CompareTag("Holding") && Input.GetKey(KeyCode.Q))
         {
             holdEnter = true;
@@ -83,6 +99,7 @@ public class Interaction : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!isActive) return;
         if (collision.CompareTag("cusion"))
         {
             badEnter = false;

@@ -41,6 +41,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
     public LayerMask interactableLayer;
     public float interactionRadius = 3f;
+    private Gotobad _gotobad;
 
     private void Awake()
     {
@@ -100,10 +101,10 @@ public class PlayerController : SpriteSystem, IControllerPhysics
         Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
         if(coll != null)
             gotobad.cusionUpTransform = coll.gameObject.transform;
-        if (!Gotobad.isCatch)
-        {
-            gotobad.cusionUpTransform = null;
-        }
+        //if (!Gotobad.isCatch)
+        //{
+        //    gotobad.cusionUpTransform = null;
+        //}
 
         KidAni.SetBool("Hoit", !(isGround));
 

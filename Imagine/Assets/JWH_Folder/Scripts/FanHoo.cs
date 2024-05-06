@@ -6,6 +6,7 @@ public class FanHoo : MonoBehaviour
     [SerializeField] private Transform cusionTransform;
     [SerializeField] private Transform friendTransform;
     [SerializeField] private Transform playerTransform;
+    private Gotobad gotobad;
 
     private IControllerPhysics[] _playerControllers;
 
@@ -39,7 +40,8 @@ public class FanHoo : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("cusion"))
         {
-            if(Gotobad.isCatch == false)
+            gotobad = collision.GetComponent<Gotobad>();
+            if(gotobad.isCatch == false)
             {
                 cusionTransform = collision.GetComponent<Transform>();
                 if (isLeft)
