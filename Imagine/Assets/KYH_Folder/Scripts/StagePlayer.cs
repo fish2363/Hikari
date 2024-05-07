@@ -122,7 +122,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 
         if (isDead)
         {
-            Time.timeScale = 0;
+            kidAni.SetBool("Die", true);
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
