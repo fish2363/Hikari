@@ -11,12 +11,14 @@ public class CameraChange3 : MonoBehaviour
     GameObject textBox;
     public TextMeshProUGUI text;
     bool stop = false;
+    Animator kidAni;
 
     private void Awake()
     {
         textBox = GameObject.Find("TextBoxUIUp");
         cam4 = GameObject.Find("cam04");
         camRightNow = GameObject.Find("PlayerCam");
+        kidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
 
         cam4.SetActive(false);
     }
@@ -33,6 +35,8 @@ public class CameraChange3 : MonoBehaviour
             camRightNow.SetActive(false);
             cam4.SetActive(true);
             StartCoroutine(Waitwo());
+            kidAni.SetBool("Walk", false);
+
         }
     }
 
@@ -62,7 +66,6 @@ public class CameraChange3 : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 gameObject.SetActive(false);
-
                 GameManager.isAction = false;
                 camRightNow.SetActive(true);
                 cam4.SetActive(false);

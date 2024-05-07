@@ -8,8 +8,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 { 
     private Rigidbody2D rigid;
     private SpriteRenderer KidRenderer;
-    private SpriteRenderer BabyRenderer;
-    private Animator KidAni;
+    private Animator kidAni;
     bool isHorizonMove;
     private Vector3 dirVec;
     private GameObject scanObject;
@@ -17,11 +16,9 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     public float v;
     private Vector2 moveDir;
     private Vector2 footPosition;
-    private Animator BabyAni;
     private CusionTutorial gotobad;
     private BoxCollider2D colly;
     private bool isDead = false;
-    FriendController friendControll;
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask whatIsObj;
     [SerializeField] private Transform pos;
@@ -50,7 +47,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         gotobad = FindObjectOfType<CusionTutorial>();
         colly = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
-        KidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
+        kidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
         KidRenderer = GameObject.Find("kidSprite").GetComponent<SpriteRenderer>();
     }
 
@@ -74,7 +71,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("cusion") || collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > 0.7f)
         {
             isGround = true;
-            KidAni.SetBool("Hoit", false);
+            kidAni.SetBool("Hoit", false);
         }
         if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
         {
@@ -119,7 +116,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         }
 
         if(!(GameManager.isAction))
-            KidAni.SetBool("Hoit", !(isGround));
+            kidAni.SetBool("Hoit", !(isGround));
 
 
         if (isDead)
@@ -180,7 +177,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 
         if (GameManager.stopAni == 1)
         {
-            KidAni.SetBool("Stop", false);
+            kidAni.SetBool("Stop", false);
             if (moveSpeed == 0)
             {
                 moveSpeed = 3;
@@ -196,15 +193,15 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
                 }
                 else
                 {
-                    KidAni.SetBool("Walk", moveDir.magnitude > 0);
+                    kidAni.SetBool("Walk", moveDir.magnitude > 0);
 
-                    KidAni.SetFloat("vAxisRaw", v);
+                    kidAni.SetFloat("vAxisRaw", v);
                 }
             }
         }
         else
         {
-            KidAni.SetBool("Stop", GameManager.stopAni == 2);
+            kidAni.SetBool("Stop", GameManager.stopAni == 2);
             moveSpeed = 0;
         }
     }
