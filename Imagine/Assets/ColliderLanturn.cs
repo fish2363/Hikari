@@ -5,11 +5,13 @@ using UnityEngine;
 public class ColliderLanturn : MonoBehaviour
 {
     Animator fall;
+    Animator fall2;
     GameObject LanturnSmash;
 
     private void Awake()
     {
         fall = GameObject.Find("BigLanturn").GetComponent<Animator>();
+        fall2 = GameObject.Find("BigLanturn2").GetComponent<Animator>();
         LanturnSmash = GameObject.Find("HitMeBigLanturn");
     }
 
@@ -18,6 +20,7 @@ public class ColliderLanturn : MonoBehaviour
         if(collision.gameObject.CompareTag("cusion"))
         {
             fall.SetBool("Fall", true);
+            fall2.SetBool("Fall", true);
             LanturnSmash.SetActive(false);
         }
     }
