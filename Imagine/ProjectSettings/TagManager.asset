@@ -15,6 +15,7 @@ TagManager:
   - TestTimeLine
   - Warning
   - SecondTimeLine
+  - Lava
   layers:
   - Default
   - TransparentFX

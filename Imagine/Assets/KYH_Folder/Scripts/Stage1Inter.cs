@@ -15,10 +15,12 @@ public class Stage1Inter : MonoBehaviour
     public static bool Lava;
     private bool holdEnter = false;
     private Rigidbody2D _rigidbody2D;
+    Animator inter;
 
 
     private void Awake()
     {
+        inter = GameObject.Find("kidSprite").GetComponent<Animator>();
         //informationText = GameObject.Find("Information");
         plsPress = GameObject.Find("PushE");
         plsPressCusionPack = GameObject.Find("CusionPushInterface");
@@ -118,10 +120,12 @@ public class Stage1Inter : MonoBehaviour
     {
         if (collision.CompareTag("Holding") && Input.GetKey(KeyCode.Q))
         {
+            inter.SetBool("Hold", true);
             holdEnter = true;
         }
         else
         {
+            inter.SetBool("Hold", false);
             holdEnter = false;
         }
     }
