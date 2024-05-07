@@ -9,21 +9,26 @@ public class CusionJumpTimeLine : MonoBehaviour
     public TextMeshProUGUI text;
     GameObject textBox;
     GameObject player;
-    GameObject kidSprite;
+    Transform kidSprite;
+    GameObject kid;
 
     private void Awake()
     {
         player = GameObject.Find("Player");
-        kidSprite = GameObject.Find("KidSprite");
+        kidSprite = GameObject.Find("kidSprite").GetComponent<Transform>();
         textBox = GameObject.Find("TextBoxUITimeLineCusion");
         textBox.SetActive(false);
+        kid = GameObject.Find("kidSprite");
     }
 
     public void End()
     {
-        player.transform.position = kidSprite.transform.localPosition;
+        player.transform.position = kidSprite.position;
+        kid.transform.localPosition = new Vector3(0, 0, 0);
         GameManager.isAction = false;
         gameObject.SetActive(false);
+        GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = true;
+
     }
 
     public static void TmPDOText(TextMeshProUGUI text, float duration)
@@ -35,6 +40,7 @@ public class CusionJumpTimeLine : MonoBehaviour
 
     IEnumerator Waitwo()
     {
+        GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = false;
         textBox.SetActive(true);
         text.text = "너무 높은데..\n방법이 없을까?";
         TmPDOText(text, 1f);
