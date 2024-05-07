@@ -9,19 +9,26 @@ public class CusionJumpTimeLine : MonoBehaviour
     public TextMeshProUGUI text;
     GameObject textBox;
     GameObject player;
+    Transform kidSprite;
+    GameObject kid;
 
     private void Awake()
     {
-        player = GameObject.Find("kidSprite");
+        player = GameObject.Find("Player");
+        kidSprite = GameObject.Find("kidSprite").GetComponent<Transform>();
         textBox = GameObject.Find("TextBoxUITimeLineCusion");
         textBox.SetActive(false);
+        kid = GameObject.Find("kidSprite");
     }
 
     public void End()
     {
-        player.transform.localPosition = new Vector3(0, 0, 0);
+        player.transform.position = kidSprite.position;
+        kid.transform.localPosition = new Vector3(0, 0, 0);
         GameManager.isAction = false;
         gameObject.SetActive(false);
+        GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = true;
+
     }
 
     public static void TmPDOText(TextMeshProUGUI text, float duration)
