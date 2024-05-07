@@ -40,7 +40,6 @@ public class CusionJumpTimeLine : MonoBehaviour
 
     IEnumerator Waitwo()
     {
-        GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = false;
         textBox.SetActive(true);
         text.text = "너무 높은데..\n방법이 없을까?";
         TmPDOText(text, 1f);

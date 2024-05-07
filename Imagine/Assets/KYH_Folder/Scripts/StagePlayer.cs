@@ -87,6 +87,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
             print("타임라인발동");
             cusionJump.Play();
             GameManager.isAction = true;
+            GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = false;
         }
     }
 
