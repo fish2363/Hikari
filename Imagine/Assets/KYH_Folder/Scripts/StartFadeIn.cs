@@ -5,10 +5,15 @@ using UnityEngine.UI;
 
 public class StartFadeIn : NextYear
 {
-    public Image Panel;
+    public SpriteRenderer panel;
     float time = 0f;
     float F_time = 1f;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        panel = GameObject.Find("Black").GetComponent<SpriteRenderer>();  
+    }
 
     public void Update()
     {
@@ -25,13 +30,13 @@ public class StartFadeIn : NextYear
 
     public IEnumerator FadeOut()
     {
-        Panel.gameObject.SetActive(true);
-        Color alpha = Panel.color;
+        panel.gameObject.SetActive(true);
+        Color alpha = panel.color;
         while(alpha.a > 0f)
         {
             time += Time.deltaTime / F_time;
             alpha.a = Mathf.Lerp(1, 0, time);
-            Panel.color = alpha;
+            panel.color = alpha;
             yield return null;
         }
         yield return null;
@@ -40,12 +45,12 @@ public class StartFadeIn : NextYear
 
     public IEnumerator FadeIn()
     {
-        Color alpha = Panel.color;
+        Color alpha = panel.color;
         while (alpha.a < 1f)
         {
             time += Time.deltaTime / F_time;
             alpha.a = Mathf.Lerp(0, 1, time);
-            Panel.color = alpha;
+            panel.color = alpha;
             yield return null;
         }
         yield return null;

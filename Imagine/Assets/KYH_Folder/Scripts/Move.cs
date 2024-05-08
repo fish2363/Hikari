@@ -6,6 +6,7 @@ using TMPro;
 using Cinemachine;
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class Move : MonoBehaviour
 {
@@ -14,10 +15,12 @@ public class Move : MonoBehaviour
     //transform.DOScale(targetScale, 3).SetEase(ease); 크기변경
     //transform.DORotate(new Vector3(0, -90, 0), 3) 회전
     //transform.DOShakeRotation(3) 흔들기
-    public RectTransform rect;
+    //public RectTransform rect;
     public Ease ease;
     public TextMeshProUGUI text2;
     public TextMeshProUGUI text;
+    public TextMeshProUGUI textStart;
+    public TextMeshProUGUI textWhat;
     public TextMeshProUGUI startText;
     public GameObject textBoxMom;
     public GameObject textBoxKid;
@@ -33,15 +36,31 @@ public class Move : MonoBehaviour
     private GameObject shoes;
     public PlayableDirector start;
     SpriteRenderer spriteRenderer;
+    GameObject textBox;
+    GameObject textBox2;
+    SpriteRenderer couch;
+    SpriteRenderer surap;
+    public SpriteRenderer panel;
+    float time = 0f;
+    float F_time = 1f;
+    GameObject cusion;
 
 
     private void Awake()
     {
-        spriteRenderer = GameObject.Find("Player").GetComponent<SpriteRenderer>();
+        cusion = GameObject.Find("cusion");
+        couch = GameObject.Find("Couch").GetComponent<SpriteRenderer>();
+        surap = GameObject.Find("Surap").GetComponent<SpriteRenderer>();
+        textBox = GameObject.Find("TextBoxUI");
+        textBox2 = GameObject.Find("TextBoxUI2");
+        spriteRenderer = GameObject.Find("LookUp").GetComponent<SpriteRenderer>();
         targetZoomSize = camOne.m_Lens.OrthographicSize;
         tutorial = GameObject.Find("Player");
         animator = GameObject.Find("LookUp").GetComponent<Animator>();
         shoes = GameObject.Find("Shoes");
+        textBox.SetActive(false);
+        textBox2.SetActive(false);
+        panel = GameObject.Find("Black").GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -116,8 +135,100 @@ public class Move : MonoBehaviour
         //NextTalk();
         print("끝");
     }
+
+    public static void TmPDOText(TextMeshProUGUI text, float duration)
+    {
+        text.maxVisibleCharacters = 0;
+
+        DOTween.To(x => text.maxVisibleCharacters = (int)x, 0f, text.text.Length, duration);
+    }
+
+    public void TextBoring()
+    {
+        StartCoroutine(Waitwo());
+    }
+    public void TextWhat()
+    {
+        StartCoroutine(WhatCanIDo());
+    }
+
+    IEnumerator Waitwo()
+    {
+        textBox.SetActive(true);
+        textStart.text = "혼자 남았네..";
+        TmPDOText(textStart, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        textStart.text = "음..";
+        TmPDOText(textStart, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        textStart.text = "심심해";
+        TmPDOText(textStart, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        textBox.SetActive(false);
+    }
+
+    IEnumerator WhatCanIDo()
+    {
+        textBox2.SetActive(true);
+        textWhat.text = "뭐하고 놀지?";
+        TmPDOText(textWhat, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        textBox2.SetActive(false);
+        yield return new WaitForSecondsRealtime(3);
+        textBox2.SetActive(true);
+        textWhat.text = "흠..";
+        TmPDOText(textWhat, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        textWhat.text = "좋아..";
+        TmPDOText(textWhat, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        textBox2.SetActive(false);
+        yield return new WaitForSecondsRealtime(2);
+        textBox2.SetActive(true);
+        textWhat.text = "어떤 상상을 해보지?";
+        TmPDOText(textWhat, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        couch.DOFade(1, 1);
+        textBox2.SetActive(false);
+        yield return new WaitForSecondsRealtime(7);
+        textBox2.SetActive(true);
+
+        textWhat.text = "쇼파가 있네";
+        TmPDOText(textWhat, 1f);
+        yield return new WaitForSecondsRealtime(4);
+        surap.DOFade(1, 1);
+        spriteRenderer.flipX = false;
+        textWhat.text = "서랍도 있고..";
+        TmPDOText(textWhat, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        spriteRenderer.flipX = true;
+        surap.DOFade(0, 1);
+        couch.DOFade(0, 1);
+        yield return new WaitForSecondsRealtime(3);
+
+        textWhat.text = "바닥이 조금 뜨거운 느낌인데";
+        cusion.SetActive(false);
+        TmPDOText(textWhat, 1f);
+    }
+
     public void Flip()
     {
         spriteRenderer.flipX = true;
+        StartCoroutine(FadeIn());
     }
+
+    public IEnumerator FadeIn()
+    {
+        Color alpha = panel.color;
+        while (alpha.a < 1f)
+        {
+            time += Time.deltaTime / F_time;
+            alpha.a = Mathf.Lerp(0, 1, time);
+            panel.color = alpha;
+            yield return null;
+        }
+        yield return null;
+        time = 0f;
+    }
+
 }

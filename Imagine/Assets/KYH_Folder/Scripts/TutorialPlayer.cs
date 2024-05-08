@@ -23,7 +23,6 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
     bool end;
     GameObject playerCam;
     GameObject gameCam;
-    GameObject deskCam;
     BoxCollider2D colly;
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask whatIsObj;
@@ -54,7 +53,6 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
         deskObject = GameObject.Find("Desk");
         backGround = GameObject.Find("BackGround");
         playerCam = GameObject.Find("PlayerCam");
-        deskCam = GameObject.Find("deskCamera");
         gameCam = GameObject.Find("GameCamera");
         intta = GameObject.Find("inttaget");
         rigid = GetComponent<Rigidbody2D>();
@@ -68,7 +66,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
     }
     private void Start()
     {
-        deskCam.SetActive(false);
+        //deskCam.SetActive(false);
         isGround = false;
     }
 
@@ -103,7 +101,7 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
             friendAni.SetBool("Hoit", false);
             cusion.FallCusion();
             intta.SetActive(false);
-            deskCam.SetActive(true);
+           // deskCam.SetActive(true);
             playerCam.SetActive(false);
             //StartCoroutine(StartShot());
         }
