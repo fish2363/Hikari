@@ -16,6 +16,8 @@ public class Interaction : MonoBehaviour
     new Transform transform;
     public GameObject cusion;
     private Rigidbody2D _rigidbody2D;
+    private bool iswent;
+    private bool isHolding;
 
     private void Awake()
     {
@@ -29,6 +31,23 @@ public class Interaction : MonoBehaviour
         //{
         //    Gotobad.isCatch = true;
         //}
+        if (Input.GetKey(KeyCode.E))
+        {
+            iswent = true;
+        }
+        else
+        {
+            iswent = false;
+        }
+        if (Input.GetMouseButtonUp(0) && isHolding) 
+        {
+            isHolding = false;
+            this.isActive = false;
+            this.isActive = true;
+        }
+        {
+            
+        }
         if (Input.GetKeyDown(KeyCode.E)&&lebarEnter)
         {
             if(!(lebar.isSwOn == true))
@@ -57,7 +76,7 @@ public class Interaction : MonoBehaviour
         if (collision != null)
         {
             // 만약 닿은 친구가 cusion태그를 가지고 있다면
-            if (collision.CompareTag("cusion"))
+            if (collision.CompareTag("cusion") && !isHolding)
             {
                 badEnter = true;
                 goToBad = collision.gameObject.GetComponent<Gotobad>();
@@ -81,9 +100,10 @@ public class Interaction : MonoBehaviour
         if (collision.CompareTag("cusion"))
         {
             goToBad = collision.GetComponent<Gotobad>();
-            if (badEnter && Input.GetKeyDown(KeyCode.E))
+            if (badEnter && iswent && !isHolding)
             {
                 if (!isActive) return;
+                isHolding = true;
                 goToBad.isCatch = true;
                 goToBad.cusionUpTransform = transform.parent;
             }
