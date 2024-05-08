@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : SpriteSystem, IControllerPhysics
 {
@@ -25,6 +26,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
     [SerializeField] private LayerMask whatIsObj;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
+    public UnityEvent Dead;
 
     //private Transform cusionUpTransform;
     //private Transform plTransform;
@@ -111,6 +113,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
         if (isDead)
         {
+            Dead.Invoke();
             transform.position = savepos;
             isDead = false;
         }
