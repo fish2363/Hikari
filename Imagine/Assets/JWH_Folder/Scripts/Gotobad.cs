@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using TMPro;
 using Unity.Profiling;
 using UnityEngine;
 
@@ -20,16 +22,27 @@ public class Gotobad : MonoBehaviour
     private GameManager manager;
     private bool isDoubleJump;
     private IControllerPhysics[] playerControll;
+    private Vector3 _transform;
 
 
     private void Awake()
     {
+        _transform = transform.position;
         _Rigidbody2D = GetComponent<Rigidbody2D>();
         _boxCollider = GetComponent<BoxCollider2D>();
         plTransform = GameObject.Find("Player").GetComponent<Transform>();
         friendTransform  = GameObject.Find("Friend").GetComponent<Transform>();
+        
     }
-
+    public void Resetwow()
+    {
+        transform.position = _transform;
+        this.gameObject.layer = 3;
+    }
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {

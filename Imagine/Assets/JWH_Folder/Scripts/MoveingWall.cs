@@ -13,6 +13,10 @@ public class MoveingWall : MonoBehaviour
     
     private void Update()
     {
+        if (!isDongjak)
+        {
+            transform.position = starttrns;
+        }
         if (dir.y > 0)
         {
             if (transform.position.y < endmovetrns.y && isDongjak)
