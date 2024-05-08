@@ -7,6 +7,7 @@ using Cinemachine;
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Move : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class Move : MonoBehaviour
     public CinemachineVirtualCamera camTwo;
     private GameObject tutorial;
     private Animator animator;
-    private GameObject shoes;
+    //private GameObject shoes;
     public PlayableDirector start;
     SpriteRenderer spriteRenderer;
     GameObject textBox;
@@ -43,12 +44,13 @@ public class Move : MonoBehaviour
     public SpriteRenderer panel;
     float time = 0f;
     float F_time = 1f;
-    GameObject cusion;
+    SpriteRenderer player;
+    SpriteRenderer cusion;
 
 
     private void Awake()
     {
-        cusion = GameObject.Find("cusion");
+        cusion = GameObject.Find("cusion").GetComponent<SpriteRenderer>();
         couch = GameObject.Find("Couch").GetComponent<SpriteRenderer>();
         surap = GameObject.Find("Surap").GetComponent<SpriteRenderer>();
         textBox = GameObject.Find("TextBoxUI");
@@ -57,10 +59,11 @@ public class Move : MonoBehaviour
         targetZoomSize = camOne.m_Lens.OrthographicSize;
         tutorial = GameObject.Find("Player");
         animator = GameObject.Find("LookUp").GetComponent<Animator>();
-        shoes = GameObject.Find("Shoes");
+        //shoes = GameObject.Find("Shoes");
         textBox.SetActive(false);
         textBox2.SetActive(false);
         panel = GameObject.Find("Black").GetComponent<SpriteRenderer>();
+        player = GameObject.Find("LookUp").GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -69,7 +72,7 @@ public class Move : MonoBehaviour
         TmPD0Text(text, 1.3f);
         tutorial.GetComponent<TutorialPlayer>().enabled = false;
         animator.SetFloat("vAxisRaw", 1);
-        shoes.SetActive(false);
+        //shoes.SetActive(false);
     }
 
     private void Update()
@@ -117,7 +120,7 @@ public class Move : MonoBehaviour
                 tutorial.GetComponent<TutorialPlayer>().enabled = true;
                 //startText.text = "Áý¿¡¼­ ¹¹ÇÏ°í ³î¾Æ¾ßÇÒ±î?";
                 TmPD0Text(startText, 1.3f);
-                shoes.SetActive(true);
+                //shoes.SetActive(true);
                 start.Play();
                 break;
             case 11:
@@ -204,11 +207,17 @@ public class Move : MonoBehaviour
         spriteRenderer.flipX = true;
         surap.DOFade(0, 1);
         couch.DOFade(0, 1);
+        cusion.DOFade(0, 2);
         yield return new WaitForSecondsRealtime(3);
 
         textWhat.text = "¹Ù´ÚÀÌ Á¶±Ý ¶ß°Å¿î ´À³¦ÀÎµ¥";
-        cusion.SetActive(false);
         TmPDOText(textWhat, 1f);
+        yield return new WaitForSecondsRealtime(3);
+        textBox2.SetActive(false);
+        yield return new WaitForSecondsRealtime(5);
+        player.DOFade(0, 2);
+        yield return new WaitForSecondsRealtime(3);
+        SceneManager.LoadScene("Stage1");
     }
 
     public void Flip()
