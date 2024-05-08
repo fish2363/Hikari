@@ -110,11 +110,12 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         Collider2D coll = Physics2D.OverlapCircle(footPosition, 1f, whatIsObj);
         if (coll != null)
             gotobad.cusionUpTransform = coll.gameObject.transform;
+
         //if (!Gotobad.isCatch)
-        //{
-        //    print("이게 왜 안되냐고");
-        //    gotobad.cusionUpTransform = null;
-        //}
+        {
+            print("이게 왜 안되냐고");
+            gotobad.cusionUpTransform = null;
+        }
 
         if(!(GameManager.isAction))
             kidAni.SetBool("Hoit", !(isGround));
