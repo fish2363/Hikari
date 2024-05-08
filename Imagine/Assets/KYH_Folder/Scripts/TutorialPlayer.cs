@@ -62,7 +62,6 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
         friendAni = GameObject.Find("LookUp").GetComponent<Animator>();
         friendRenderer = GameObject.Find("LookUp").GetComponent<SpriteRenderer>();
         gameCam.SetActive(false);
-        furnitures.SetActive(false);
     }
     private void Start()
     {
@@ -144,24 +143,24 @@ public class TutorialPlayer : SpriteSystem, IControllerPhysics
         {
             isLookUp = false;
         }
-        if (h == -1)
-        {
-            if (currentFlip != true)
-            {
-                currentFlip = true;
-                dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
-                Flip(currentFlip);
-            }
-        }
-        else if (h == 1)
-        {
-            if (currentFlip != false)
-            {
-                currentFlip = false;
-                dirVec = Vector3.right;
-                Flip(currentFlip);
-            }
-        }
+        //if (h == -1)
+        //{
+        //    if (currentFlip != true)
+        //    {
+        //        currentFlip = true;
+        //        dirVec = Vector3.left; //레이캐스트를 위한 벡터 방향 지정
+        //        Flip(currentFlip);
+        //    }
+        //}
+        //else if (h == 1)
+        //{
+        //    if (currentFlip != false)
+        //    {
+        //        currentFlip = false;
+        //        dirVec = Vector3.right;
+        //        Flip(currentFlip);
+        //    }
+        //}
         if (Input.GetButtonDown("Jump") && isGround)
         {
             rigid.velocity = Vector2.zero;
