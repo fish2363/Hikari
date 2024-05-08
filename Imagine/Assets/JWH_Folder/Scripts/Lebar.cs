@@ -55,11 +55,13 @@ public class Lebar : MonoBehaviour
         {
             MoveingWall moveing = jakdong.GetComponent<MoveingWall>();
             moveing.isDongjak = false;
+            moveing.isReset = true;
         }
         if (jakdong_2 != null)
         {
             MoveingWall moveing2 = jakdong_2.GetComponent<MoveingWall>();
             moveing2.isDongjak = false;
+            moveing2 .isReset = true;
         }
         _animator.SetBool("swOn", false);
     }

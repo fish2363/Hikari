@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveingWall : MonoBehaviour
 {
+    public bool isReset;
     public bool isDongjak;
     public bool gazi;
     [SerializeField] private Vector3 dir;
@@ -13,10 +14,12 @@ public class MoveingWall : MonoBehaviour
     
     private void Update()
     {
-        if (!isDongjak)
+        if (isReset)
         {
             transform.position = starttrns;
+            isReset = false;
         }
+
         if (dir.y > 0)
         {
             if (transform.position.y < endmovetrns.y && isDongjak)
