@@ -4,6 +4,8 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using Cinemachine;
+using UnityEngine.Timeline;
+using UnityEngine.Playables;
 
 public class Move : MonoBehaviour
 {
@@ -29,9 +31,13 @@ public class Move : MonoBehaviour
     private GameObject tutorial;
     private Animator animator;
     private GameObject shoes;
+    public PlayableDirector start;
+    SpriteRenderer spriteRenderer;
+
 
     private void Awake()
     {
+        spriteRenderer = GameObject.Find("Player").GetComponent<SpriteRenderer>();
         targetZoomSize = camOne.m_Lens.OrthographicSize;
         tutorial = GameObject.Find("Player");
         animator = GameObject.Find("LookUp").GetComponent<Animator>();
@@ -90,9 +96,10 @@ public class Move : MonoBehaviour
                 camOn.SetActive(false);
                 animator.SetFloat("vAxisRaw", 0);
                 tutorial.GetComponent<TutorialPlayer>().enabled = true;
-                startText.text = "집에서 뭐하고 놀아야할까?";
+                //startText.text = "집에서 뭐하고 놀아야할까?";
                 TmPD0Text(startText, 1.3f);
                 shoes.SetActive(true);
+                start.Play();
                 break;
             case 11:
 
@@ -108,5 +115,9 @@ public class Move : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.5f);
         //NextTalk();
         print("끝");
+    }
+    public void Flip()
+    {
+        spriteRenderer.flipX = true;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ColliderLanturn : MonoBehaviour
 {
+    public int num;
     Animator fall;
     Animator fall2;
     GameObject LanturnSmash;
@@ -19,8 +20,15 @@ public class ColliderLanturn : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("cusion"))
         {
-            fall.SetBool("Fall", true);
-            fall2.SetBool("Fall", true);
+            switch(num)
+            {
+                case 1:
+                    fall.SetBool("Fall", true);
+                    break;
+                case 2:
+                    fall2.SetBool("Fall", true);
+                    break;
+            }
             LanturnSmash.SetActive(false);
         }
     }
