@@ -6,9 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/JWH/JWH.unity
+    guid: 2fdb84d10aaa6fa4caf4fe8c1a425730
+  - enabled: 1
     path: Assets/Scenes/JWH/TilemapScene.unity
     guid: 48bd0c1f19406ee438e1adf9a3e87030
   - enabled: 1
-    path: Assets/Scenes/JWH/StartScene.unity
-    guid: e012beefc0a225e47bcbe01569a60e72
+    path: Assets/Scenes/KYH/Tutorial.unity
+    guid: 9af06f022adedc744b3ec56f25afb42c
+  - enabled: 1
+    path: Assets/Scenes/KYH/Stage1.unity
+    guid: 860e2123a4b00904b94d3e0d259948ba
   m_configObjects: {}
