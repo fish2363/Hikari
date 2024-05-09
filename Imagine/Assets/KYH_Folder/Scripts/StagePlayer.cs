@@ -27,6 +27,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     [SerializeField] private Vector2 size;
     public PlayableDirector firstLavaDirector;
     public PlayableDirector cusionJump;
+    public Vector3 SavePos;
 
     //private Transform cusionUpTransform;
     //private Transform plTransform;
