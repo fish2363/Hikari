@@ -127,6 +127,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         {
             kidAni.SetBool("Die", true);
             deathScreen.DOFade(1, 1);
+            GameManager.isAction = true;
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
@@ -242,6 +243,10 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 
     }
 
+    IEnumerator Death()
+    {
+        yield return new WaitForSecondsRealtime(3); //3ÃÊÈÄ¿¡ ¹Ø¿¡²¨ ½ÇÇà
+    }
 
 }
 
