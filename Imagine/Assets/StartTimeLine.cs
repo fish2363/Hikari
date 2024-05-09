@@ -25,7 +25,7 @@ public class StartTimeLine : MonoBehaviour
 
     IEnumerator StartCamera()
     {
-        yield return new WaitForSecondsRealtime(7);
+        yield return new WaitForSecondsRealtime(6);
 
         Color alpha = panel.color;
         while (alpha.a > 0f)
