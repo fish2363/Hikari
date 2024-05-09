@@ -98,7 +98,6 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     void Update()
     {
 
-
         //Collider2D[] hit = Physics2D.OverlapBoxAll(pos.position, size, 0);
         //foreach (Collider2D ray in hit)
         //{
@@ -129,6 +128,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
             kidAni.SetBool("Die", true);
             deathScreen.DOFade(1, 1);
             GameManager.isAction = true;
+            StartCoroutine(Death());
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
@@ -246,7 +246,12 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 
     IEnumerator Death()
     {
-        yield return new WaitForSecondsRealtime(3); //3ÃÊÈÄ¿¡ ¹Ø¿¡²¨ ½ÇÇà
+        isDead = false;
+        yield return new WaitForSecondsRealtime(2); //3ÃÊÈÄ¿¡ ¹Ø¿¡²¨ ½ÇÇà
+        transform.position = SavePos;
+        kidAni.SetBool("Die", false);
+        GameManager.isAction = false;
+        deathScreen.DOFade(0, 1);
     }
 
 }
