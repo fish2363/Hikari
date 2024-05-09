@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using DG.Tweening;
 
 public class StagePlayer : SpriteSystem, IControllerPhysics
 { 
@@ -18,6 +19,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     private Vector2 footPosition;
     private CusionTutorial gotobad;
     private BoxCollider2D colly;
+    SpriteRenderer deathScreen;
     private bool isDead = false;
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask whatIsObj;
@@ -44,6 +46,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 
     private void Awake()
     {
+        deathScreen = GameObject.Find("Death").GetComponent<SpriteRenderer>();
         gotobad = FindObjectOfType<CusionTutorial>();
         colly = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
@@ -123,6 +126,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         if (isDead)
         {
             kidAni.SetBool("Die", true);
+            deathScreen.DOFade(1, 1);
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
