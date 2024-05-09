@@ -22,7 +22,7 @@ public class FirstLavaTimeLineManager : MonoBehaviour
     public void Text()
     {
         //playerColl.transform.position += new Vector3(0, 1, 0);
-        //player.transform.localPosition = new Vector3(0f,-5.38f, 0f);
+        player.transform.localPosition = new Vector3(0f,-5.38f, 0f);
         GameManager.isAction = false;
         gameObject.SetActive(false);
         textBox.SetActive(false);
