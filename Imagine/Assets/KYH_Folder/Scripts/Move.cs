@@ -46,10 +46,13 @@ public class Move : MonoBehaviour
     float F_time = 1f;
     SpriteRenderer player;
     SpriteRenderer cusion;
-
+    Animator mom;
+    SpriteRenderer mouseClick;
 
     private void Awake()
     {
+        mouseClick = GameObject.Find("Mouse").GetComponent<SpriteRenderer>();
+        mom = GameObject.Find("MOm").GetComponent<Animator>();
         cusion = GameObject.Find("cusion").GetComponent<SpriteRenderer>();
         couch = GameObject.Find("Couch").GetComponent<SpriteRenderer>();
         surap = GameObject.Find("Surap").GetComponent<SpriteRenderer>();
@@ -82,6 +85,8 @@ public class Move : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                mouseClick.DOFade(0,1);
+
                 print("발동!");
                 textNum++;
                 mouse = true;
@@ -103,17 +108,24 @@ public class Move : MonoBehaviour
         switch(textNum)
         {
             case 2:
+                mouseClick.DOFade(1, 1);
+
                 text.text = "기다리고 있으렴.";
                 TmPD0Text(text, 1.3f);
                 break;
             case 3:
+                mouseClick.DOFade(1, 1);
+
                 textBoxMom.SetActive(false);
                 camTw.SetActive(false);
                 camOn.SetActive(true);
                 text2.text = "네";
                 TmPD0Text(text, 1.3f);
+                mom.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                mom.SetBool("Move", true);
                 break;
             case 4:
+                mom.gameObject.SetActive(false);
                 camTw.SetActive(true);
                 camOn.SetActive(false);
                 animator.SetFloat("vAxisRaw", 0);
