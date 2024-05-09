@@ -251,9 +251,9 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     {
         isDead = false;
         yield return new WaitForSecondsRealtime(2); //3ÃÊÈÄ¿¡ ¹Ø¿¡²¨ ½ÇÇà
-        transform.position = SavePos;
         kidAni.SetBool("Die", false);
         GameManager.isAction = false;
+        transform.position = SavePos;
         deathScreen.DOFade(0, 1);
     }
 
