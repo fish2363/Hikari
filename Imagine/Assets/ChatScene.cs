@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ChatScene : MonoBehaviour
@@ -76,5 +77,8 @@ public class ChatScene : MonoBehaviour
         yield return new WaitForSecondsRealtime(5);
         textStart2.text = "그래 이거지";
         TmPDOText(textStart2, 2f);
+        panel.DOFade(1, 3);
+        SceneManager.LoadScene("TilemapScene");
+
     }
 }
