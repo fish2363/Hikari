@@ -78,6 +78,7 @@ public class ChatScene : MonoBehaviour
         textStart2.text = "그래 이거지";
         TmPDOText(textStart2, 2f);
         panel.DOFade(1, 3);
+        yield return new WaitForSecondsRealtime(5);
         SceneManager.LoadScene("TilemapScene");
 
     }
