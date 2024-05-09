@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Interaction : MonoBehaviour
 {
@@ -16,12 +17,15 @@ public class Interaction : MonoBehaviour
     new Transform transform;
     public GameObject cusion;
     private Rigidbody2D _rigidbody2D;
+    private CircleCollider2D circleCollider2D;
     private bool iswent;
     private bool isHolding;
 
     private void Awake()
     {
         _rigidbody2D = GetComponentInParent<Rigidbody2D>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
+        
     }
     private void Update()
     {
@@ -42,8 +46,6 @@ public class Interaction : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && isHolding) 
         {
             isHolding = false;
-            this.isActive = false;
-            this.isActive = true;
         }
         {
             
@@ -141,6 +143,7 @@ public class Interaction : MonoBehaviour
 
 
     }
+    
 
     //public void PutOnCusion(GameObject OnCusion)
     //{
