@@ -85,6 +85,9 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         {
             firstLavaDirector.Play();
             GameManager.isAction = true;
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+
         }
         if (collision.gameObject.CompareTag("SecondTimeLine"))
         {
