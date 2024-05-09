@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class PlayerController : SpriteSystem, IControllerPhysics
 {
@@ -21,12 +22,14 @@ public class PlayerController : SpriteSystem, IControllerPhysics
     private BoxCollider2D colly;
     private bool isDead = false;
     public Vector3 savepos;
+    SpriteRenderer deathScreen;
     FriendController friendControll;
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask whatIsObj;
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
     public UnityEvent Dead;
+    public bool isoneplayer = true;
 
     //private Transform cusionUpTransform;
     //private Transform plTransform;
@@ -47,6 +50,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
 
     private void Awake()
     {
+        deathScreen = GameObject.Find("Death").GetComponent<SpriteRenderer>();
         gotobad = FindObjectOfType<Gotobad>();
         colly = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
@@ -114,8 +118,10 @@ public class PlayerController : SpriteSystem, IControllerPhysics
         if (isDead)
         {
             Dead.Invoke();
-            transform.position = savepos;
-            isDead = false;
+            KidAni.SetBool("Die", true);
+            deathScreen.DOFade(1, 1);
+            GameManager.isAction = true;
+            StartCoroutine(Death());
         }
         h = GameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = GameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
@@ -167,7 +173,7 @@ public class PlayerController : SpriteSystem, IControllerPhysics
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1")&&!isoneplayer)
         {
             print("Œ ¾î¿ë");
             isHorizonMove = false;
@@ -253,6 +259,14 @@ public class PlayerController : SpriteSystem, IControllerPhysics
             scanObject = null;
 
     }
-
+    IEnumerator Death()
+    {
+        isDead = false;
+        yield return new WaitForSecondsRealtime(2); //3ÃÊÈÄ¿¡ ¹Ø¿¡²¨ ½ÇÇà
+        transform.position = savepos;
+        KidAni.SetBool("Die", false);
+        GameManager.isAction = false;
+        deathScreen.DOFade(0, 1);
+    }
 
 }

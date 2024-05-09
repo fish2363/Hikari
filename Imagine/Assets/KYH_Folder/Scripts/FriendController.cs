@@ -36,6 +36,7 @@ public class FriendController : SpriteSystem, IControllerPhysics
     [SerializeField] private Transform pos;
     [SerializeField] private Vector2 size;
     bool currentFlip = false;
+    public bool isoneplayer = false;
 
     private bool isDead = false;
 
@@ -148,7 +149,7 @@ public class FriendController : SpriteSystem, IControllerPhysics
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1")&&!isoneplayer)
         {
             print("Œ ¾î¿ë");
             isHorizonMove = false;

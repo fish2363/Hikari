@@ -106,6 +106,8 @@ public class Interaction : MonoBehaviour
                 isHolding = true;
                 goToBad.isCatch = true;
                 goToBad.cusionUpTransform = transform.parent;
+                
+
             }
         }
         

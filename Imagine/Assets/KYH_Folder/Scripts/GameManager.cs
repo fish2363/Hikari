@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject scanObject;
     public static bool isAction;
     public static int stopAni = 1;
-
+    public bool isoneplayer = true;
     Transform kid;
     Transform friend;
     Interaction playerInteraction;
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1")&&isoneplayer==false)
         {
             if (player)
             {
