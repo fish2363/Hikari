@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/KYH/Stage.unity
     guid: d647a7292a3516244a93aa0b90502377
+  - enabled: 1
+    path: Assets/Scenes/KYH/Final.unity
+    guid: 58de1370841216a4797be8e17f81fefd
   m_configObjects: {}
