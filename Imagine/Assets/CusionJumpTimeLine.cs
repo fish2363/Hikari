@@ -24,7 +24,7 @@ public class CusionJumpTimeLine : MonoBehaviour
     public void End()
     {
         player.transform.position = kidSprite.position;
-        kid.transform.localPosition = new Vector3(0, 0, 0);
+        kid.transform.localPosition = new Vector3(0, -5.83f, 0);
         GameManager.isAction = false;
         gameObject.SetActive(false);
         GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = true;

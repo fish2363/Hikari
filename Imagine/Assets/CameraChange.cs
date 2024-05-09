@@ -39,6 +39,7 @@ public class CameraChange : MonoBehaviour
             cam2.SetActive(true);
             StartCoroutine(Wait());
             kidAni.SetBool("Walk", false);
+            kidAni.SetBool("Hoit", false);
             
         }
     }
