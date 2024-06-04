@@ -28,6 +28,8 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
     public PlayableDirector firstLavaDirector;
     public PlayableDirector cusionJump;
     public Vector3 SavePos;
+    AudioSource jumpSound;
+    public AudioSource lavaBGM;
 
     //private Transform cusionUpTransform;
     //private Transform plTransform;
@@ -47,6 +49,7 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
 
     private void Awake()
     {
+        jumpSound = gameObject.GetComponent<AudioSource>();
         deathScreen = GameObject.Find("Death").GetComponent<SpriteRenderer>();
         gotobad = FindObjectOfType<CusionTutorial>();
         colly = GetComponent<BoxCollider2D>();
@@ -80,10 +83,12 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         if (collision.contacts[0].normal.y > 0.7f && collision.gameObject.CompareTag("Tram"))
         {
             rigid.AddForce(Vector2.up * 1.5f * jump, ForceMode2D.Impulse);
+            jumpSound.Play();
         }
         if(collision.gameObject.CompareTag("TestTimeLine"))
         {
             firstLavaDirector.Play();
+            lavaBGM.Stop();
             GameManager.isAction = true;
             gameObject.GetComponent<Collider2D>().enabled = false;
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
@@ -92,6 +97,8 @@ public class StagePlayer : SpriteSystem, IControllerPhysics
         if (collision.gameObject.CompareTag("SecondTimeLine"))
         {
             print("타임라인발동");
+            lavaBGM.Stop();
+
             cusionJump.Play();
             GameManager.isAction = true;
             GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = false;

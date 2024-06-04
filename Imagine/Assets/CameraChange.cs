@@ -14,6 +14,7 @@ public class CameraChange : MonoBehaviour
     GameObject changer2;
     bool stop = false;
     Animator kidAni;
+    GameObject mouse;
 
     private void Awake()
     {
@@ -23,10 +24,12 @@ public class CameraChange : MonoBehaviour
         cam2 = GameObject.Find("cam02");
         camRightNow = GameObject.Find("PlayerCam");
         cam2.SetActive(false);
+        mouse = GameObject.Find("Mouse");
     }
 
     private void Start()
     {
+        mouse.SetActive(false);
         changer2.SetActive(false);
         textBox.SetActive(false);
     }
@@ -64,6 +67,7 @@ public class CameraChange : MonoBehaviour
         text.text = "조심히 뛰어보자";
         TmPDOText(text, 2f);
         stop = true;
+        mouse.SetActive(true);
     }
     private void Update()
     {
@@ -78,6 +82,7 @@ public class CameraChange : MonoBehaviour
                 stop = false;
                 textBox.SetActive(false);
                 gameObject.SetActive(false);
+                mouse.SetActive(false);
 
             }
         }

@@ -11,6 +11,7 @@ public class CusionJumpTimeLine : MonoBehaviour
     GameObject player;
     Transform kidSprite;
     GameObject kid;
+    public AudioSource lava;
 
     private void Awake()
     {
@@ -23,12 +24,12 @@ public class CusionJumpTimeLine : MonoBehaviour
 
     public void End()
     {
-        player.transform.position = kidSprite.position;
+        player.transform.position = kidSprite.position + new Vector3(0.5f, 1 ,0);
         kid.transform.localPosition = new Vector3(0, -5.83f, 0);
         GameManager.isAction = false;
         gameObject.SetActive(false);
         GameObject.Find("inttaget").GetComponent<Stage1Inter>().enabled = true;
-
+        lava.Play();
     }
 
     public static void TmPDOText(TextMeshProUGUI text, float duration)

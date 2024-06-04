@@ -7,13 +7,24 @@ public class MoveingWall : MonoBehaviour
     public bool isReset;
     public bool isDongjak;
     public bool gazi;
+    AudioSource open;
     [SerializeField] private Vector3 dir;
     [SerializeField] private float speed;
     [SerializeField] private Vector3 starttrns;
     [SerializeField] protected Vector3 endmovetrns;
-    
+
+    private void Awake()
+    {
+        open = GameObject.Find("SoundManager").GetComponent<AudioSource>();
+    }
+
     private void Update()
     {
+        if(isDongjak)
+        {
+            open.Play();
+        }
+
         if (isReset)
         {
             transform.position = starttrns;

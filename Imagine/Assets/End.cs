@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
@@ -39,5 +40,7 @@ public class End : MonoBehaviour
         TmPDOText(textStart, 1f);
         yield return new WaitForSecondsRealtime(3);
         image.DOFade(1, 4);
+        yield return new WaitForSecondsRealtime(3);
+        SceneManager.LoadScene("StartScene");
     }
 }

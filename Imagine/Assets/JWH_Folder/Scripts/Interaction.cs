@@ -18,9 +18,11 @@ public class Interaction : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private bool iswent;
     private bool isHolding;
+    GameObject hitMe;
 
     private void Awake()
     {
+        hitMe = GameObject.Find("HitIcon");
         _rigidbody2D = GetComponentInParent<Rigidbody2D>();
     }
     private void Update()
@@ -44,6 +46,7 @@ public class Interaction : MonoBehaviour
             isHolding = false;
             this.isActive = false;
             this.isActive = true;
+            hitMe.SetActive(false);
         }
         {
             
@@ -106,7 +109,7 @@ public class Interaction : MonoBehaviour
                 isHolding = true;
                 goToBad.isCatch = true;
                 goToBad.cusionUpTransform = transform.parent;
-                
+                hitMe.SetActive(true);
 
             }
         }
@@ -129,6 +132,7 @@ public class Interaction : MonoBehaviour
             goToBad = null;
             transform = null;
             cusion = null;
+
         }
         if (collision.CompareTag("Lebar"))
         {

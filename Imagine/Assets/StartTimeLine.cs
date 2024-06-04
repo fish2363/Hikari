@@ -9,6 +9,7 @@ public class StartTimeLine : MonoBehaviour
     SpriteRenderer panel;
     float time = 0f;
     float F_time = 1f;
+    public AudioSource lavaBGM;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class StartTimeLine : MonoBehaviour
 
     IEnumerator StartCamera()
     {
-        yield return new WaitForSecondsRealtime(6);
+        yield return new WaitForSecondsRealtime(3);
 
         Color alpha = panel.color;
         while (alpha.a > 0f)
@@ -41,5 +42,7 @@ public class StartTimeLine : MonoBehaviour
         playerCam.SetActive(true);
         startCamera.SetActive(false);
         GameObject.Find("Player").GetComponent<StagePlayer>().enabled = true;
+        lavaBGM.Play();
+
     }
 }

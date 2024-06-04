@@ -12,6 +12,7 @@ public class CameraChange3 : MonoBehaviour
     public TextMeshProUGUI text;
     bool stop = false;
     Animator kidAni;
+    GameObject mouse;
 
     private void Awake()
     {
@@ -19,7 +20,7 @@ public class CameraChange3 : MonoBehaviour
         cam4 = GameObject.Find("cam04");
         camRightNow = GameObject.Find("PlayerCam");
         kidAni = GameObject.Find("kidSprite").GetComponent<Animator>();
-
+        mouse = GameObject.Find("Mouse");
         cam4.SetActive(false);
     }
 
@@ -58,6 +59,7 @@ public class CameraChange3 : MonoBehaviour
         TmPDOText(text, 3f);
         yield return new WaitForSecondsRealtime(4);
         stop = true;
+        mouse.SetActive(true);
     }
     private void Update()
     {
@@ -71,6 +73,7 @@ public class CameraChange3 : MonoBehaviour
                 cam4.SetActive(false);
                 stop = false;
                 textBox.SetActive(false);
+                mouse.SetActive(false);
             }
         }
     }

@@ -32,7 +32,6 @@ public class Gotobad : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider2D>();
         plTransform = GameObject.Find("Player").GetComponent<Transform>();
         friendTransform  = GameObject.Find("Friend").GetComponent<Transform>();
-        
     }
     public void Resetwow()
     {

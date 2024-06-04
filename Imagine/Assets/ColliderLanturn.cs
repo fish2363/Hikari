@@ -8,12 +8,16 @@ public class ColliderLanturn : MonoBehaviour
     Animator fall;
     Animator fall2;
     GameObject LanturnSmash;
+    GameObject LanturnSmash2;
+    public static bool firstFinish;
+    public static bool secondFinish;
 
     private void Awake()
     {
         fall = GameObject.Find("BigLanturn").GetComponent<Animator>();
         fall2 = GameObject.Find("BigLanturn2").GetComponent<Animator>();
         LanturnSmash = GameObject.Find("HitMeBigLanturn");
+        LanturnSmash2 = GameObject.Find("HitMeBigLanturn2");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -24,12 +28,16 @@ public class ColliderLanturn : MonoBehaviour
             {
                 case 1:
                     fall.SetBool("Fall", true);
+                    firstFinish = true;
                     break;
                 case 2:
                     fall2.SetBool("Fall", true);
+                    secondFinish = true;
+
                     break;
             }
             LanturnSmash.SetActive(false);
+            LanturnSmash2.SetActive(false);
         }
     }
 }

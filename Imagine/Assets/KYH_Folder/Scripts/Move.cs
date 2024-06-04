@@ -48,6 +48,9 @@ public class Move : MonoBehaviour
     SpriteRenderer cusion;
     Animator mom;
     SpriteRenderer mouseClick;
+    public AudioSource door;
+    public AudioSource nextAudio;
+    public AudioSource aaudio;
 
     private void Awake()
     {
@@ -123,6 +126,7 @@ public class Move : MonoBehaviour
                 TmPD0Text(text, 1.3f);
                 mom.gameObject.GetComponent<SpriteRenderer>().flipX = false;
                 mom.SetBool("Move", true);
+                door.Play();
                 break;
             case 4:
                 mom.gameObject.SetActive(false);
@@ -171,6 +175,8 @@ public class Move : MonoBehaviour
     {
         textBox.SetActive(true);
         textStart.text = "혼자 남았네..";
+        aaudio.Stop();
+        nextAudio.Play();
         TmPDOText(textStart, 1f);
         yield return new WaitForSecondsRealtime(3);
         textStart.text = "음..";
@@ -196,6 +202,8 @@ public class Move : MonoBehaviour
         yield return new WaitForSecondsRealtime(3);
         textWhat.text = "좋아..";
         TmPDOText(textWhat, 1f);
+        nextAudio.Stop();
+
         yield return new WaitForSecondsRealtime(3);
         textBox2.SetActive(false);
         yield return new WaitForSecondsRealtime(2);
@@ -207,7 +215,6 @@ public class Move : MonoBehaviour
         textBox2.SetActive(false);
         yield return new WaitForSecondsRealtime(7);
         textBox2.SetActive(true);
-
         textWhat.text = "쇼파가 있네";
         TmPDOText(textWhat, 1f);
         yield return new WaitForSecondsRealtime(4);
@@ -222,7 +229,7 @@ public class Move : MonoBehaviour
         cusion.DOFade(0, 2);
         yield return new WaitForSecondsRealtime(3);
 
-        textWhat.text = "바닥이 조금 뜨거운 느낌인데";
+        textWhat.text = "그래 이제부터 바닥이 용암인거야";
         TmPDOText(textWhat, 1f);
         yield return new WaitForSecondsRealtime(3);
         textBox2.SetActive(false);

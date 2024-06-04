@@ -10,6 +10,7 @@ public class FirstLavaTimeLineManager : MonoBehaviour
     GameObject textBox;
     GameObject player;
     GameObject playerColl;
+    public AudioSource lava;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class FirstLavaTimeLineManager : MonoBehaviour
         textBox.SetActive(false);
         playerColl.GetComponent<Collider2D>().enabled = true;
         playerColl.GetComponent<Rigidbody2D>().gravityScale = 1;
+        lava.Play();
     }
 
     public static void TmPDOText(TextMeshProUGUI text, float duration)
@@ -40,11 +42,10 @@ public class FirstLavaTimeLineManager : MonoBehaviour
     IEnumerator Waitwo()
     {
         textBox.SetActive(true);
-        text.text = "용암이 올라오면\n위에 매달려야겠어";
+        text.text = "용암이 올라오면\nQ를 눌러서\n매달려야겠어";
         TmPDOText(text, 3f);
         playerColl.GetComponent<Collider2D>().enabled = true;
         playerColl.GetComponent<Rigidbody2D>().gravityScale = 1;
-
         yield return new WaitForSecondsRealtime(5);
     }
 

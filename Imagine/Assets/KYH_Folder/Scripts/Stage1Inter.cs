@@ -81,7 +81,7 @@ public class Stage1Inter : MonoBehaviour
             goToBad.Hehe(transform);
                 plsPress.SetActive(true);
             }
-            print(transform.name);
+            //print(transform.name);
 
             //cusion = cusion.gameObject;
             //PutOnCusion(cusion);

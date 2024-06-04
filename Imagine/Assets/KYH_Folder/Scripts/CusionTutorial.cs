@@ -21,11 +21,15 @@ public class CusionTutorial : MonoBehaviour
     private bool isDoubleJump;
     private IControllerPhysics[] playerControll;
     GameObject hitMe;
+    GameObject hitMe2;
+    ColliderLanturn colliderLanturn;
 
 
     private void Awake()
     {
-        hitMe = GameObject.Find("HitIcon");
+        colliderLanturn = GameObject.Find("BigLanturn").GetComponent<ColliderLanturn>();
+        hitMe = GameObject.Find("HitMeBigLanturn");
+        hitMe2 = GameObject.Find("HitMeBigLanturn2");
         _Rigidbody2D = GetComponent<Rigidbody2D>();
         _boxCollider = GetComponent<BoxCollider2D>();
         plTransform = GameObject.Find("Player").GetComponent<Transform>();
@@ -69,7 +73,14 @@ public class CusionTutorial : MonoBehaviour
 
         if (isCatch)
         {
-            hitMe.SetActive(true);
+            if(!ColliderLanturn.firstFinish)
+            {
+                hitMe.SetActive(true);
+            }
+            if(!ColliderLanturn.secondFinish)
+            {
+                hitMe2.SetActive(true);
+            }
             _Rigidbody2D.velocity = new Vector2(0, 0);
             gameObject.transform.position = plTransform.position + new Vector3(0, 0.5f, 0);
             _Rigidbody2D.gravityScale = 0;
@@ -87,6 +98,7 @@ public class CusionTutorial : MonoBehaviour
     public void FallCusion()
     {
         hitMe.SetActive(false);
+        hitMe2.SetActive(false);
         isCatch = false;
         print("tlqkf");
         _Rigidbody2D.gravityScale = 1;

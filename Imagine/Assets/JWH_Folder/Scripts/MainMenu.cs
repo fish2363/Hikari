@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     public Image panel;
     float time = 0f;
     float F_time = 1f;
+    public GameObject title;
     public GameObject main;
     [SerializeField] private GameObject roadingMan;
 
@@ -28,6 +29,7 @@ public class MainMenu : MonoBehaviour
 
     IEnumerator StartFade()
     {
+        title.SetActive(false);
         Color alpha = panel.color;
         while (alpha.a < 1f)
         {
@@ -40,7 +42,7 @@ public class MainMenu : MonoBehaviour
         time = 0f;
         main.gameObject.SetActive(false);
         roadingMan.GetComponent<SpriteRenderer>().DOFade(1, 2);
-        yield return new WaitForSecondsRealtime(5);
+        yield return new WaitForSecondsRealtime(3);
 
 
         SceneManager.LoadScene(1);

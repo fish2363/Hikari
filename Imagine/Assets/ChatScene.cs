@@ -13,6 +13,7 @@ public class ChatScene : MonoBehaviour
     GameObject textBox2;
     public SpriteRenderer panel;
     public SpriteRenderer cave;
+    public AudioSource clock;
     float time = 0f;
     float F_time = 1f;
 
@@ -56,6 +57,7 @@ public class ChatScene : MonoBehaviour
         yield return new WaitForSecondsRealtime(5);
         textStart.text = "Èì..º¸ÀÚ";
         TmPDOText(textStart, 2f);
+        clock.Stop();
         yield return new WaitForSecondsRealtime(3);
         textBox.SetActive(false);
         Color alpha = panel.color;
